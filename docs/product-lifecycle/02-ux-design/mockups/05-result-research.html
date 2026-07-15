@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FIP — Completed Report (FIP-Research)</title>
+<title>DS-STAR — Completed Report (Research Mode)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
@@ -108,7 +108,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 .finding-table td{padding:8px 12px;font-size:12px;color:var(--text-muted);border-bottom:1px solid var(--border)}
 .finding-table tr:last-child td{border-bottom:none}
 .finding-table tr:hover td{background:var(--bg-hover)}
-.td-lfi{color:var(--text);font-weight:500}
+.td-name{color:var(--text);font-weight:500}
 .flag-high{padding:1px 6px;border-radius:4px;background:rgba(220,38,38,.1);color:#dc2626;font-size:10px;font-weight:600}
 .flag-med{padding:1px 6px;border-radius:4px;background:rgba(217,119,6,.1);color:#d97706;font-size:10px;font-weight:600}
 
@@ -136,16 +136,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-mark">FIP</div>
-    <div><div class="logo-text">FIP</div><div class="logo-sub">Financial Intelligence Platform</div></div>
+    <div class="logo-mark">DS</div>
+    <div><div class="logo-text">DS-STAR</div><div class="logo-sub">Data Science Agent Platform</div></div>
   </div>
   <nav class="sidebar-nav">
     <a class="nav-item" href="01-chat.html"><i data-lucide="message-square"></i> New Analysis</a>
     <a class="nav-item active" href="04-result-insight.html"><i data-lucide="layout-dashboard"></i> Dashboard</a>
     <div class="nav-section">Recent</div>
-    <div class="history-item"><i data-lucide="clock"></i><span>Card fraud rate by LFI Q1…</span><span class="history-badge hb-blue">I</span></div>
-    <div class="history-item current"><i data-lucide="check-circle"></i><span>APP fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
-    <div class="history-item"><i data-lucide="clock"></i><span>STR filing trends by LFI</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>Return fraud rate by Store Q1…</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item current"><i data-lucide="check-circle"></i><span>coupon fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>compliance filing trends by store</span><span class="history-badge hb-blue">I</span></div>
     <div class="history-item"><i data-lucide="clock"></i><span>Social engineering outliers</span><span class="history-badge hb-blue">I</span></div>
     <div class="history-item"><i data-lucide="clock"></i><span>H1 2024 fraud sector report</span><span class="history-badge hb-purple">R</span></div>
   </nav>
@@ -160,7 +160,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
   <header class="main-header">
     <div class="header-left">
       <div class="header-title">Research Report</div>
-      <span class="badge-done"><i data-lucide="check"></i> FIP-Research · Complete</span>
+      <span class="badge-done"><i data-lucide="check"></i> Research Mode · Complete</span>
     </div>
     <div class="header-right">
       <button class="action-btn"><i data-lucide="download"></i> Export Word</button>
@@ -174,11 +174,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <div class="doc-area">
     <div class="doc-inner">
       <div class="doc-meta">
-        <div class="research-badge"><i data-lucide="book-open"></i> Thematic Report · FIP-Research</div>
-        <div class="doc-title">Authorised Push Payment Fraud in UAE Banks: Thematic Analysis 2024</div>
-        <div class="doc-subtitle">Financial Intelligence Platform · Fraud Prevention Supervision, CBUAE · Generated 24 Jun 2026</div>
+        <div class="research-badge"><i data-lucide="book-open"></i> Thematic Report · Research Mode</div>
+        <div class="doc-title">Coupon Fraud Across Network Stores: Thematic Analysis 2024</div>
+        <div class="doc-subtitle">Data Science Agent Platform · Fraud &amp; Loss Prevention, Acme Analytics · Generated 24 Jun 2026</div>
         <div class="doc-chips">
-          <div class="doc-chip"><i data-lucide="database"></i> 5 files · 47 LFIs</div>
+          <div class="doc-chip"><i data-lucide="database"></i> 5 files · 47 stores</div>
           <div class="doc-chip"><i data-lucide="layers"></i> 6 sub-questions · 1 refinement round</div>
           <div class="doc-chip"><i data-lucide="clock"></i> 3m 42s</div>
           <div class="doc-chip"><i data-lucide="lock"></i> Snapshot: 2025-01-15</div>
@@ -188,19 +188,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="doc-section">
         <div class="sec-heading"><span class="sec-num">1</span> Executive Summary</div>
         <div class="sec-body">
-          <p>APP fraud losses across UAE licensed financial institutions (LFIs) increased by <strong>38.4%</strong> year-on-year in 2024, rising from AED 412M to AED 570M. Mobile banking emerged as the dominant channel, accounting for <strong>63%</strong> of APP fraud losses. <span class="citation">sq1</span></p>
-          <p>Fraud was concentrated among six LFIs, which together accounted for <strong>57% of sector-wide APP losses</strong> despite representing only 21% of total digital transaction volume. <span class="citation">sq4</span></p>
+          <p>coupon fraud losses across network stores increased by <strong>38.4%</strong> year-on-year in 2024, rising from $ 412M to $ 570M. Mobile app emerged as the dominant channel, accounting for <strong>63%</strong> of coupon fraud losses. <span class="citation">sq1</span></p>
+          <p>Fraud was concentrated among six stores, which together accounted for <strong>57% of sector-wide APP losses</strong> despite representing only 21% of total digital transaction volume. <span class="citation">sq4</span></p>
         </div>
       </div>
 
       <div class="doc-section">
-        <div class="sec-heading"><span class="sec-num">2</span> APP Fraud Volume & Year-on-Year Trends</div>
+        <div class="sec-heading"><span class="sec-num">2</span> Coupon Fraud Volume & Year-on-Year Trends</div>
         <div class="sec-body">
-          <p>Total reported APP fraud losses increased from <strong>AED 412.3M (2023)</strong> to <strong>AED 570.7M (2024)</strong>, representing a 38.4% YoY increase. <span class="citation">sq1</span></p>
+          <p>Total reported coupon fraud losses increased from <strong>$412.3M (2023)</strong> to <strong>$570.7M (2024)</strong>, representing a 38.4% YoY increase. <span class="citation">sq1</span></p>
           <div class="findings-box">
-            <div class="finding-item"><div class="fi-num">F1</div> Total 2024 APP fraud: AED 570.7M — up 38.4% from AED 412.3M in 2023 <span class="citation">sq1</span></div>
-            <div class="finding-item"><div class="fi-num">F2</div> Q4 2024 alone: AED 178M — highest single quarter on record <span class="citation">sq6</span></div>
-            <div class="finding-item"><div class="fi-num">F3</div> 6 LFIs account for 57% of sector losses despite 21% of digital transaction volume <span class="citation">sq4</span></div>
+            <div class="finding-item"><div class="fi-num">F1</div> Total 2024 coupon fraud: $ 570.7M — up 38.4% from $ 412.3M in 2023 <span class="citation">sq1</span></div>
+            <div class="finding-item"><div class="fi-num">F2</div> Q4 2024 alone: $ 178M — highest single quarter on record <span class="citation">sq6</span></div>
+            <div class="finding-item"><div class="fi-num">F3</div> 6 stores account for 57% of sector losses despite 21% of digital transaction volume <span class="citation">sq4</span></div>
           </div>
         </div>
       </div>
@@ -208,7 +208,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="doc-section">
         <div class="sec-heading"><span class="sec-num">3</span> Channel Analysis</div>
         <div class="sec-body">
-          <p>Mobile banking is the primary APP fraud vector in 2024, accounting for <strong>63% (AED 360M)</strong> of total sector losses. Internet banking accounted for 27%, with telephone banking and branch at 10% combined. <span class="citation">sq2</span></p>
+          <p>Mobile app is the primary coupon fraud vector in 2024, accounting for <strong>63% ($360M)</strong> of total sector losses. Web checkout accounted for 27%, with phone orders and branch at 10% combined. <span class="citation">sq2</span></p>
           <p>Mobile concentration is particularly elevated at EIB (79%), ABB (74%), and RAK (71%). <span class="citation">sq2</span> <span class="citation">sq4</span></p>
         </div>
       </div>
@@ -218,30 +218,30 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
         <div class="sec-body">
           <p>Invoice fraud and impersonation scams are the leading typologies, together accounting for <strong>61%</strong> of reported losses. Investment fraud grew the fastest YoY (+72%). <span class="citation">sq3</span></p>
           <table class="finding-table">
-            <thead><tr><th>Typology</th><th>2024 Loss (AED M)</th><th>Sector Share</th><th>YoY Change</th></tr></thead>
+            <thead><tr><th>Typology</th><th>2024 Loss ($M)</th><th>Sector Share</th><th>YoY Change</th></tr></thead>
             <tbody>
-              <tr><td class="td-lfi">Invoice / supplier fraud</td><td>195.2</td><td>34%</td><td>+31%</td></tr>
-              <tr><td class="td-lfi">Impersonation scams</td><td>153.9</td><td>27%</td><td>+29%</td></tr>
-              <tr><td class="td-lfi">Investment fraud</td><td>97.6</td><td>17%</td><td>+72%</td></tr>
-              <tr><td class="td-lfi">Romance scams</td><td>74.2</td><td>13%</td><td>+18%</td></tr>
-              <tr><td class="td-lfi">Other</td><td>49.8</td><td>9%</td><td>+8%</td></tr>
+              <tr><td class="td-name">Invoice / supplier fraud</td><td>195.2</td><td>34%</td><td>+31%</td></tr>
+              <tr><td class="td-name">Impersonation scams</td><td>153.9</td><td>27%</td><td>+29%</td></tr>
+              <tr><td class="td-name">Investment fraud</td><td>97.6</td><td>17%</td><td>+72%</td></tr>
+              <tr><td class="td-name">Romance scams</td><td>74.2</td><td>13%</td><td>+18%</td></tr>
+              <tr><td class="td-name">Other</td><td>49.8</td><td>9%</td><td>+8%</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="doc-section">
-        <div class="sec-heading"><span class="sec-num">5</span> LFI Outlier Analysis</div>
+        <div class="sec-heading"><span class="sec-num">5</span> Store Outlier Analysis</div>
         <div class="sec-body">
-          <p>Six LFIs were identified with APP fraud rates exceeding 2× the peer median of 0.031% of digital transaction volume. <span class="citation">sq4</span></p>
+          <p>Six stores were identified with coupon fraud rates exceeding 2× the peer median of 0.031% of digital transaction volume. <span class="citation">sq4</span></p>
           <table class="finding-table">
-            <thead><tr><th>LFI</th><th>APP Rate</th><th>vs. Median</th><th>Detection Rate</th><th>Flag</th></tr></thead>
+            <thead><tr><th>Store</th><th>APP Rate</th><th>vs. Median</th><th>Detection Rate</th><th>Flag</th></tr></thead>
             <tbody>
-              <tr><td class="td-lfi">Emirates Islamic (EIB)</td><td>0.094%</td><td>3.0×</td><td>8.2%</td><td><span class="flag-high">High</span></td></tr>
-              <tr><td class="td-lfi">Al Baraka Bank (ABB)</td><td>0.087%</td><td>2.8×</td><td>6.7%</td><td><span class="flag-high">High</span></td></tr>
-              <tr><td class="td-lfi">First National Bank (FNB)</td><td>0.079%</td><td>2.5×</td><td>11.4%</td><td><span class="flag-high">High</span></td></tr>
-              <tr><td class="td-lfi">MBZ Finance (MBZ)</td><td>0.068%</td><td>2.2×</td><td>14.9%</td><td><span class="flag-med">Medium</span></td></tr>
-              <tr><td class="td-lfi">RAK Bank (RAK)</td><td>0.065%</td><td>2.1×</td><td>13.2%</td><td><span class="flag-med">Medium</span></td></tr>
+              <tr><td class="td-name">Northgate Outlet (NGO)</td><td>0.094%</td><td>3.0×</td><td>8.2%</td><td><span class="flag-high">High</span></td></tr>
+              <tr><td class="td-name">Riverside Retail (RVR)</td><td>0.087%</td><td>2.8×</td><td>6.7%</td><td><span class="flag-high">High</span></td></tr>
+              <tr><td class="td-name">Lakeside Store (LKS)</td><td>0.079%</td><td>2.5×</td><td>11.4%</td><td><span class="flag-high">High</span></td></tr>
+              <tr><td class="td-name">Midtown Outlet (MDT)</td><td>0.068%</td><td>2.2×</td><td>14.9%</td><td><span class="flag-med">Medium</span></td></tr>
+              <tr><td class="td-name">Harborview Store (HBV)</td><td>0.065%</td><td>2.1×</td><td>13.2%</td><td><span class="flag-med">Medium</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -250,7 +250,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="doc-section">
         <div class="sec-heading"><span class="sec-num">6</span> Recovery Rates</div>
         <div class="sec-body">
-          <p>The sector-wide APP fraud recovery rate in 2024 was <strong>11.4%</strong> — below the GCC peer benchmark of 15–18%. Recovery rates were significantly higher at institutions with dedicated fraud operations teams (avg. 19.2%) vs. shared AML-fraud units (avg. 7.8%). <span class="citation">sq5</span></p>
+          <p>The sector-wide coupon fraud recovery rate in 2024 was <strong>11.4%</strong> — below the industry peer benchmark of 15–18%. Recovery rates were significantly higher at institutions with dedicated fraud operations teams (avg. 19.2%) vs. shared risk-fraud units (avg. 7.8%). <span class="citation">sq5</span></p>
         </div>
       </div>
 
@@ -272,7 +272,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="toc-item"><span class="toc-num">2</span> Volume & YoY Trends</div>
       <div class="toc-item"><span class="toc-num">3</span> Channel Analysis</div>
       <div class="toc-item"><span class="toc-num">4</span> Typology Breakdown</div>
-      <div class="toc-item"><span class="toc-num">5</span> LFI Outlier Analysis</div>
+      <div class="toc-item"><span class="toc-num">5</span> Store Outlier Analysis</div>
       <div class="toc-item"><span class="toc-num">6</span> Recovery Rates</div>
     </div>
   </div>

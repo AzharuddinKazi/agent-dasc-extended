@@ -1,24 +1,24 @@
-# 1-Pager: CBUAE Financial Intelligence Platform (FIP)
+# 1-Pager: DS-STAR Analytics Platform
 
-**Stage**: Discovery — Stage 0  
-**Date**: 2026-06-24  
-**Author**: Fraud Prevention Supervision, CBUAE  
-**DRI**: TBD (pending project intake)  
-**Status**: Draft for leadership review  
+**Stage**: Discovery — Stage 0
+**Date**: 2026-06-24
+**Author**: Product Team
+**DRI**: TBD (pending project intake)
+**Status**: Draft for leadership review
 
 ---
 
 ## The Problem
 
-Analysts across CBUAE's Financial Crime & Market Conduct departments sit on rich, multi-file datasets — fraud loss reports submitted by LFIs, STR/SAR databases, KYC records, consumer complaints, market surveillance feeds — but extracting insights from this data today requires either writing Python/SQL code or waiting for IT to build a report. Neither is fast enough for supervision work.
+Analysts across the business sit on rich, multi-file datasets — sales reports, transaction logs, customer records, operational feeds — but extracting insights from this data today requires either writing Python/SQL code or waiting for a data team to build a report. Neither is fast enough for day-to-day decision-making.
 
-The result: supervisory decisions are made on incomplete data, thematic reviews take weeks when they should take hours, and the analytical depth of supervisory letters is constrained by what a non-technical officer can produce in Excel.
+The result: decisions are made on incomplete data, thematic reviews take weeks when they should take hours, and the analytical depth of a report is constrained by what a non-technical user can produce in a spreadsheet.
 
 ---
 
 ## The Hypothesis
 
-If a non-technical analyst could type a question in plain English — "Which LFIs have the highest social engineering fraud rate relative to their transaction volume?" — and receive a clear, cited, data-backed answer in minutes, the quality and speed of supervisory work would materially improve.
+If a non-technical analyst could type a question in plain English — "Which regions have the highest return rate relative to sales volume?" — and receive a clear, cited, data-backed answer in minutes, the quality and speed of analytical work would materially improve.
 
 This is now technically feasible. Google's DS-STAR paper (arxiv:2509.21825, 2025) demonstrated that a structured multi-agent pipeline can autonomously plan, code, execute, verify, and iterate over complex multi-file datasets — with no human in the loop between question and answer. On hard analytical tasks, it outperforms a frontier LLM used alone by 32 percentage points.
 
@@ -26,43 +26,41 @@ This is now technically feasible. Google's DS-STAR paper (arxiv:2509.21825, 2025
 
 ## What We Are Building
 
-A CBUAE-internal intelligence platform — the **Financial Intelligence Platform (FIP)** — built on the DS-STAR and DS-STAR+ architecture, adapted for the Financial Crime & Market Conduct vertical.
+An analytics platform — **DS-STAR** — built on the DS-STAR and DS-STAR+ architecture, generalized as a domain-agnostic data-analysis product for any team working with CSV, Excel, or JSON data.
 
 **Two modes:**
 
-- **FIP-Insight (DS-STAR mode)**: Answer specific analytical questions over LFI-submitted data. Analyst types a question; the system plans, codes, executes, verifies, and returns a data-backed answer with a plain-English explanation.
+- **DS-STAR (Insight mode)**: Answer specific analytical questions over uploaded data. The user types a question; the system plans, codes, executes, verifies, and returns a data-backed answer with a plain-English explanation.
 
-- **FIP-Research (DS-STAR+ mode)**: Generate full supervisory research reports for open-ended topics. The system decomposes the topic into sub-questions, answers each independently, then synthesises a cited, structured report — ready for leadership briefings, thematic reviews, or supervisory letters.
+- **DS-STAR+ (Research mode)**: Generate full research reports for open-ended topics. The system decomposes the topic into sub-questions, answers each independently, then synthesises a cited, structured report — ready for leadership briefings, thematic reviews, or business reports.
 
 ---
 
-## Target Users (All Five Departments)
+## Target Users
 
-**Primary: Fraud Prevention Supervision** — supervise LFI fraud frameworks; benchmark fraud loss rates; identify outliers; produce thematic review reports.
+**Primary: Business analysts and operations teams** — benchmark performance, identify outliers, produce thematic review reports without writing code.
 
 **Also serves:**
-- AML/CFT Supervision — STR filing trend analysis, typology benchmarking, FATF preparation
-- Market Conduct & FCPS — consumer complaint analysis, mis-selling pattern detection
-- Enforcement — evidence packages, case data analysis, compliance history review
-- Policy & Research — sector-wide trend reports, GCC benchmarking, policy impact assessment
+- Data & analytics teams looking to speed up ad-hoc requests
+- Product and marketing teams analyzing usage and campaign data
+- Finance and operations teams building recurring performance reports
+- Research and strategy teams producing sector-wide trend reports
 
 ---
 
 ## Why Now
 
-1. **Data is already there**: LFIs submit fraud loss data, STRs, KYC returns, and complaint registers to CBUAE. The raw material exists; the analytical infrastructure does not.
+1. **The paper is proven**: DS-STAR is published, peer-reviewed, and benchmarked. We are not building research; we are adapting an engineered, validated system.
 
-2. **The paper is proven**: DS-STAR is published, peer-reviewed, and benchmarked. We are not building research; we are adapting an engineered, validated system.
+2. **Cloud LLM APIs are mature and cheap enough**: Models like Gemini 2.5 Flash and Pro now make autonomous, multi-round code generation and verification affordable at production scale.
 
-3. **Supervisory pressure is increasing**: FATF mutual evaluation cycles, CBUAE's own strategic plan, and cross-border financial crime typologies all require faster, deeper, more consistent analysis than current Excel-based processes allow.
-
-4. **The technology is ready**: Large language models capable of autonomous code generation and verification are now available on-premise (via open-weight models like Llama 3.1 70B or similar), meaning no data leaves CBUAE infrastructure.
+3. **Data volume keeps growing while technical headcount doesn't**: Teams generate more spreadsheets, exports, and logs than their data teams can turn into reports.
 
 ---
 
-## Why CBUAE / Why This Team
+## Why This Team
 
-CBUAE Financial Crime & Market Conduct holds the regulatory mandate and the data. No external vendor has both. An internal system built on a published, open architecture gives CBUAE full control over data governance, model selection, and regulatory alignment — and produces outputs that can be directly cited in supervisory actions.
+A small product team can build and iterate on an internal tool faster than waiting on a vendor, and a system built on a published, open architecture gives us full control over model selection and product direction.
 
 ---
 
@@ -70,9 +68,9 @@ CBUAE Financial Crime & Market Conduct holds the regulatory mandate and the data
 
 | Metric | Baseline (Today) | Target (12 months post-launch) |
 |--------|-----------------|-------------------------------|
-| Time to produce a peer benchmarking table | 3–5 days (manual Excel) | < 15 minutes |
+| Time to produce a benchmarking table | 3–5 days (manual spreadsheet work) | < 15 minutes |
 | Time to produce a thematic review report | 4–8 weeks | < 2 days |
-| % of supervisory queries answered same-day | ~20% | > 80% |
+| % of analytical requests answered same-day | ~20% | > 80% |
 | Analyst satisfaction with data access | TBD (survey) | > 4.0 / 5.0 |
 | # of thematic reviews completed per year | TBD (baseline) | 2× current |
 
@@ -80,10 +78,10 @@ CBUAE Financial Crime & Market Conduct holds the regulatory mandate and the data
 
 ## What This Is Not
 
-- Not a replacement for human supervisory judgement — the system provides analysis; the analyst interprets and decides
-- Not a customer-facing product — internal CBUAE use only, on-premise, air-gapped
-- Not an AML transaction screening system — this is a supervisory analytics tool, not a real-time alert engine
-- Not a replacement for LFIs' own fraud systems — CBUAE oversees LFIs; this tool helps CBUAE do that better
+- Not a replacement for human judgement — the system provides analysis; the analyst interprets and decides
+- Not a general-purpose BI dashboard — this is a natural-language, agent-driven analysis tool, not a static reporting layer
+- Not a real-time alerting system — this is an analytics tool for on-demand and scheduled analysis, not a streaming alert engine
+- Not a data warehouse or ETL platform — it analyzes the files and datasets it's given; it does not replace existing data infrastructure
 
 ---
 
@@ -92,11 +90,11 @@ CBUAE Financial Crime & Market Conduct holds the regulatory mandate and the data
 | Phase | Scope | Estimated Duration |
 |-------|-------|-------------------|
 | DS-STAR core implementation | 8-agent pipeline, Docker sandbox, state machine | 6–8 weeks |
-| CBUAE domain layer | Analyzer extension, regulatory knowledge, Explainer | 4–5 weeks |
+| Domain-agnostic layer | Analyzer extension, general knowledge base, Explainer | 4–5 weeks |
 | DS-STAR+ extension | Sub-question generator, Report Writer, Evaluator | 3–4 weeks |
 | REST API + basic frontend | Query submission, result retrieval, PDF export | 4–5 weeks |
-| Security hardening + audit log | RBAC, PII masking, immutable log | 3–4 weeks |
-| Integration testing + UAT | Realistic CBUAE data, analyst user testing | 3–4 weeks |
+| Security hardening + audit log | RBAC, access controls, immutable log | 3–4 weeks |
+| Integration testing + UAT | Realistic sample data, analyst user testing | 3–4 weeks |
 | **Total** | | **~23–30 weeks** |
 
 ---
@@ -104,9 +102,9 @@ CBUAE Financial Crime & Market Conduct holds the regulatory mandate and the data
 ## Immediate Next Steps
 
 1. Leadership review and Go / No-Go decision
-2. Assign DRI and form cross-functional team (Eng, Product, Legal/Compliance, IT Security)
-3. IT Security sign-off on on-premise LLM deployment approach
-4. Write full PRD — `01-prd/01-prd-cbuae-fip.md`
+2. Assign DRI and form cross-functional team (Eng, Product, Security)
+3. Confirm cloud LLM provider and hosting approach
+4. Write full PRD — `01-prd/01-prd-dsstar-platform.md`
 
 ---
 

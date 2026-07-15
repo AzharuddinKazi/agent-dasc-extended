@@ -19,7 +19,7 @@ def base_state():
         "task_id":               "test-123",
         "query":                 "What is the total transaction volume by currency?",
         "formatting_guidelines": "Return a table",
-        "data_descriptions":     {"test.csv": "CSV with columns: lfi_id, amount, currency"},
+        "data_descriptions":     {"test.csv": "CSV with columns: store_id, amount, currency"},
         "cumulative_plan":       [],
         "current_script":        "",
         "execution_result":      "",
@@ -55,7 +55,7 @@ def test_planner_round_1_uses_next_prompt():
         state = base_state()
         state["current_round"] = 1
         state["cumulative_plan"] = ["Load transactions.csv and inspect the data."]
-        state["execution_result"] = "lfi_id  amount  currency\nADCB    5000    AED"
+        state["execution_result"] = "store_id  amount  currency\nSTR_001    5000    USD"
 
         result = planner(state)
 

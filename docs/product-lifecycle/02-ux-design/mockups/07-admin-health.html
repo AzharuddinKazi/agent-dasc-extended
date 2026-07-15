@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FIP Admin — System Health</title>
+<title>DS-STAR Admin — System Health</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
@@ -149,8 +149,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-mark">FIP</div>
-    <div><div class="logo-text">FIP Admin</div></div>
+    <div class="logo-mark">DS</div>
+    <div><div class="logo-text">DS-STAR Admin</div></div>
     <div class="admin-badge">ADMIN</div>
   </div>
   <nav class="sidebar-nav">
@@ -160,7 +160,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <a class="nav-item" href="#"><i data-lucide="alert-circle"></i> Dead Letter Queue</a>
     <div class="nav-section">Data</div>
     <a class="nav-item" href="#"><i data-lucide="database"></i> Dataset Library</a>
-    <a class="nav-item" href="#"><i data-lucide="building-2"></i> LFI Registry</a>
+    <a class="nav-item" href="#"><i data-lucide="building-2"></i> Store Registry</a>
     <div class="nav-section">Users</div>
     <a class="nav-item" href="#"><i data-lucide="users"></i> User Management</a>
     <a class="nav-item" href="#"><i data-lucide="shield"></i> Role & Permissions</a>
@@ -228,9 +228,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
           <div class="panel-title"><i data-lucide="server"></i> Worker Health</div>
         </div>
         <div class="panel-body">
-          <div class="resource-row"><div class="res-label" style="width:100px">FIP-Worker-1</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
-          <div class="resource-row"><div class="res-label" style="width:100px">FIP-Worker-2</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
-          <div class="resource-row"><div class="res-label" style="width:100px">FIP-Worker-3</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
+          <div class="resource-row"><div class="res-label" style="width:100px">DS-STAR-Worker-1</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
+          <div class="resource-row"><div class="res-label" style="width:100px">DS-STAR-Worker-2</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
+          <div class="resource-row"><div class="res-label" style="width:100px">DS-STAR-Worker-3</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
           <div class="resource-row"><div class="res-label" style="width:100px">LLM · Ollama</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
           <div class="resource-row"><div class="res-label" style="width:100px">PostgreSQL</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
           <div class="resource-row"><div class="res-label" style="width:100px">Redis Sentinel</div><div class="res-bar-wrap"><div class="res-bar rb-green" style="width:100%"></div></div><div class="res-val res-ok">OK</div></div>
@@ -289,12 +289,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
           <div style="font-size:10px;color:#2563eb;cursor:pointer">View full log</div>
         </div>
         <div class="panel-body" style="padding:6px 14px">
-          <div class="log-row"><div class="log-time">09:31:04</div><div class="log-dot ld-blue"></div><div class="log-user">Sara A.</div><div class="log-event">Query submitted · task_a1b2c3d4 · FIP-Insight</div></div>
+          <div class="log-row"><div class="log-time">09:31:04</div><div class="log-dot ld-blue"></div><div class="log-user">Sara A.</div><div class="log-event">Query submitted · task_a1b2c3d4 · Insight Mode</div></div>
           <div class="log-row"><div class="log-time">09:29:17</div><div class="log-dot ld-green"></div><div class="log-user">Fatima N.</div><div class="log-event">Result exported · PDF · task_pp8n3x2q</div></div>
-          <div class="log-row"><div class="log-time">09:18:55</div><div class="log-dot ld-purple"></div><div class="log-user">Mohammed K.</div><div class="log-event">Query submitted · task_i9j0k1l2 · FIP-Research</div></div>
+          <div class="log-row"><div class="log-time">09:18:55</div><div class="log-dot ld-purple"></div><div class="log-user">Mohammed K.</div><div class="log-event">Query submitted · task_i9j0k1l2 · Research Mode</div></div>
           <div class="log-row"><div class="log-time">09:14:02</div><div class="log-dot ld-red"></div><div class="log-user">Sara A.</div><div class="log-event">Task failed · DLQ · task_8f3a9c2e · OOM</div></div>
           <div class="log-row"><div class="log-time">09:11:44</div><div class="log-dot ld-green"></div><div class="log-user">Hessa A.</div><div class="log-event">Dataset uploaded · fraud_q2_2025.csv · 1.2 MB</div></div>
-          <div class="log-row"><div class="log-time">08:55:21</div><div class="log-dot ld-blue"></div><div class="log-user">Admin</div><div class="log-event">Dataset assigned to Fraud Prevention, AML/CFT · lfi_master_2025.csv</div></div>
+          <div class="log-row"><div class="log-time">08:55:21</div><div class="log-dot ld-blue"></div><div class="log-user">Admin</div><div class="log-event">Dataset assigned to Fraud Prevention, Risk &amp; Compliance · store_master_2025.csv</div></div>
           <div class="log-row"><div class="log-time">07:52:11</div><div class="log-dot ld-red"></div><div class="log-user">Mohammed K.</div><div class="log-event">Task failed · DLQ · task_4b1c7d0f · LLM timeout</div></div>
         </div>
       </div>
@@ -320,11 +320,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
           <div style="display:flex;justify-content:space-between;margin-top:10px;border-top:1px solid var(--border);padding-top:8px">
             <div style="text-align:center">
               <div style="font-size:15px;font-weight:700;color:var(--text)">156</div>
-              <div style="font-size:10px;color:var(--text-subtle)">FIP-Insight</div>
+              <div style="font-size:10px;color:var(--text-subtle)">Insight Mode</div>
             </div>
             <div style="text-align:center">
               <div style="font-size:15px;font-weight:700;color:#9333ea">58</div>
-              <div style="font-size:10px;color:var(--text-subtle)">FIP-Research</div>
+              <div style="font-size:10px;color:var(--text-subtle)">Research Mode</div>
             </div>
             <div style="text-align:center">
               <div style="font-size:15px;font-weight:700;color:#16a34a">97.2%</div>
@@ -401,7 +401,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       </div>
     </div>
 
-    <div class="bottom-hint">FIP Admin · CBUAE Internal · Restricted Access · Air-gapped</div>
+    <div class="bottom-hint">DS-STAR Admin · Acme Analytics Internal · Restricted Access</div>
   </div>
 </main>
 

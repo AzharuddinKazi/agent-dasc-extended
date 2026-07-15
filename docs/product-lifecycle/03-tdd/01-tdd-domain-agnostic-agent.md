@@ -1,23 +1,19 @@
 # Technical Design Document
-## CBUAE Financial Intelligence Platform (FIP) — V1
+## DS-STAR Data Analysis Platform — V1
 
 **Stage:** TDD — Stage 3  
 **Branch:** `docs/product-lifecycle`  
 **Date:** 2026-07-02  
 **Author:** Engineering, Agent-DASC  
 **Status:** Draft v0.2 — In Review  
-**PRD Reference:** `01-prd/01-prd-cbuae-fip.md` (v0.2)
+**PRD Reference:** `01-prd/01-prd-domain-agnostic-agent.md` (v0.2)
 
 **Prerequisite documents:**
 - `00-discovery/01-paper-analysis.md` — DS-STAR paper deep-dive (arXiv:2509.21825)
 - `00-discovery/04-architecture-decisions.md` — 18 architecture decisions with paper references (Q1–Q18)
 - `00-discovery/03-architecture-v2.html` — Architecture diagram v3.3
 - `00-discovery/05-feature-discussion.md` — Feature decisions (Topics 1–10)
-- `01-prd/01-prd-cbuae-fip.md` — Full PRD with functional requirements and acceptance criteria
-
-**Pending inputs (blocks TDD sections marked `[PENDING]`):**
-- **OQ-1** — Authentication system (Active Directory / CBUAE SSO / standalone) — blocks §17 Auth design
-- **OQ-7** — On-premise GPU hardware specs — blocks §20 Deployment, §21 Performance
+- `01-prd/01-prd-domain-agnostic-agent.md` — Full PRD with functional requirements and acceptance criteria
 
 ---
 
@@ -62,13 +58,13 @@
 
 ## 1. Background & Motivation
 
-CBUAE's Financial Crime & Market Conduct division supervises 47+ Licensed Financial Institutions (LFIs) across five departments: Fraud Prevention Supervision, AML/CFT Supervision, Market Conduct, Enforcement, and Policy & Research.
+Organizations that work with structured business data commonly organize analysts into functional teams or departments, each responsible for a slice of the business (e.g. operations, finance, customer support, compliance).
 
-**Current state:** Supervisory analysis is performed manually. An analyst querying "Which LFIs have the highest APP fraud rate relative to transaction volume?" must request data from IT, wait for an extract, clean the file in Excel, write pivot tables, and produce a summary — a process taking 2–4 days per analysis. Thematic reviews (e.g., a sector-wide APP fraud trend analysis) take weeks. Non-technical analysts cannot independently query data at all.
+**Current state:** Analytical work is performed largely manually. An analyst asking "Which accounts have the highest anomaly rate relative to volume?" must request data from IT, wait for an extract, clean the file in Excel, write pivot tables, and produce a summary — a process taking 2–4 days per analysis. Broader thematic reviews (e.g., a sector-wide trend analysis) take weeks. Non-technical analysts cannot independently query data at all.
 
-**Pain:** The bottleneck is not data availability — CBUAE receives structured fraud loss reports, SAR/STR records, KYC/CDD data, and market surveillance data from all LFIs. The bottleneck is the translation layer between a natural language supervisory question and a data-backed answer.
+**Pain:** The bottleneck is not data availability — most organizations already receive structured reports, records, and datasets on a regular basis. The bottleneck is the translation layer between a natural language question and a data-backed answer.
 
-**Proposed solution:** The Financial Intelligence Platform (FIP) lets analysts type their question in plain English, observe the system reason through it step by step, and receive a data-backed answer with full traceability — question → plan → code → result. Built on the DS-STAR multi-agent architecture (arXiv:2509.21825, Google Cloud, Sept 2025), deployed entirely on-premise within CBUAE's air-gapped network.
+**Proposed solution:** The platform lets analysts type their question in plain English, observe the system reason through it step by step, and receive a data-backed answer with full traceability — question → plan → code → result. Built on the DS-STAR multi-agent architecture (arXiv:2509.21825, Google Cloud, Sept 2025), deployed as a standard cloud-hosted service.
 
 ---
 
@@ -76,25 +72,25 @@ CBUAE's Financial Crime & Market Conduct division supervises 47+ Licensed Financ
 
 ### Goals (V1)
 
-- **G1:** Allow any analyst in the five FIP departments to submit a natural language query and receive a data-backed answer — without writing code or involving IT.
-- **G2:** Support two query modes: FIP-Insight (specific factoid/analytical questions) and FIP-Research (open-ended thematic reports with citations).
+- **G1:** Allow any analyst to submit a natural language query and receive a data-backed answer — without writing code or involving IT.
+- **G2:** Support two query modes: Insight (specific factoid/analytical questions) and Research (open-ended thematic reports with citations).
 - **G3:** Every result is fully explainable: analysts can inspect the plan, the generated code, and the raw output for every round.
-- **G4:** Full immutable audit trail: every query, every code version, every result is logged in a tamper-evident append-only store. Required for regulatory examination readiness.
-- **G5:** Zero data leaves the CBUAE perimeter. All LLM inference runs locally. No cloud APIs in production.
+- **G4:** Full immutable audit trail: every query, every code version, every result is logged in a tamper-evident append-only store.
+- **G5:** Standard cloud-hosted deployment, using cloud LLM APIs for inference.
 - **G6:** Department-level data access control: an analyst can only query datasets their department is permitted to access.
-- **G7:** Export results as Word, PDF, and Excel reports using CBUAE-branded templates.
+- **G7:** Export results as Word, PDF, and Excel reports using organization-branded templates.
 - **G8:** REST API for programmatic consumption of results by other internal systems.
 
 ### Non-Goals (V1 — explicit exclusions)
 
 - **NG1:** Real-time or streaming data ingestion. V1 is batch-upload only — analysts upload files or admins provision institutional datasets. No live feeds.
-- **NG2:** Integration with external case management systems (NICE Actimize, ServiceNow). API contract is internal-only in V1 (see OQ-4).
-- **NG3:** Email or SMS notifications. No email relay in the air-gapped environment (see FR-AH-03 in PRD).
+- **NG2:** Integration with external case management systems. API contract is internal-only in V1 (see OQ-3).
+- **NG3:** Email or SMS notifications. No email relay in V1 (see FR-AH-03 in PRD).
 - **NG4:** Mobile application. Web browser only.
-- **NG5:** Arabic language support. English interface only in V1.
+- **NG5:** Non-English language support. English interface only in V1.
 - **NG6:** Automated scheduled analysis (cron-triggered reports). Analyst-initiated only.
-- **NG7:** Self-service LFI data submission portal. Institutional data is loaded by admin only.
-- **NG8:** Cross-divisional access (other CBUAE divisions outside Financial Crime & Market Conduct). Scope is the five departments above.
+- **NG7:** Self-service external data submission portal. Institutional data is loaded by admin only.
+- **NG8:** Cross-organization access outside the departments in scope for V1.
 - **NG9:** Model fine-tuning or training. LLM inference only; no training pipeline.
 - **NG10:** Exposing generated Python code directly to analysts by default. Code is archived and accessible to admins; analyst-facing result is the narrative + tables + charts.
 
@@ -164,30 +160,29 @@ CBUAE's Financial Crime & Market Conduct division supervises 47+ Licensed Financ
 
 ---
 
-### A6: LLM Serving — Ollama vs. vLLM
+### A6: LLM Provider — Cloud API
 
-**Decision: Deferred to OQ-7 resolution. Both adapters are implemented; CBUAE IT selects based on GPU specs.**
+**Chosen: Gemini API (cloud)**
 
 | Option | Verdict | Rationale |
 |--------|---------|-----------|
-| **Ollama** | ✅ Default | Single binary; excellent model management (`ollama pull`); adequate throughput for sequential requests (~500 tok/s on a single A100). Lower operational burden. Chosen as the default unless OQ-7 shows concurrent load exceeds single-request throughput. |
-| vLLM | ✅ If needed | Continuous batching provides 3–5× higher throughput at the cost of operational complexity. Appropriate if OQ-7 reveals the GPU cluster must serve >4 concurrent 70B-class inference requests. The `OllamaAdapter` and `vLLMAdapter` share the same `LLMAdapter` interface — switching requires only a config change. |
+| **Gemini API** | ✅ Chosen | Simplest operational model — no GPU fleet to provision or manage. Tiered model access (Flash for high-volume agent calls, Pro for the highest-quality synthesis step) covers the full range of agent needs. Adequate throughput and latency for the expected request volume. |
+| Self-hosted inference (Ollama / vLLM) | ⚠️ V2 candidate | Would reduce per-token cost at high volume and remove dependence on a third-party API, at the cost of operating a GPU fleet. Not justified for V1's expected load; revisit if usage scales significantly. |
 
 ---
 
 ## 4. System Overview
 
-The Financial Intelligence Platform (FIP) is an internal CBUAE analytics system that accepts natural language queries from non-technical supervisory analysts and returns data-backed answers and reports — with full traceability from question to code to result.
+The platform is an internal analytics system that accepts natural language queries from non-technical analysts and returns data-backed answers and reports — with full traceability from question to code to result.
 
-It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Google Cloud, Sept 2025), adapted for the CBUAE Financial Crime & Market Conduct vertical. The system operates in two modes:
+It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Google Cloud, Sept 2025). The system operates in two modes:
 
-- **FIP-Insight** (DS-STAR mode): Specific, factoid, and multi-step analytical questions. Returns a chat-style answer: executive summary + tables + charts.
-- **FIP-Research** (DS-STAR+ mode): Open-ended research and thematic analysis. Returns a structured, cited report document.
+- **Insight** (DS-STAR mode): Specific, factoid, and multi-step analytical questions. Returns a chat-style answer: executive summary + tables + charts.
+- **Research** (DS-STAR+ mode): Open-ended research and thematic analysis. Returns a structured, cited report document.
 
-**Deployment constraints that shape every technical decision:**
-- On-premise only. Fully air-gapped. Zero outbound network.
-- LLM inference runs locally (Ollama or vLLM) on CBUAE-owned GPU hardware.
-- All data stays within CBUAE infrastructure. No cloud storage, no cloud APIs in production.
+**Design principles that shape the technical decisions below:**
+- Standard cloud hosting, for simplicity and low operational overhead.
+- LLM inference via the Gemini API (cloud).
 - Analyst data access is governed by department-level RBAC enforced at the API layer.
 
 ---
@@ -240,16 +235,16 @@ It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Googl
              ┌───────────────────────────────┼────────────────────────────┐
              │                               │                            │
     ┌────────▼──────┐            ┌───────────▼──────┐          ┌─────────▼──────┐
-    │  PostgreSQL   │            │  MinIO           │          │  Ollama /      │
-    │  • Tasks      │            │  • Uploaded files│          │  vLLM          │
-    │  • Checkpoints│            │  • Data snapshots│          │  (local GPU)   │
-    │  • Audit log  │            │  • Script archive│          │  LLM inference │
+    │  PostgreSQL   │            │  Object Storage  │          │  Gemini API    │
+    │  • Tasks      │            │  • Uploaded files│          │  (cloud LLM    │
+    │  • Checkpoints│            │  • Data snapshots│          │  inference)    │
+    │  • Audit log  │            │  • Script archive│          │                │
     │  • User/RBAC  │            │  • Report files  │          │                │
     │  • File meta  │            │  • Temp outputs  │          └────────────────┘
     └───────────────┘            └──────────────────┘
                                              │
                                     ┌────────▼────────┐
-                                    │  HashiCorp Vault │
+                                    │  Secrets Manager │
                                     │  Secrets only    │
                                     └─────────────────┘
 ```
@@ -257,13 +252,12 @@ It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Googl
 **Network zones:**
 - Zone A (Browser → Nginx): HTTPS/WSS with JWT in `Authorization: Bearer` header
 - Zone B (Nginx → API Server → Workers): mTLS, internal service mesh
-- Zone C (Workers → Sandbox Service → PostgreSQL / MinIO / Ollama): mTLS, internal only
-- Zone D (Vault): mTLS, AppRole auth; all secrets fetched at service startup; no env-var secrets
+- Zone C (Workers → Sandbox Service → PostgreSQL / Object Storage / Gemini API): mTLS internally; standard HTTPS to the Gemini API
+- Zone D (Secrets Manager): mTLS, all secrets fetched at service startup; no env-var secrets
 
-**What is NOT present in this topology:**
-- No internet gateway. No external DNS resolution. No cloud endpoints.
+**Notes on this topology:**
 - No email relay (V1 has no email notifications — FR-AH-03).
-- No CI/CD runner (deployments handled via offline artifact delivery by IT).
+- Standard CI/CD pipeline handles deployments (see §21).
 
 ---
 
@@ -283,19 +277,19 @@ It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Googl
 | Task queue | Celery 5 | |
 | Queue broker | Redis Sentinel 7 | HA mode with 3 Sentinel nodes |
 | Result backend | Redis 7 | Same Sentinel cluster |
-| LLM inference | Ollama (prod) / Gemini API (dev) | Behind provider adapter; see §3 A6 |
-| Object storage | MinIO | S3-compatible, on-premise |
+| LLM inference | Gemini API | Behind provider adapter; see §3 A6 |
+| Object storage | MinIO / S3-compatible cloud storage | |
 | Relational database | PostgreSQL 16 | Single instance + streaming replica |
-| Secret management | HashiCorp Vault 1.17+ | AppRole auth |
+| Secret management | Cloud secrets manager (e.g. HashiCorp Vault) | |
 | Reverse proxy | Nginx 1.25+ | TLS termination, static asset serving |
 | Sandbox runtime | Docker 26+ (rootless) | Managed by dedicated Sandbox Service pod; see §9 |
 | Report: Word | python-docx-template | Jinja2 template engine for .docx |
 | Report: PDF | LibreOffice headless | Converts .docx → .pdf server-side |
 | Report: Excel | openpyxl | |
-| Auth | PyJWT + bcrypt | HS256 tokens; 8-hour expiry; [PENDING OQ-1] |
+| Auth | PyJWT + bcrypt (or standard OAuth/SSO) | HS256 tokens; 8-hour expiry |
 | Internal comms | mTLS (mutual TLS) | All service-to-service |
 | Containerisation | Docker Compose (dev) / Kubernetes (prod) | |
-| Schema migrations | Alembic | Versioned migrations; see §21.4 |
+| Schema migrations | Alembic | Versioned migrations; see §21.3 |
 
 **Authoritative version pins:** `backend/requirements.txt` and `frontend/package.json`. Version numbers in this document reflect major versions only and are informational.
 
@@ -309,8 +303,8 @@ It is built on the **DS-STAR multi-agent architecture** (arXiv:2509.21825, Googl
 
 Two separate LangGraph `StateGraph` definitions:
 
-1. **`dsstar_graph`** — FIP-Insight (DS-STAR mode)
-2. **`dsstar_plus_graph`** — FIP-Research (DS-STAR+ mode); internally calls `dsstar_graph` per sub-question
+1. **`dsstar_graph`** — Insight (DS-STAR mode)
+2. **`dsstar_plus_graph`** — Research (DS-STAR+ mode); internally calls `dsstar_graph` per sub-question
 
 Both graphs checkpoint to PostgreSQL after every node execution. The checkpoint key is `(thread_id=task_id, checkpoint_id=round_number)`.
 
@@ -508,45 +502,45 @@ All prompts are stored in `backend/agents/prompts/` as `.jinja2` template files 
 | PDF | Page count, extracted text (first 2000 chars), detected tables |
 | Word (.docx) | Paragraph count, extracted text (first 2000 chars), table count and structure |
 
-**CBUAE schema recognition:** After generic profiling, the Analyzer checks for known CBUAE schema signatures:
+**Known-schema recognition:** After generic profiling, the Analyzer checks for known, organization-configurable schema signatures:
 
 ```python
-CBUAE_SCHEMAS = {
-    "fraud_loss_report": {
-        "required_columns": ["lfi_id", "fraud_type", "channel", "amount_aed"],
-        "description": "LFI fraud loss return. Contains reported fraud losses by institution, fraud typology, and delivery channel."
+KNOWN_SCHEMAS = {
+    "sales_report": {
+        "required_columns": ["account_id", "product_category", "channel", "amount"],
+        "description": "Sales return. Contains reported revenue by account, product category, and delivery channel."
     },
-    "sar_str_records": {
-        "required_columns": ["lfi_id", "typology", "filing_date", "amount"],
-        "description": "SAR/STR filing records. Contains suspicious activity reports filed by LFIs."
+    "support_tickets": {
+        "required_columns": ["account_id", "category", "filed_date", "amount"],
+        "description": "Support ticket records. Contains issues filed by accounts."
     },
-    "kyc_cdd_data": {
+    "customer_risk_data": {
         "required_columns": ["customer_id", "risk_band", "review_date"],
-        "description": "KYC/CDD records. Contains customer risk classification and review status."
+        "description": "Customer records. Contains customer risk classification and review status."
     },
-    "consumer_complaints": {
-        "required_columns": ["lfi_id", "complaint_category", "product_type", "resolution_status"],
-        "description": "Consumer complaint register. Contains complaints filed against LFIs by category and product."
+    "customer_complaints": {
+        "required_columns": ["account_id", "complaint_category", "product_type", "resolution_status"],
+        "description": "Customer complaint register. Contains complaints filed against accounts by category and product."
     }
 }
 ```
 
-If a file matches a known schema, `D` includes the enriched description. Unrecognised files receive generic profiling only.
+If a file matches a known schema, `D` includes the enriched description. Unrecognised files receive generic profiling only. The schema registry is configurable per deployment, so it can be tailored to any domain.
 
 **Output format (`D`):**
 
 ```
-FILE 1: fraud_q1_2025.csv
-Type: CSV | Schema: fraud_loss_report
+FILE 1: sales_q1_2025.csv
+Type: CSV | Schema: sales_report
 Shape: 12,847 rows × 9 columns
-Columns: lfi_id (str), fraud_type (str, values: card_fraud/APP_fraud/social_engineering/identity_theft),
-         channel (str, values: online/ATM/branch/mobile), reporting_quarter (str),
-         total_loss_aed (float), recovered_amount_aed (float), detection_method (str),
-         report_date (date), lfi_name (str)
-Null rates: recovered_amount_aed: 12.3%, detection_method: 4.1%; all others: 0%
+Columns: account_id (str), product_category (str, values: category_a/category_b/category_c/category_d),
+         channel (str, values: online/retail/partner/mobile), reporting_quarter (str),
+         total_amount (float), returned_amount (float), detection_method (str),
+         report_date (date), account_name (str)
+Null rates: returned_amount: 12.3%, detection_method: 4.1%; all others: 0%
 Sample rows: [row 1], [row 2], [row 3]
-Description: LFI fraud loss return covering Q1 2025. Contains 47 distinct LFIs.
-             Total reported loss AED 892M. Dominant fraud type: card_fraud (38%).
+Description: Sales return covering Q1 2025. Contains 47 distinct accounts.
+             Total reported amount 892M. Dominant category: category_a (38%).
 
 FILE 2: ...
 ```
@@ -557,7 +551,7 @@ FILE 2: ...
 
 ### 8.2 Query Clarity Agent
 
-**Purpose:** CBUAE addition. Runs before the Planner. Validates the query, maps business terms to data terms, classifies mode (A vs B), and flags ambiguity.
+**Purpose:** Runs before the Planner. Validates the query, maps business terms to data terms, classifies mode (A vs B), and flags ambiguity.
 
 **Input:** `(query, D, department)`
 
@@ -578,18 +572,20 @@ class ClarityResult(BaseModel):
 - Both interpretations plausible → `"ambiguous"` (triggers modal on frontend)
 - Query references data not present in `D` → `answerable = False` (inline warning shown)
 
-**Domain term mappings (V1 — Fraud Prevention focus):**
+**Domain term mappings (V1 — configurable per deployment):**
 
 | Business term | Mapped to |
 |--------------|-----------|
-| "high-risk LFIs" | LFIs in top quartile by fraud_loss_rate |
-| "peer median" | Median of same LFI category (bank / exchange house / finance company) |
-| "fraud rate" / "fraud loss rate" | total_loss_aed / total_transaction_volume_aed |
-| "detection rate" | (fraud_cases_detected / total_fraud_cases) × 100 |
-| "APP fraud" | fraud_type = 'APP_fraud' |
-| "card fraud" | fraud_type = 'card_fraud' |
-| "social engineering" | fraud_type = 'social_engineering' |
+| "high-risk accounts" | Accounts in top quartile by loss_rate |
+| "peer median" | Median of same account category (e.g. tier A / tier B / tier C) |
+| "loss rate" | total_loss / total_volume |
+| "detection rate" | (cases_detected / total_cases) × 100 |
+| "category A issue" | issue_type = 'category_a' |
+| "category B issue" | issue_type = 'category_b' |
+| "process issue" | issue_type = 'process_issue' |
 | "this quarter" | reporting_quarter matching current calendar quarter |
+
+The mapping table above is illustrative — each deployment configures its own business-term-to-column mappings for its domain.
 
 ---
 
@@ -603,13 +599,13 @@ class ClarityResult(BaseModel):
 **Constraint:** One step only. The step must be concrete and unambiguous enough for the Coder to translate directly into Python without further clarification.
 
 **System prompt principles (from prompt template):**
-- Start with the simplest possible step (e.g., "Load the fraud loss CSV and confirm the column names match what the Analyzer described")
+- Start with the simplest possible step (e.g., "Load the sales CSV and confirm the column names match what the Analyzer described")
 - Each step builds on the confirmed result of the previous step — do not assume prior steps succeeded unless `rₖ₋₁` confirms it
 - Steps are analytical, not coding instructions — the Coder decides how to implement them
-- Steering hints override plan direction — if a hint says "focus on card fraud only", all subsequent steps should scope to card fraud
+- Steering hints override plan direction — if a hint says "focus on category A only", all subsequent steps should scope to category A
 
 **Output:** Plain English, 1–3 sentences. Example:
-> "Compute the fraud loss rate (total_loss_aed / total_transaction_volume_aed) for each LFI and identify the top 5 by this metric. Confirm that the result aligns with the channel breakdown from round 2."
+> "Compute the loss rate (total_loss / total_volume) for each account and identify the top 5 by this metric. Confirm that the result aligns with the channel breakdown from round 2."
 
 ---
 
@@ -677,8 +673,8 @@ async def execute_round(task_id: str, script: str, round_number: int) -> Executi
 
 ```python
 PII_PATTERNS = [
-    (r'\b[A-Z]{2}\d{6,9}\b', '[ACCOUNT]'),       # UAE account number pattern
-    (r'\b784-\d{4}-\d{7}-\d\b', '[NATIONAL_ID]'), # UAE national ID
+    (r'\b[A-Z]{2}\d{6,9}\b', '[ACCOUNT]'),       # Generic account number pattern
+    (r'\b\d{3}-\d{2}-\d{4}\b', '[NATIONAL_ID]'), # Generic national ID pattern
     (r'\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}(?:[A-Z0-9]{0,16})?\b', '[IBAN]'),
 ]
 
@@ -763,32 +759,32 @@ Constraint: Only fix what's broken. Do not change correct logic above the failin
 **Output:** Structured JSON:
 ```json
 {
-  "narrative": "ABC Bank has the highest card fraud loss rate...",
+  "narrative": "Acme Corp has the highest loss rate...",
   "charts": [
     {
       "type": "bar",
-      "title": "Card Fraud Loss Rate by LFI (Q1 2025)",
-      "x_label": "LFI",
+      "title": "Loss Rate by Account (Q1 2025)",
+      "x_label": "Account",
       "y_label": "Loss Rate (%)",
-      "data": [{"name": "ABC Bank", "value": 0.18}, ...]
+      "data": [{"name": "Acme Corp", "value": 0.18}, ...]
     }
   ],
   "tables": [
     {
-      "title": "Top 5 LFIs by Card Fraud Loss Rate",
-      "headers": ["LFI", "Loss Rate", "vs Peer Median", "Primary Fraud Type"],
-      "rows": [["ABC Bank", "0.18%", "+3.2×", "Social Engineering"], ...]
+      "title": "Top 5 Accounts by Loss Rate",
+      "headers": ["Account", "Loss Rate", "vs Peer Median", "Primary Category"],
+      "rows": [["Acme Corp", "0.18%", "+3.2×", "Process Issue"], ...]
     }
   ],
-  "chart_png_keys": ["outputs/task-123/final/chart_fraud_rate.png"],
-  "files": ["fraud_analysis_abc.xlsx"],
+  "chart_png_keys": ["outputs/task-123/final/chart_loss_rate.png"],
+  "files": ["loss_analysis_acme.xlsx"],
   "is_complete": true,
   "incomplete_summary": null
 }
 ```
 
-**Explainer layer (CBUAE addition):** After the Finalizer, a separate Explainer agent converts technical output into plain English for non-technical analysts. Example:
-> "ABC Bank's card fraud loss rate is 0.18% of transaction volume — 3.2× the peer median of 0.056%. The dominant fraud type is social engineering (61%), concentrated in the mobile banking channel (78% of losses)."
+**Explainer layer:** After the Finalizer, a separate Explainer agent converts technical output into plain English for non-technical analysts. Example:
+> "Acme Corp's loss rate is 0.18% of transaction volume — 3.2× the peer median of 0.056%. The dominant category is process issues (61%), concentrated in the mobile channel (78% of losses)."
 
 The Explainer output is displayed as the first paragraph of the result. The full Finalizer output (tables, charts) follows.
 
@@ -825,7 +821,7 @@ class SubQuestionSet(BaseModel):
 **Date:** | **Analyst:** | **Classification:** INTERNAL
 
 ## Executive Summary
-...inline citations: (Source: Sub-question 2 — Card fraud by LFI)...
+...inline citations: (Source: Sub-question 2 — Losses by account)...
 
 ## Query & Scope
 ...
@@ -842,7 +838,7 @@ class SubQuestionSet(BaseModel):
 
 **Citation format:** `(Source: Sub-question N — [sub-question text])`. The frontend renders these as expandable links that show the sub-question, the script `sᵢ`, and the raw output `aᵢ`.
 
-**LLM used:** The highest-quality available model in the provider adapter (configured separately from the Flash-tier agents). In development: Gemini 2.5 Pro. In production: largest available local model (OQ-7 dependent).
+**LLM used:** The highest-quality available model in the provider adapter (configured separately from the Flash-tier agents) — Gemini 2.5 Pro.
 
 ---
 
@@ -986,44 +982,25 @@ class LLMResponse(BaseModel):
 
 ### 10.2 Implementations
 
-**OllamaAdapter (production — air-gapped):**
-```python
-class OllamaAdapter(LLMAdapter):
-    base_url: str   # e.g. "http://ollama-server:11434"
-    model: str      # e.g. "llama3.2:70b" or "llama3.1:8b"
-    # Calls POST /api/chat; handles streaming internally; returns complete response
-```
-
-**GeminiAdapter (development only — requires network):**
+**GeminiAdapter (default — production):**
 ```python
 class GeminiAdapter(LLMAdapter):
-    api_key: str    # From Vault; never env variable
-    model: str      # e.g. "gemini-2.5-flash"
+    api_key: str    # From secrets manager; never env variable
+    model: str      # e.g. "gemini-2.5-flash" or "gemini-2.5-pro"
     # Uses google-generativeai SDK
 ```
 
-**AzureOpenAIAdapter (fallback if local GPU insufficient — OQ-7 dependent):**
-```python
-class AzureOpenAIAdapter(LLMAdapter):
-    endpoint: str   # Azure OpenAI UAE North endpoint
-    api_key: str    # From Vault
-    deployment: str # e.g. "gpt-4o"
-```
+**Other adapters (optional, e.g. `AzureOpenAIAdapter`) can be added behind the same `LLMAdapter` interface if a deployment prefers a different cloud provider — no agent code changes required.**
 
 ### 10.3 Configuration
 
-`backend/config/llm.yaml` (loaded at startup; values fetched from Vault):
+`backend/config/llm.yaml` (loaded at startup; values fetched from the secrets manager):
 ```yaml
-provider: ollama                # "ollama" | "gemini" | "azure_openai"
+provider: gemini                # "gemini" | other adapters as needed
 
 models:
-  flash: llama3.2:11b           # 7 of 8 agents: fast, sufficient
-  pro: llama3.1:70b             # Report Writer: highest quality available
-  # For gemini provider: "gemini-2.5-flash" and "gemini-2.5-pro"
-
-ollama:
-  base_url: "http://ollama-01:11434"
-  request_timeout: 300
+  flash: gemini-2.5-flash        # 7 of 8 agents: fast, sufficient
+  pro: gemini-2.5-pro            # Report Writer: highest quality available
 
 # Agent → model tier mapping (all others use "flash")
 model_assignments:
@@ -1039,14 +1016,14 @@ model_assignments:
 
 **Engine:** PostgreSQL 16. All tables use `UUID` primary keys. Timestamps are `TIMESTAMPTZ` (UTC). No soft-deletes — records are immutable once created (append-only audit design).
 
-**Schema migrations:** Managed by Alembic. Migration scripts live in `backend/migrations/versions/`. Zero-downtime migration rules: new columns must be `NULLABLE` or have a `DEFAULT`; no column renames in a single release; no table drops without a deprecation cycle. See §21.4 for migration deployment procedure.
+**Schema migrations:** Managed by Alembic. Migration scripts live in `backend/migrations/versions/`. Zero-downtime migration rules: new columns must be `NULLABLE` or have a `DEFAULT`; no column renames in a single release; no table drops without a deprecation cycle. See §21.3 for migration deployment procedure.
 
 ### 11.1 Schema: Users & RBAC
 
 ```sql
 CREATE TABLE departments (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name        TEXT NOT NULL UNIQUE,  -- 'fraud_prevention' | 'aml_cft' | 'market_conduct' | 'enforcement' | 'policy_research'
+    name        TEXT NOT NULL UNIQUE,  -- organization-configurable, e.g. 'operations' | 'compliance' | 'finance' | 'support' | 'research'
     display_name TEXT NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -1057,7 +1034,7 @@ CREATE TABLE users (
     display_name    TEXT NOT NULL,
     department_id   UUID NOT NULL REFERENCES departments(id),
     role            TEXT NOT NULL CHECK (role IN ('analyst', 'admin')),
-    password_hash   TEXT NOT NULL,       -- bcrypt; [PENDING OQ-1: replace with SSO token if AD/SSO]
+    password_hash   TEXT,                -- bcrypt; NULL if using OAuth/SSO exclusively
     is_active       BOOLEAN NOT NULL DEFAULT TRUE,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_login_at   TIMESTAMPTZ
@@ -1078,7 +1055,7 @@ CREATE TABLE datasets (
     file_type           TEXT NOT NULL,                  -- 'csv' | 'xlsx' | 'json' | 'pdf' | 'docx'
     storage_key         TEXT NOT NULL UNIQUE,           -- MinIO object key
     analyzer_description TEXT,                          -- D for this file; set after profiling
-    schema_type         TEXT,                           -- CBUAE schema name if recognised
+    schema_type         TEXT,                           -- Known schema name if recognised
     is_institutional    BOOLEAN NOT NULL DEFAULT FALSE,
     status              TEXT NOT NULL DEFAULT 'uploading',  -- 'uploading' | 'profiling' | 'ready' | 'archived' | 'deleted'
     created_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -1164,7 +1141,7 @@ CREATE TABLE audit_log (
 );
 
 -- No UPDATE, no DELETE granted to application role:
--- GRANT INSERT, SELECT ON audit_log TO fip_app;
+-- GRANT INSERT, SELECT ON audit_log TO app_role;
 -- (enforced at PostgreSQL role level, not just application level)
 
 CREATE INDEX idx_audit_log_task ON audit_log(task_id);
@@ -1273,30 +1250,30 @@ INSERT INTO system_config (key, value) VALUES
 
 ## 12. File Storage
 
-**Engine:** MinIO (S3-compatible, on-premise). All objects are encrypted at rest (AES-256, MinIO SSE-S3).
+**Engine:** MinIO or any S3-compatible cloud object storage. All objects are encrypted at rest (AES-256, SSE-S3).
 
 **Bucket layout:**
 
 ```
-fip-uploads/
+app-uploads/
   {user_id}/{dataset_id}/{filename}                    — Uploaded files (original)
 
-fip-snapshots/
+app-snapshots/
   {dataset_id}/{snapshot_id}/{filename}                — Point-in-time data snapshots
 
-fip-scripts/
+app-scripts/
   {task_id}/round_{k}.py                               — All code versions per task
 
-fip-outputs/
+app-outputs/
   {task_id}/round_{k}/{filename}                       — Files written to /tmp by Coder
   {task_id}/final/{filename}                           — Finalizer output files
 
-fip-reports/
-  {task_id}/FIP_{date}_{slug}.docx                     — Generated Word reports
-  {task_id}/FIP_{date}_{slug}.pdf                      — Generated PDF reports
-  {task_id}/FIP_{date}_{slug}.xlsx                     — Generated Excel reports
+app-reports/
+  {task_id}/Report_{date}_{slug}.docx                  — Generated Word reports
+  {task_id}/Report_{date}_{slug}.pdf                   — Generated PDF reports
+  {task_id}/Report_{date}_{slug}.xlsx                  — Generated Excel reports
 
-fip-templates/
+app-templates/
   report-templates/{template_id}.docx                  — Admin-uploaded report templates
 ```
 
@@ -1310,7 +1287,7 @@ fip-templates/
 
 ```python
 CELERY_CONFIG = {
-    "broker_url": "redis+sentinel://sentinel1:26379,sentinel2:26379,sentinel3:26379/0?master_name=fip-master",
+    "broker_url": "redis+sentinel://sentinel1:26379,sentinel2:26379,sentinel3:26379/0?master_name=app-master",
     "result_backend": "redis+sentinel://...",
     "task_serializer": "json",
     "result_serializer": "json",
@@ -1485,8 +1462,8 @@ GET    /api/v1/tasks/{id}/export/docx
 GET    /api/v1/tasks/{id}/export/pdf
 GET    /api/v1/tasks/{id}/export/xlsx
        Content-Type: application/octet-stream
-       Content-Disposition: attachment; filename="FIP_{date}_{slug}.{ext}"
-       Streams file from MinIO through API server.
+       Content-Disposition: attachment; filename="Report_{date}_{slug}.{ext}"
+       Streams file from object storage through API server.
        Audit log event: result.exported
 ```
 
@@ -1499,7 +1476,7 @@ PATCH  /api/v1/admin/users/{id}          # deactivate, change dept
 GET    /api/v1/admin/audit-log           # Query params: user_id, dept, date_from, date_to, event_type, query_text, page
 GET    /api/v1/admin/audit-log/export    # Returns CSV
 POST   /api/v1/admin/audit-log/verify-integrity  # Returns IntegrityReport; logs audit.integrity_checked
-GET    /api/v1/admin/health              # Real-time: queue depth, active tasks, GPU util, error rate, DLQ count
+GET    /api/v1/admin/health              # Real-time: queue depth, active tasks, LLM latency, error rate, DLQ count
 GET    /api/v1/admin/dlq                 # List DLQ items
 POST   /api/v1/admin/dlq/{id}/retry     # Manual retry
 GET    /api/v1/admin/templates           # Query templates list
@@ -1547,7 +1524,7 @@ type WSEvent =
   | { type: "task_paused";            data: { paused_at_round: number; checkpoint_expires_at: string } }
   | { type: "round_cap_reached";      data: { round: number; hard_cap: number } }
   | { type: "task_soft_time_limit";   data: { round: number; message: string } }
-  | { type: "task_complete";          data: { result: FIPResult; is_complete: boolean } }
+  | { type: "task_complete";          data: { result: TaskResult; is_complete: boolean } }
   | { type: "task_failed";            data: { error_summary: string } }
   | { type: "task_stopped";           data: {} }
   | { type: "checkpoint_recovery";    data: { recovered_from_round: number } }
@@ -1558,7 +1535,7 @@ type WSEvent =
   | { type: "subquestion_complete";   data: { index: number; answer_preview: string } }
   | { type: "report_writing_started"; data: {} }
   | { type: "refinement_round";       data: { k: number; new_subquestions: string[] } }
-  | { type: "report_complete";        data: { result: FIPResearchResult } }
+  | { type: "report_complete";        data: { result: ResearchResult } }
 ```
 
 ### 15.2 Client → Server Events
@@ -1682,7 +1659,7 @@ interface TaskState {
 ### 17.1 Pipeline
 
 ```
-FIP Result JSON
+Task Result JSON
       │
       ▼
 Report Writer (LangGraph node)
@@ -1691,7 +1668,7 @@ Report Writer (LangGraph node)
 Jinja2 Template Engine (python-docx-template)
       │ Merges content into .docx template; embeds chart PNGs (see §17.3)
       ▼
-.docx file → MinIO (fip-reports/)
+.docx file → object storage (app-reports/)
       │
       ├──────────────────────────────────────► .docx download
       │
@@ -1700,12 +1677,12 @@ LibreOffice headless (subprocess call, 60s timeout)
       │ libreoffice --headless --convert-to pdf
       │ On timeout or error: serve .docx with inline warning (see §17.2)
       ▼
-.pdf file → MinIO (fip-reports/)
+.pdf file → object storage (app-reports/)
       │
       ▼
 Excel export (separate path):
       openpyxl → one sheet per table → charts as embedded PNG images
-      .xlsx file → MinIO (fip-reports/)
+      .xlsx file → object storage (app-reports/)
 ```
 
 ### 17.2 LibreOffice Failure Handling
@@ -1730,7 +1707,7 @@ async def convert_docx_to_pdf(docx_path: str, output_dir: str) -> str | None:
         return None
 ```
 
-**Fallback:** If conversion returns `None`, the export endpoint serves the `.docx` file with HTTP header `X-FIP-Warning: PDF conversion failed; DOCX provided instead`. The frontend displays an inline notice: "PDF generation failed — download the Word file instead."
+**Fallback:** If conversion returns `None`, the export endpoint serves the `.docx` file with HTTP header `X-App-Warning: PDF conversion failed; DOCX provided instead`. The frontend displays an inline notice: "PDF generation failed — download the Word file instead."
 
 **Health check:** The Sandbox Service checks LibreOffice availability at startup by converting a test file. If the check fails, it logs a critical error and prevents pod readiness (Kubernetes readiness probe fails until resolved).
 
@@ -1738,7 +1715,7 @@ async def convert_docx_to_pdf(docx_path: str, output_dir: str) -> str | None:
 
 **Decision (V1): Server-side matplotlib rendering only.**
 
-The Coder is instructed (§8.4 system prompt) to output both a chart JSON object and a matplotlib PNG at `/tmp/<chart_name>.png`. The Sandbox Service copies PNGs to MinIO alongside the script outputs. The Finalizer embeds the PNG files into the `.docx` via `python-docx-template`.
+The Coder is instructed (§8.4 system prompt) to output both a chart JSON object and a matplotlib PNG at `/tmp/<chart_name>.png`. The Sandbox Service copies PNGs to object storage alongside the script outputs. The Finalizer embeds the PNG files into the `.docx` via `python-docx-template`.
 
 This approach is reliable regardless of whether the analyst's browser tab is open — exports triggered hours later (from query history) work correctly. The Recharts frontend still renders from the chart JSON for the interactive view; the matplotlib PNGs are used exclusively for Word/PDF/Excel exports.
 
@@ -1752,10 +1729,10 @@ This approach is reliable regardless of whether the analyst's browser tab is ope
 
 ### 17.4 Word Template System
 
-System default template (`fip-templates/default.docx`) contains:
-- CBUAE letterhead and classification banner
+System default template (`app-templates/default.docx`) contains:
+- Organization letterhead and classification banner
 - Jinja2 placeholders: `{{ title }}`, `{{ date }}`, `{{ analyst_name }}`, `{{ department }}`, `{{ executive_summary }}`, `{{ methodology }}`, `{{ findings_sections }}`, `{{ recommendations }}`
-- Footer: classification, page numbers, "Generated by FIP — AI-assisted analysis. Verify before use."
+- Footer: classification, page numbers, "Generated by the platform — AI-assisted analysis. Verify before use."
 
 Analyst custom templates (FR-OUT-07) follow the same placeholder schema. Validation: on upload, check that at least one recognised placeholder is present; reject with error if none found.
 
@@ -1763,14 +1740,14 @@ Analyst custom templates (FR-OUT-07) follow the same placeholder schema. Validat
 
 ## 18. Authentication & RBAC
 
-> **`[PENDING OQ-1]`** — The auth mechanism depends on whether CBUAE has Active Directory / SSO. The design below covers the standalone JWT approach. If OQ-1 confirms AD/SSO, §18.1 is replaced with OIDC/SAML integration; §18.2–18.4 remain unchanged.
+We use standard JWT-based authentication for simplicity, with the option to front it with OAuth/SSO (OIDC/SAML) for enterprise customers who require it — the design below is compatible with either.
 
-### 18.1 JWT Authentication (Standalone — current design)
+### 18.1 JWT Authentication
 
 ```python
 TOKEN_ALGORITHM = "HS256"
 TOKEN_EXPIRY_SECONDS = 28800        # 8 hours (one working day)
-TOKEN_SIGNING_KEY = vault.get("fip/jwt-signing-key")   # Fetched from Vault at startup
+TOKEN_SIGNING_KEY = secrets_manager.get("app/jwt-signing-key")   # Fetched from the secrets manager at startup
 
 # Token payload
 {
@@ -2013,70 +1990,47 @@ async def create_snapshot(dataset_id: UUID, task_id: UUID) -> DataSnapshot:
 
 ## 21. Deployment Architecture
 
-> **`[PENDING OQ-7]`** — GPU hardware specs (model, VRAM, count) unknown. The deployment topology below assumes a minimum viable on-premise server cluster. Actual node counts, GPU allocation, and inference throughput must be validated against OQ-7 before the TDD is finalised.
+We use standard cloud hosting for simplicity: a managed Kubernetes cluster (e.g. GKE, EKS, or AKS — any major cloud provider) with managed PostgreSQL, managed Redis, and cloud object storage, plus the Gemini API for LLM inference. This keeps the operational footprint small and avoids owning any physical infrastructure.
 
-### 21.1 Assumed Server Topology (to be confirmed)
+### 21.1 Node/Service Topology
 
 ```
-Node 1 — Web / API server
+Web / API tier
   - Nginx (TLS termination, reverse proxy)
   - FastAPI application server (Gunicorn + Uvicorn workers: 4)
-  - Redis Sentinel node 1
+  - Managed Redis (queue broker + result backend)
 
-Node 2 — Worker server A
-  - Celery worker (concurrency: 4)
+Worker tier (autoscaled)
+  - Celery worker (concurrency: 4 per node)
   - Sandbox Service pod (owns Docker daemon)
-  - Redis Sentinel node 2
 
-Node 3 — Worker server B
-  - Celery worker (concurrency: 4)
-  - Sandbox Service pod (owns Docker daemon)
-  - Redis Sentinel node 3
+Data tier
+  - Managed PostgreSQL 16 (primary + streaming replica)
+  - Cloud object storage (S3-compatible)
 
-Node 4 — GPU server (1–N, spec PENDING OQ-7)
-  - Ollama or vLLM
-  - GPU inference service
-  - [OQ-7: determines VRAM, model size, throughput]
-
-Node 5 — Data server
-  - PostgreSQL 16 (primary)
-  - MinIO (on-premise object storage)
-  - PostgreSQL streaming replica (same node or dedicated)
-
-Node 6 — Security
-  - HashiCorp Vault
+Security tier
+  - Secrets manager (e.g. HashiCorp Vault, or the cloud provider's native secrets service)
   - Dedicated, no other services
 ```
 
+LLM inference is a cloud API call to Gemini — no dedicated inference nodes are required.
+
 ### 21.2 Container Orchestration
 
-**V1 target:** Kubernetes (K8s) on bare metal. Docker Compose provided for development only.
+**V1 target:** Managed Kubernetes (K8s). Docker Compose provided for development only.
 
 Kubernetes resources:
 - `Deployment`: api-server, celery-worker, nginx, sandbox-service
-- `StatefulSet`: postgresql, redis-sentinel (3 replicas), minio
+- `StatefulSet` (or managed equivalents): postgresql, redis, object storage
 - `ConfigMap`: Non-secret config
-- `Secret`: References to Vault paths (Vault Agent Injector pattern — secrets mounted as files, not env vars)
-- `PersistentVolumeClaim`: PostgreSQL data, MinIO data, sandbox data mount
+- `Secret`: References to secrets-manager paths (Agent Injector pattern — secrets mounted as files, not env vars)
+- `PersistentVolumeClaim`: sandbox data mount (PostgreSQL and object storage use managed cloud services)
 
 **Docker socket access:** Only the `sandbox-service` Deployment mounts the host Docker socket (`/var/run/docker.sock`). The `celery-worker` Deployment has no host mounts. This is enforced via Kubernetes `PodSecurityPolicy` (or OPA Gatekeeper rule) that rejects `hostPath` mounts on pods not in the `sandbox` service account.
 
-**No Helm chart in V1.** Plain Kubernetes YAML manifests in `infrastructure/k8s/`. This keeps the deployment understandable by CBUAE IT without Helm expertise.
+**No Helm chart in V1.** Plain Kubernetes YAML manifests in `infrastructure/k8s/`, to keep the deployment simple to understand and operate.
 
-### 21.3 Air-Gap Verification
-
-Before launch, the following must pass (from FR Launch Criteria §11):
-```bash
-# From every node: all outbound connections must fail
-curl --max-time 5 https://api.anthropic.com  # Must fail
-curl --max-time 5 https://generativelanguage.googleapis.com  # Must fail
-curl --max-time 5 https://registry.npmjs.org  # Must fail
-# ... etc. for all external endpoints
-```
-
-All container images must be pre-pulled into a private on-premise container registry (e.g., Harbor) during an internet-connected build phase, then the network connection is severed before production deployment.
-
-### 21.4 Database Migration Procedure
+### 21.3 Database Migration Procedure
 
 Managed by Alembic. Migration files in `backend/migrations/versions/`.
 
@@ -2097,20 +2051,19 @@ alembic current
 
 Migrations run in the CI/CD pipeline before pods are updated. If migration fails, deployment is aborted and pods continue running the prior version.
 
-### 21.5 Development / Staging Environment
+### 21.4 Development / Staging Environment
 
 **Local development:**
 ```bash
 docker compose -f docker-compose.dev.yml up
-# Starts: FastAPI, Celery worker, Redis, PostgreSQL, MinIO, Ollama (with a small model)
+# Starts: FastAPI, Celery worker, Redis, PostgreSQL, MinIO
 # Uses GeminiAdapter by default (set GEMINI_API_KEY in .env.local)
 ```
 
 **Staging environment:**
-- Mirrors production topology on a smaller scale (single worker node, no GPU — uses GeminiAdapter)
-- Synthetic data only — no real CBUAE LFI data
+- Mirrors production topology on a smaller scale (single worker node)
+- Synthetic data only — no production data
 - Deployed from the same Kubernetes manifests with `ENV=staging` overlay
-- Accessible only from CBUAE internal network (same as production)
 
 ---
 
@@ -2118,7 +2071,7 @@ docker compose -f docker-compose.dev.yml up
 
 ### 22.1 LLM Inference Latency
 
-The dominant factor in task duration is LLM inference. Each round invokes 2–5 LLM calls (Planner, Coder, Verifier, and optionally Debugger + Router). At a local Flash model doing ~500 tokens/second, a round with ~1000 token output takes ~2 seconds per call → 4–10 seconds per round for agent calls alone.
+The dominant factor in task duration is LLM inference. Each round invokes 2–5 LLM calls (Planner, Coder, Verifier, and optionally Debugger + Router). At the Flash tier's typical throughput (~500 tokens/second), a round with ~1000 token output takes ~2 seconds per call → 4–10 seconds per round for agent calls alone.
 
 **P95 targets (from PRD §9.1):**
 
@@ -2128,8 +2081,6 @@ The dominant factor in task duration is LLM inference. Each round invokes 2–5 
 | Insight, hard (≤10 rounds) | < 20 min | Flash inference at 500 tok/s |
 | Research (7 sub-questions, K=1) | < 60 min | Sequential; Flash for agents, Pro for Writer |
 | Reformat only | < 30 sec | Finalizer only; no pipeline re-run |
-
-**[PENDING OQ-7]:** If local GPU inference is materially slower than assumed, these targets may not be achievable. Must benchmark actual inference throughput against real hardware before committing to targets.
 
 ### 22.2 Database Indexing
 
@@ -2167,7 +2118,7 @@ All secrets fetched from HashiCorp Vault at service startup. Zero secrets in:
 
 ```python
 # Secrets fetched at startup via Vault AppRole
-SECRETS = vault.read("fip/production")
+SECRETS = vault.read("app/production")
 # Returns: { "db_password", "jwt_signing_key", "minio_access_key", "minio_secret_key", ... }
 ```
 
@@ -2176,15 +2127,15 @@ SECRETS = vault.read("fip/production")
 All service-to-service communication uses mutual TLS with certificates issued by an internal CA (managed by Vault PKI secrets engine). Certificate rotation: 30-day validity, auto-renewed 5 days before expiry.
 
 ```
-Nginx → FastAPI:        mTLS, cert CN=api-server
-FastAPI → Postgres:     mTLS, cert CN=api-server, verified against DB CA
-FastAPI → MinIO:        mTLS, cert CN=api-server
-FastAPI → Redis:        TLS (Redis does not support mTLS natively)
-Worker → Sandbox Svc:   mTLS, cert CN=celery-worker
-Worker → Postgres:      mTLS, cert CN=celery-worker
-Worker → MinIO:         mTLS, cert CN=celery-worker
-Worker → Ollama:        mTLS, cert CN=celery-worker
-All → Vault:            mTLS + AppRole token
+Nginx → FastAPI:            mTLS, cert CN=api-server
+FastAPI → Postgres:         mTLS, cert CN=api-server, verified against DB CA
+FastAPI → Object Storage:   mTLS, cert CN=api-server
+FastAPI → Redis:            TLS (Redis does not support mTLS natively)
+Worker → Sandbox Svc:       mTLS, cert CN=celery-worker
+Worker → Postgres:          mTLS, cert CN=celery-worker
+Worker → Object Storage:    mTLS, cert CN=celery-worker
+Worker → Gemini API:        TLS (standard HTTPS)
+All → Secrets Manager:      mTLS + AppRole token
 ```
 
 ### 23.3 Input Sanitisation
@@ -2217,47 +2168,47 @@ All services expose Prometheus metrics at `/metrics`. The following are emitted 
 
 **Task metrics:**
 ```
-fip_task_total{mode, status}                        — Counter: tasks by mode and terminal status
-fip_task_duration_seconds{mode}                     — Histogram: end-to-end task duration
-fip_task_rounds_total{mode}                         — Histogram: rounds used per completed task
-fip_task_queue_depth{queue}                         — Gauge: waiting tasks (insight, research)
-fip_task_active{mode}                               — Gauge: currently running tasks
+app_task_total{mode, status}                        — Counter: tasks by mode and terminal status
+app_task_duration_seconds{mode}                     — Histogram: end-to-end task duration
+app_task_rounds_total{mode}                         — Histogram: rounds used per completed task
+app_task_queue_depth{queue}                         — Gauge: waiting tasks (insight, research)
+app_task_active{mode}                               — Gauge: currently running tasks
 ```
 
 **Agent / LLM metrics:**
 ```
-fip_llm_latency_seconds{agent, model_tier}          — Histogram: LLM call latency per agent
-fip_llm_tokens_total{agent, model_tier, direction}  — Counter: tokens in/out per agent (for cost tracking)
-fip_agent_errors_total{agent, error_type}           — Counter: agent-level failures
-fip_debug_attempts_total                            — Counter: Debugger invocations
-fip_circuit_breaker_trips_total                     — Counter: circuit breaker firings
+app_llm_latency_seconds{agent, model_tier}          — Histogram: LLM call latency per agent
+app_llm_tokens_total{agent, model_tier, direction}  — Counter: tokens in/out per agent (for cost tracking)
+app_agent_errors_total{agent, error_type}           — Counter: agent-level failures
+app_debug_attempts_total                            — Counter: Debugger invocations
+app_circuit_breaker_trips_total                     — Counter: circuit breaker firings
 ```
 
 **Sandbox metrics:**
 ```
-fip_sandbox_active_containers                       — Gauge: running containers
-fip_sandbox_exec_duration_seconds                   — Histogram: per-round execution time
-fip_sandbox_timeout_total                           — Counter: execution timeouts
-fip_sandbox_exit_codes_total{exit_code}             — Counter: exit codes (0, 1, 124, etc.)
+app_sandbox_active_containers                       — Gauge: running containers
+app_sandbox_exec_duration_seconds                   — Histogram: per-round execution time
+app_sandbox_timeout_total                           — Counter: execution timeouts
+app_sandbox_exit_codes_total{exit_code}             — Counter: exit codes (0, 1, 124, etc.)
 ```
 
 **Infrastructure metrics:**
 ```
-fip_audit_log_write_latency_seconds                 — Histogram: audit INSERT latency
-fip_audit_log_queue_depth                           — Gauge: pending audit entries
-fip_checkpoint_recovery_total                       — Counter: LangGraph checkpoint recoveries
-fip_dlq_depth                                       — Gauge: dead-letter queue depth
+app_audit_log_write_latency_seconds                 — Histogram: audit INSERT latency
+app_audit_log_queue_depth                           — Gauge: pending audit entries
+app_checkpoint_recovery_total                       — Counter: LangGraph checkpoint recoveries
+app_dlq_depth                                       — Gauge: dead-letter queue depth
 ```
 
 ### 24.2 SLOs
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
-| Insight task P95 completion | < 20 min | `fip_task_duration_seconds{mode="insight"}` p95 |
+| Insight task P95 completion | < 20 min | `app_task_duration_seconds{mode="insight"}` p95 |
 | API availability | > 99.5% per month | Nginx upstream error rate |
-| Audit log write success rate | > 99.99% | `fip_audit_log_write_failures_total` / total writes |
+| Audit log write success rate | > 99.99% | `app_audit_log_write_failures_total` / total writes |
 | WS event delivery latency | < 500 ms P95 | Time from node completion to WS send |
-| Sandbox success rate | > 95% (exit_code = 0 before Debugger) | `fip_sandbox_exit_codes_total{exit_code="0"}` |
+| Sandbox success rate | > 95% (exit_code = 0 before Debugger) | `app_sandbox_exit_codes_total{exit_code="0"}` |
 
 **Error budget:** 99.5% monthly availability = 3.6 hours downtime budget per month. Any outage > 1 hour requires an incident review.
 
@@ -2275,22 +2226,22 @@ Five dashboards, deployed as Grafana JSON provisioning files in `infrastructure/
 
 ### 24.4 Alerting Rules
 
-All alerts fire to the ops team via the internal alert channel (no external webhook — air-gapped):
+All alerts fire to the ops team via the standard alerting channel (e.g. Slack/PagerDuty webhook):
 
 ```yaml
 alerts:
   - name: DLQNonEmpty
-    condition: fip_dlq_depth > 0 for 5m
+    condition: app_dlq_depth > 0 for 5m
     severity: critical
     message: "Tasks in dead-letter queue — immediate attention required"
 
   - name: LLMHighLatency
-    condition: fip_llm_latency_seconds{model_tier="flash"} p95 > 30s for 10m
+    condition: app_llm_latency_seconds{model_tier="flash"} p95 > 30s for 10m
     severity: warning
-    message: "Ollama inference latency elevated — check GPU utilisation"
+    message: "Gemini API inference latency elevated — check provider status"
 
   - name: ContainerCapacityHigh
-    condition: fip_sandbox_active_containers / 8 > 0.9 for 5m
+    condition: app_sandbox_active_containers / 8 > 0.9 for 5m
     severity: warning
     message: "Sandbox container capacity > 90% — tasks may queue"
 
@@ -2339,19 +2290,16 @@ alerts:
 
 | # | Question | Status | Blocks |
 |---|----------|--------|--------|
-| OQ-1 | Authentication system — Active Directory / SSO or standalone? | **OPEN** | §18 Auth design, JWT vs OIDC/SAML |
-| OQ-2 | Largest single dataset an analyst would query (row count, GB) | **OPEN** | Executor memory limits, file upload UX, Analyzer timeout |
-| OQ-3 | Existing Word/PDF report templates from FPS — samples available? | **OPEN** | §17 Report template design |
-| OQ-4 | Integration with case management system (NICE Actimize, ServiceNow) in V1? | **OPEN** | API contract scope |
-| OQ-5 | Data freshness requirement for institutional datasets | **OPEN** | Data ingestion pipeline (not in V1 scope but affects MinIO retention) |
-| OQ-6 | Dataset access approval authority — who approves per-analyst dataset access? | **OPEN** | Admin panel workflow design |
-| OQ-7 | On-premise GPU hardware (model, VRAM, count) | **OPEN — IMMEDIATE** | §21 Deployment topology, §22 Performance targets, LLM model selection, Ollama vs vLLM |
-| OQ-8 | Expected peak concurrent analyst usage | **OPEN** | §13 Queue sizing, §21.1 node count |
-| OQ-9 | Baseline metrics establishment (time studies for thematic review, benchmarking table) | **OPEN** | PRD §3 success metrics; does not block TDD |
+| OQ-1 | Largest single dataset an analyst would query (row count, GB) | **OPEN** | Executor memory limits, file upload UX, Analyzer timeout |
+| OQ-2 | Existing Word/PDF report templates — samples available? | **OPEN** | §17 Report template design |
+| OQ-3 | Integration with external case management systems in V1? | **OPEN** | API contract scope |
+| OQ-4 | Data freshness requirement for institutional datasets | **OPEN** | Data ingestion pipeline (not in V1 scope but affects storage retention) |
+| OQ-5 | Dataset access approval authority — who approves per-analyst dataset access? | **OPEN** | Admin panel workflow design |
+| OQ-6 | Expected peak concurrent analyst usage | **OPEN** | §13 Queue sizing, §21.1 node count |
+| OQ-7 | Baseline metrics establishment (time studies for thematic review, benchmarking table) | **OPEN** | PRD §3 success metrics; does not block TDD |
 
-**Resolution required before TDD is finalised:** OQ-1 (§18), OQ-7 (§21, §22)  
-**Resolution required before build begins:** OQ-2, OQ-5, OQ-6, OQ-8  
-**Resolution required before Closed Beta:** OQ-3, OQ-4, OQ-9
+**Resolution required before build begins:** OQ-1, OQ-4, OQ-5, OQ-6  
+**Resolution required before Closed Beta:** OQ-2, OQ-3, OQ-7
 
 ---
 

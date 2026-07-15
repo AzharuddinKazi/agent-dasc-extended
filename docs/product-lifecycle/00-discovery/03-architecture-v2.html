@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CBUAE FIP — Architecture v3.3 (Production-Grade)</title>
+<title>DS-STAR — Architecture v3.3 (Production-Grade)</title>
 <style>
   :root {
     --bg:            #070b16;
@@ -327,11 +327,11 @@
      HEADER
      ═══════════════════════════════════════════════════════════ -->
 <div class="hdr">
-  <h1>CBUAE Financial Intelligence Platform (FIP)</h1>
+  <h1>DS-STAR Analytics Platform</h1>
   <h2>DS-STAR + DS-STAR+ Architecture &mdash; <strong>v3.3 Production-Grade</strong></h2>
   <div class="hdr-tags">
-    <span class="htag" style="background:#052e16;color:#4ade80;border:1px solid #166534">Financial Crime &amp; Market Conduct</span>
-    <span class="htag" style="background:#172554;color:#93c5fd;border:1px solid #1e3a8a">On-Premise · Air-Gapped</span>
+    <span class="htag" style="background:#052e16;color:#4ade80;border:1px solid #166534">Data &amp; Analytics</span>
+    <span class="htag" style="background:#172554;color:#93c5fd;border:1px solid #1e3a8a">Cloud-Hosted SaaS</span>
     <span class="htag" style="background:#451a03;color:#fb923c;border:1px solid #7c2d12">HA / Fault-Tolerant Design</span>
     <span class="htag" style="background:#1e1b4b;color:#a5b4fc;border:1px solid #3730a3">arXiv:2509.21825 (DS-STAR)</span>
     <span class="htag" style="background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d">13 v2 Corrections + 13 Prod Gaps Fixed</span>
@@ -342,7 +342,7 @@
      LAYER 1 — PRESENTATION
      ═══════════════════════════════════════════════════════════ -->
 <div class="layer lp">
-  <div class="ltitle">🖥️ &nbsp;Presentation Layer &nbsp;(CBUAE Intranet — No External Access)</div>
+  <div class="ltitle">🖥️ &nbsp;Presentation Layer &nbsp;(Cloud-Hosted Web App)</div>
   <div class="row" style="align-items:stretch">
 
     <div class="box lp" style="min-width:210px">
@@ -368,7 +368,7 @@
   </div>
 </div>
 
-<div class="conn">↕ <span class="clabel">HTTPS / WSS — CBUAE intranet only, no public internet. All connections via corp proxy.</span></div>
+<div class="conn">↕ <span class="clabel">HTTPS / WSS — standard cloud networking, TLS everywhere.</span></div>
 
 <!-- ═══════════════════════════════════════════════════════════
      LAYER 2 — SECURITY
@@ -385,15 +385,15 @@
     <div style="color:var(--ca-security);font-size:16px;align-self:center">→</div>
 
     <div class="box ls" style="min-width:185px">
-      <div class="bname">🪪 SSO / Active Directory</div>
-      <div class="bsub">CBUAE staff identity · Dept &amp; role attribution · JWT token issuance · Token refresh &amp; revocation</div>
+      <div class="bname">🪪 SSO / Identity Provider</div>
+      <div class="bsub">Staff identity · Dept &amp; role attribution · JWT token issuance · Token refresh &amp; revocation</div>
     </div>
 
     <div style="color:var(--ca-security);font-size:16px;align-self:center">→</div>
 
     <div class="box ls" style="min-width:195px">
       <div class="bname">🛡️ RBAC Engine</div>
-      <div class="bsub">Dept-scoped data access · Per-LFI permissions · Query scope enforcement · Prevents cross-dept data leakage</div>
+      <div class="bsub">Dept-scoped data access · Per-team permissions · Query scope enforcement · Prevents cross-dept data leakage</div>
     </div>
 
     <div style="color:var(--ca-security);font-size:16px;align-self:center">→</div>
@@ -407,12 +407,12 @@
 
     <div class="box ls" style="min-width:165px">
       <div class="bname">🔑 Secrets Manager <span class="bdg b-new">New</span></div>
-      <div class="bsub">HashiCorp Vault (or equiv.) · DB credentials · LLM API keys · Rotated automatically · No secrets in env vars or config files</div>
+      <div class="bsub">Cloud secrets manager (e.g., AWS Secrets Manager / GCP Secret Manager) · DB credentials · LLM API keys · Rotated automatically · No secrets in env vars or config files</div>
     </div>
 
   </div>
   <div class="note-info" style="margin-top:9px">
-    🔒 mTLS enforced on all service-to-service communication below this layer. All internal traffic encrypted in transit even within the intranet.
+    🔒 mTLS enforced on all service-to-service communication below this layer. All internal traffic encrypted in transit.
   </div>
 </div>
 
@@ -429,7 +429,7 @@
     <div class="col" style="min-width:230px">
       <div class="box lo">
         <div class="bname">📋 Celery Worker Pool + Redis <span class="bdg b-ha">HA</span></div>
-        <div class="bsub">Priority queues: CRITICAL (Enforcement) · HIGH (Fraud/AML) · NORMAL (Research) · Configurable worker pool per priority · 30-min task timeout · DLQ for failed tasks · Task retry with exponential backoff · Redis Sentinel for broker HA</div>
+        <div class="bsub">Priority queues: CRITICAL (Time-sensitive) · HIGH (Operational) · NORMAL (Research) · Configurable worker pool per priority · 30-min task timeout · DLQ for failed tasks · Task retry with exponential backoff · Redis Sentinel for broker HA</div>
       </div>
       <div class="note-gold">
         🔁 DLQ: failed tasks land in dead-letter queue. Analyst notified with failure reason. Ops team alerted. No silent failures.
@@ -468,7 +468,7 @@
       </div>
       <div class="box lo">
         <div class="bname">📦 Config &amp; Prompt Store <span class="bdg b-new">New</span></div>
-        <div class="bsub">CBUAE regulatory knowledge bases · Dept-specific prompt templates · LFI taxonomy · Fraud typology library · AML red flags · Query starters · Versioned — prompt rollback on regression · Separate from code deploy</div>
+        <div class="bsub">Domain knowledge bases · Dept-specific prompt templates · Business taxonomy · Metric definitions library · Query starters · Versioned — prompt rollback on regression · Separate from code deploy</div>
       </div>
     </div>
 
@@ -481,8 +481,8 @@
   <div style="color:var(--ca-dsp)">↘ Mode B &mdash; Open-Ended Research / Thematic Report</div>
 </div>
 <div class="split" style="font-size:10px;color:var(--text-muted);font-style:italic;margin-bottom:5px">
-  <div>"Which LFIs have the highest card fraud loss rate in Q1 2025?"</div>
-  <div>"Generate a thematic analysis of APP fraud growth across UAE banks in 2024"</div>
+  <div>"Which stores have the highest return rate in Q1 2025?"</div>
+  <div>"Generate a thematic analysis of customer churn growth across regions in 2024"</div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -495,10 +495,10 @@
     <div class="ltitle">🤖 DS-STAR Engine &nbsp;(Mode A · Inner Engine) <span class="bdg b-kept">Paper Core</span></div>
 
     <div style="display:flex;flex-direction:column;gap:0">
-      <div class="ap"><span class="ic">🔬</span><div><div>Analyzer</div><div class="as">Profiles ALL data files → D · CBUAE schema-aware (fraud loss, SAR/STR, KYC, market surveillance) · Identifies relevant tables for query scope</div></div></div>
+      <div class="ap"><span class="ic">🔬</span><div><div>Analyzer</div><div class="as">Profiles ALL data files → D · Domain-aware profiling (sales, operations, customer, usage data) · Identifies relevant tables for query scope</div></div></div>
       <div class="conn" style="text-align:left;padding-left:16px;margin:1px 0">↓</div>
 
-      <div class="ap"><span class="ic">📐</span><div><div>Planner</div><div class="as">One step at a time · Conditioned on rₖ₋₁ (last execution result) · CBUAE regulatory knowledge injected from Config Store · Cumulative plan {p₀…pₖ}</div></div></div>
+      <div class="ap"><span class="ic">📐</span><div><div>Planner</div><div class="as">One step at a time · Conditioned on rₖ₋₁ (last execution result) · Domain knowledge injected from Config Store · Cumulative plan {p₀…pₖ}</div></div></div>
       <div class="conn" style="text-align:left;padding-left:16px;margin:1px 0">↓</div>
 
       <div class="ap"><span class="ic">💻</span><div><div>Coder</div><div class="as">Extends previous script sₖ₋₁ with the new plan step pₖ (incremental, not a rewrite) · Output is always a complete standalone script · Receives (q, {dᵢ}, p₀…pₖ, sₖ₋₁) · Absolute /workspace/data/ paths · Memory-safe loading · Multi-delimiter CSV handling · Listing 51 paper-confirmed</div></div></div>
@@ -520,7 +520,7 @@
       <div class="ap"><span class="ic">🔀</span><div><div>Router</div><div class="as">"Add Step" → extend plan with pₖ₊₁ · Index l → truncate to {p₀…pₗ₋₁} and regenerate from pₗ · Truncate-and-regenerate (not direct edit) for solution diversity · Max 20 rounds</div></div></div>
       <div class="conn" style="text-align:left;padding-left:16px;margin:1px 0;font-size:11px;color:var(--text-muted)">↺ loops to Planner &nbsp;·&nbsp; sufficient → Finalizer</div>
 
-      <div class="ap"><span class="ic">🏁</span><div><div>Finalyzer</div><div class="as">Generates a Python formatting script and executes it in the sandbox (paper Listing 54 — not text-only reformatting) · Receives (sₖ, rₖ, formatting_guidelines) · Formatting guidelines: "round to 2dp", "output as JSON", "summarise in bullets", or a named CBUAE template · Output: final answer ready for Output Pipeline</div></div></div>
+      <div class="ap"><span class="ic">🏁</span><div><div>Finalyzer</div><div class="as">Generates a Python formatting script and executes it in the sandbox (paper Listing 54 — not text-only reformatting) · Receives (sₖ, rₖ, formatting_guidelines) · Formatting guidelines: "round to 2dp", "output as JSON", "summarise in bullets", or a named company template · Output: final answer ready for Output Pipeline</div></div></div>
     </div>
   </div>
 
@@ -535,7 +535,7 @@
     <div style="display:flex;flex-direction:column;gap:0">
       <div class="dp"><span class="ic">❓</span><div>
         <div>Sub-Question Generator <span class="bdg b-new">New</span></div>
-        <div class="as">Decomposes open-ended query into {sq₁…sqₙ} focused sub-questions · Example: "APP fraud report" → 5–7 specific analysis questions · Uses Flash-tier LLM · Dept-specific decomposition templates from Config Store</div>
+        <div class="as">Decomposes open-ended query into {sq₁…sqₙ} focused sub-questions · Example: "customer churn report" → 5–7 specific analysis questions · Uses Flash-tier LLM · Dept-specific decomposition templates from Config Store</div>
       </div></div>
       <div class="conn" style="text-align:left;padding-left:16px;margin:1px 0">↓</div>
 
@@ -563,12 +563,12 @@
     </div>
 
     <div style="margin-top:10px;padding:8px 10px;background:#0d061a;border:1px solid #a78bfa22;border-radius:4px">
-      <div style="font-size:10px;font-weight:700;color:var(--ca-dsp);margin-bottom:5px">CBUAE DS-STAR+ USE CASES</div>
+      <div style="font-size:10px;font-weight:700;color:var(--ca-dsp);margin-bottom:5px">DS-STAR+ USE CASES</div>
       <div style="font-size:10px;color:var(--text-muted);line-height:1.7">
-        🔎 <strong>Fraud Prevention:</strong> Thematic reviews (APP, card, social engineering), LFI benchmarking, supervisory letter annexes<br>
-        🏦 <strong>AML/CFT:</strong> FATF evaluation prep, typology trend reports, STR sector analysis<br>
-        📊 <strong>Policy &amp; Research:</strong> Annual sector reports, GCC benchmarking, regulatory impact assessments<br>
-        ⚖️ <strong>Enforcement:</strong> Evidence packages, multi-year compliance pattern analysis
+        🔎 <strong>Operations:</strong> Thematic reviews (churn, returns, performance), regional benchmarking, business review annexes<br>
+        📈 <strong>Finance:</strong> Quarterly variance analysis, cost trend reports, budget impact analysis<br>
+        📊 <strong>Strategy &amp; Research:</strong> Annual sector reports, industry benchmarking, market impact assessments<br>
+        ⚖️ <strong>Customer Success:</strong> Account health packages, multi-year retention pattern analysis
       </div>
     </div>
   </div>
@@ -595,7 +595,7 @@
     <div style="color:var(--ca-output);font-size:18px">→</div>
     <div class="box lout" style="min-width:200px">
       <div class="bname">💬 NL Explainer <span class="bdg b-new">New</span></div>
-      <div class="bsub">Converts masked DataFrames / numbers into dept-tailored plain English narrative · Receives only masked data · Example: "127 customers with repeated transactions between AED 38–39k, consistent with structuring patterns"</div>
+      <div class="bsub">Converts masked DataFrames / numbers into dept-tailored plain English narrative · Receives only masked data · Example: "127 customers with repeated purchases between $38–39k, consistent with a loyalty segment"</div>
     </div>
     <div style="color:var(--ca-output);font-size:18px">→</div>
     <div class="box lout" style="min-width:210px">
@@ -649,16 +649,16 @@
         <span class="ctag">--cap-drop=ALL</span>
       </div>
 
-      <div style="font-size:10px;font-weight:700;color:var(--ca-data);margin:10px 0 4px;letter-spacing:.5px">READ-ONLY LFI DATA VOLUMES &nbsp;<span style="font-size:9px;color:var(--text-muted);font-weight:400">(RBAC-scoped: mounted only if analyst is authorized for that LFI / dept)</span></div>
+      <div style="font-size:10px;font-weight:700;color:var(--ca-data);margin:10px 0 4px;letter-spacing:.5px">READ-ONLY DATA VOLUMES &nbsp;<span style="font-size:9px;color:var(--text-muted);font-weight:400">(RBAC-scoped: mounted only if analyst is authorized for that dataset / dept)</span></div>
       <div>
-        <span class="dvol">📊 Fraud Loss Reports</span>
-        <span class="dvol">🔔 Tx Monitoring Alerts</span>
-        <span class="dvol">👤 KYC / CDD Profiles</span>
-        <span class="dvol">📋 SAR / STR Records</span>
-        <span class="dvol">📈 Market Surveillance</span>
-        <span class="dvol">⚖️ Enforcement Case Files</span>
-        <span class="dvol">📣 Consumer Complaints</span>
-        <span class="dvol">📑 LFI Risk Assessments</span>
+        <span class="dvol">📊 Performance Reports</span>
+        <span class="dvol">🔔 Transaction Logs</span>
+        <span class="dvol">👤 Customer Profiles</span>
+        <span class="dvol">📋 Survey / Feedback Records</span>
+        <span class="dvol">📈 Market Data</span>
+        <span class="dvol">⚖️ Case Files</span>
+        <span class="dvol">📣 Complaints</span>
+        <span class="dvol">📑 Quality Assessments</span>
       </div>
 
       <div class="note-gold" style="margin-top:8px">
@@ -680,30 +680,30 @@
 
     <div class="box ll" style="margin-bottom:9px">
       <div class="bname">🔌 Provider-Agnostic Adapter</div>
-      <div class="bsub">Config flag: Ollama · vLLM · Azure OpenAI · Gemini API · Prompt templates versioned per provider (different models respond differently) · Health-check with fast failover</div>
+      <div class="bsub">Config flag: Gemini API (default) · other OpenAI-compatible providers supported · Prompt templates versioned per provider (different models respond differently) · Health-check with fast failover</div>
     </div>
 
     <div class="box ll" style="margin-bottom:9px">
-      <div class="bname">⚖️ LLM Load Balancer <span class="bdg b-new">New</span></div>
-      <div class="bsub">Distributes inference requests across GPU servers · Least-connections routing · Health checks · Fails over to standby GPU on primary failure · Internal request queue — serializes concurrent agent calls</div>
+      <div class="bname">⚖️ LLM Request Router <span class="bdg b-new">New</span></div>
+      <div class="bsub">Distributes inference requests across API endpoints/regions · Least-connections routing · Health checks · Fails over to a secondary region on primary failure · Internal request queue — serializes concurrent agent calls</div>
     </div>
 
     <div class="gpu-cluster" style="margin-bottom:8px">
-      <div class="gpu-label">⚡ Flash Tier — Llama 3.2 11B</div>
-      <div class="gpu-node">🖥️ GPU Server A &nbsp;<span style="font-size:9px;color:var(--text-muted)">(primary)</span></div>
-      <div class="gpu-node">🖥️ GPU Server B &nbsp;<span style="font-size:9px;color:#f59e0b">(standby / overflow)</span></div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Agents: Analyzer · Planner · Coder · Debugger · Verifier · Router · Sub-Q Generator (initial + refinement) · Report Writer</div>
+      <div class="gpu-label">⚡ Flash Tier — Gemini 2.5 Flash</div>
+      <div class="gpu-node">☁️ API Endpoint &nbsp;<span style="font-size:9px;color:var(--text-muted)">(primary region)</span></div>
+      <div class="gpu-node">☁️ API Endpoint &nbsp;<span style="font-size:9px;color:#f59e0b">(failover region)</span></div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Agents: Analyzer · Planner · Coder · Debugger · Verifier · Router · Sub-Q Generator (initial + refinement)</div>
     </div>
 
     <div class="gpu-cluster">
-      <div class="gpu-label">🏆 Pro Tier — Llama 3.1 70B</div>
-      <div class="gpu-node">🖥️ GPU Server C &nbsp;<span style="font-size:9px;color:var(--text-muted)">(primary)</span></div>
-      <div class="gpu-node">🖥️ GPU Server D &nbsp;<span style="font-size:9px;color:#f59e0b">(standby)</span></div>
+      <div class="gpu-label">🏆 Pro Tier — Gemini 2.5 Pro</div>
+      <div class="gpu-node">☁️ API Endpoint &nbsp;<span style="font-size:9px;color:var(--text-muted)">(primary region)</span></div>
+      <div class="gpu-node">☁️ API Endpoint &nbsp;<span style="font-size:9px;color:#f59e0b">(failover region)</span></div>
       <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Agents: Finalizer · Report Writer (synthesis only)</div>
     </div>
 
     <div class="note-warn" style="margin-top:8px">
-      ✱ v2 used Llama 3.1 70B vs Llama 3.3 70B (same size, no real tier difference). Fixed to 11B vs 70B — meaningful cost/quality tradeoff.
+      ✱ v2 conflated Flash and Pro cost/quality tiers. Fixed to a clear Flash vs Pro split — meaningful cost/quality tradeoff, using the cloud provider's own tiered models rather than self-hosted infrastructure.
     </div>
   </div>
 
@@ -725,8 +725,8 @@
         <div>
           <div class="pi-n" style="color:#fcd34d">Audit Log Store <span class="bdg b-fix">Fixed</span></div>
           <div class="pi-d">Separate append-only PostgreSQL table with write-lock enforcement · Captures: user ID · dept · timestamp · full query · every plan step · raw pre-mask result (restricted) · delivered output · PII access events</div>
-          <div class="pi-g">✅ Tamper-evidence: SHA-256 hash chain — each row hashes previous row. Any modification detectable. Satisfies CBUAE regulatory examination requirements.</div>
-          <div class="pi-d" style="margin-top:3px">Retention: 10 years minimum · Separate backup schedule from main DB</div>
+          <div class="pi-g">✅ Tamper-evidence: SHA-256 hash chain — each row hashes previous row. Any modification detectable. Supports internal audit and compliance review.</div>
+          <div class="pi-d" style="margin-top:3px">Retention: configurable, default 2 years · Separate backup schedule from main DB</div>
           <div class="pi-w">⚠️ v2 used MinIO for audit — corrected: object storage is wrong for tamper-evident sequential logs</div>
         </div>
       </div>
@@ -752,31 +752,31 @@
 
   <!-- DATA -->
   <div class="layer lda" style="margin:0">
-    <div class="ltitle">📥 Data Ingestion &amp; LFI Volumes <span class="bdg b-new">New</span></div>
+    <div class="ltitle">📥 Data Ingestion &amp; Data Volumes <span class="bdg b-new">New</span></div>
     <div class="col" style="gap:8px">
 
       <div class="box lda">
         <div class="bname">🔄 Secure Ingestion Pipeline</div>
-        <div class="bsub">Scheduled LFI data uploads via SFTP / CBUAE portal · Schema validation · Format normalization (CSV, XLSX, JSON) · Quarantine on schema mismatch · Checksums verified before ingest · Dept-scoped placement</div>
+        <div class="bsub">Scheduled data uploads via SFTP / web portal · Schema validation · Format normalization (CSV, XLSX, JSON) · Quarantine on schema mismatch · Checksums verified before ingest · Dept-scoped placement</div>
       </div>
 
       <div class="box lda" style="border-color:#86efac66">
         <div class="bname">📂 Data Version Manager <span class="bdg b-new">New</span></div>
-        <div class="bsub">Point-in-time snapshots on each ingest · Immutable data versions · Query result linked to exact data version used · Analysts can reproduce any finding months later · Required for regulatory evidence preservation</div>
+        <div class="bsub">Point-in-time snapshots on each ingest · Immutable data versions · Query result linked to exact data version used · Analysts can reproduce any finding months later</div>
       </div>
 
       <div class="box lda">
-        <div class="bname">📂 LFI Volume Registry</div>
-        <div class="bsub">Partitioned by LFI · data type · reporting period · RBAC-controlled mount — only authorized volumes mounted per query · Version tag passed to Executor per task</div>
+        <div class="bname">📂 Data Volume Registry</div>
+        <div class="bsub">Partitioned by business unit · data type · reporting period · RBAC-controlled mount — only authorized volumes mounted per query · Version tag passed to Executor per task</div>
       </div>
 
       <div style="margin-top:4px">
-        <span class="dvol">📊 Fraud Loss</span>
-        <span class="dvol">🔔 Tx Monitoring</span>
-        <span class="dvol">📋 SAR / STR</span>
-        <span class="dvol">👤 KYC / CDD</span>
+        <span class="dvol">📊 Performance</span>
+        <span class="dvol">🔔 Transactions</span>
+        <span class="dvol">📋 Survey / Feedback</span>
+        <span class="dvol">👤 Customer</span>
         <span class="dvol">📈 Market Data</span>
-        <span class="dvol">⚖️ Enforcement</span>
+        <span class="dvol">⚖️ Case Files</span>
         <span class="dvol">📣 Complaints</span>
       </div>
 
@@ -794,11 +794,11 @@
       </div>
       <div class="oi">
         📈 Grafana
-        <div class="os">Agent perf dashboards · Dept usage patterns · Cost per query · GPU utilisation · Daily active analysts</div>
+        <div class="os">Agent perf dashboards · Dept usage patterns · Cost per query · API utilisation · Daily active analysts</div>
       </div>
       <div class="oi">
         🚨 Alert Manager
-        <div class="os">GPU server down · Redis failover · Celery DLQ spike · LLM latency &gt;10s · Budget overrun · Sandbox failure rate &gt;5%</div>
+        <div class="os">LLM API endpoint down · Redis failover · Celery DLQ spike · LLM latency &gt;10s · Budget overrun · Sandbox failure rate &gt;5%</div>
       </div>
       <div class="oi">
         🔍 Structured Logging
@@ -806,7 +806,7 @@
       </div>
       <div class="oi">
         💰 Cost Tracker <span class="bdg b-new">New</span>
-        <div class="os">Tokens per query · GPU-hours per dept · Budget consumed vs allocated · Monthly cost report per team</div>
+        <div class="os">Tokens per query · API spend per dept · Budget consumed vs allocated · Monthly cost report per team</div>
       </div>
     </div>
   </div>
@@ -824,7 +824,7 @@
       <div class="hi-title">🔄 HA at Every Critical Node</div>
       <div class="hi-body">
         v2 had single instances everywhere — one crash kills the whole system.<br><br>
-        Fixed in v3: FastAPI (2 replicas) · Redis Sentinel (3-node) · PostgreSQL (primary + streaming standby) · GPU servers (primary + standby per tier) · MinIO (erasure-coded multi-node).
+        Fixed in v3: FastAPI (2 replicas) · Redis Sentinel (3-node) · PostgreSQL (primary + streaming standby) · LLM API endpoints (primary + failover region per tier) · MinIO (erasure-coded multi-node).
       </div>
       <div class="hi-ok">✅ No single point of failure in critical path</div>
     </div>
@@ -850,8 +850,8 @@
     <div class="hi">
       <div class="hi-title">🔑 Secrets Management</div>
       <div class="hi-body">
-        v2 had no secrets strategy — credentials would have lived in env vars or config files. In a multi-tenant system at a financial regulator, this is a critical risk.<br><br>
-        Fixed in v3: HashiCorp Vault (or equivalent on-premise secrets manager). All DB credentials, LLM API keys, and integration tokens fetched at runtime and auto-rotated. No secret touches a config file or container image.
+        v2 had no secrets strategy — credentials would have lived in env vars or config files. In a multi-tenant SaaS system, this is a critical risk.<br><br>
+        Fixed in v3: a cloud secrets manager (e.g., AWS Secrets Manager, GCP Secret Manager). All DB credentials, LLM API keys, and integration tokens fetched at runtime and auto-rotated. No secret touches a config file or container image.
       </div>
       <div class="hi-ok">✅ Zero hardcoded secrets anywhere in the stack</div>
     </div>
@@ -859,7 +859,7 @@
     <div class="hi">
       <div class="hi-title">📂 Data Versioning for Reproductibility</div>
       <div class="hi-body">
-        v2 showed data volumes with no versioning. LFI data is refreshed periodically. If an analyst finds a violation, they must be able to reproduce the exact result 6 months later (for investigation, tribunal, enforcement action).<br><br>
+        v2 showed data volumes with no versioning. Source data is refreshed periodically. If an analyst finds an issue, they must be able to reproduce the exact result months later (for follow-up analysis or a business review).<br><br>
         Fixed in v3: Data Version Manager creates immutable snapshots on each ingest. Every query result is linked to the exact data version used. Point-in-time replay guaranteed.
       </div>
       <div class="hi-ok">✅ Every finding is reproducible — legally defensible</div>
@@ -868,7 +868,7 @@
     <div class="hi">
       <div class="hi-title">🔒 mTLS + Network Isolation</div>
       <div class="hi-body">
-        v2 had no internal transport security. Internal service traffic was plaintext. For a central bank, even intranet traffic must be encrypted.<br><br>
+        v2 had no internal transport security. Internal service traffic was plaintext, which is a gap even for cloud-internal traffic.<br><br>
         Fixed in v3: mTLS enforced on all service-to-service connections (FastAPI ↔ Celery, LangGraph ↔ LLM, Executor ↔ Container daemon). Containers have --network=none — zero network egress. Sandbox stdout capped at 10KB to prevent data exfiltration via print flooding.
       </div>
       <div class="hi-ok">✅ Defense in depth — no plaintext internal traffic</div>
@@ -877,8 +877,8 @@
     <div class="hi">
       <div class="hi-title">📊 LLM Inference HA + Queue</div>
       <div class="hi-body">
-        v2 had a single LLM server. 10 concurrent DS-STAR+ tasks × 6 sub-questions = 60 simultaneous LLM requests hitting one GPU. This causes GPU OOM and cascading failures.<br><br>
-        Fixed in v3: Load balancer across 2 Flash GPU servers + 2 Pro GPU servers. Internal LLM inference queue serializes concurrent requests. Standby GPU promoted automatically if primary goes down.
+        v2 assumed a single LLM endpoint. 10 concurrent DS-STAR+ tasks × 6 sub-questions = 60 simultaneous LLM requests hitting one region. This causes rate-limiting and cascading failures.<br><br>
+        Fixed in v3: Request router across primary and failover regions for both Flash and Pro tiers. Internal LLM inference queue serializes concurrent requests. Failover region promoted automatically if primary is degraded.
       </div>
       <div class="hi-ok">✅ LLM layer can handle burst load without dropping requests</div>
     </div>
@@ -896,10 +896,10 @@
     <div class="hi">
       <div class="hi-title">🎯 Tamper-Evident Audit Log</div>
       <div class="hi-body">
-        v2 used MinIO for audit logs ("append-only by convention"). For a financial regulator, audit logs must be legally defensible — any tampering must be detectable.<br><br>
+        v2 used MinIO for audit logs ("append-only by convention"). Audit logs should be tamper-evident so that any modification is detectable.<br><br>
         Fixed in v3: Append-only PostgreSQL table with write-lock enforcement. SHA-256 hash chain — each row hashes the previous row. Any row modification or deletion is immediately detectable. 10-year retention with separate backup schedule.
       </div>
-      <div class="hi-ok">✅ Audit log satisfies regulatory examination requirements</div>
+      <div class="hi-ok">✅ Audit log supports internal and external compliance review</div>
     </div>
 
     <div class="hi">
@@ -923,10 +923,10 @@
     <div class="hi">
       <div class="hi-title">📬 Config / Prompt Versioning</div>
       <div class="hi-body">
-        v2 had no config or prompt management. CBUAE regulatory knowledge bases, prompt templates, and fraud typology libraries had no home — they would have been hardcoded in agent code, making updates require a full code deploy.<br><br>
-        Fixed in v3: Dedicated Config &amp; Prompt Store, version-controlled and separate from code. Prompt updates (e.g., adding a new CBUAE regulation or fraud typology) are configuration changes, not deployments. Rollback on regression.
+        v2 had no config or prompt management. Domain knowledge bases, prompt templates, and metric-definition libraries had no home — they would have been hardcoded in agent code, making updates require a full code deploy.<br><br>
+        Fixed in v3: Dedicated Config &amp; Prompt Store, version-controlled and separate from code. Prompt updates (e.g., adding a new metric definition or business taxonomy entry) are configuration changes, not deployments. Rollback on regression.
       </div>
-      <div class="hi-ok">✅ Regulatory updates don't require code deployments</div>
+      <div class="hi-ok">✅ Domain knowledge updates don't require code deployments</div>
     </div>
 
     <div class="hi">
@@ -950,15 +950,15 @@
     <div class="ci"><div class="ci-t">❌ DS-STAR+ misrepresented</div><div class="ci-f">✅ DS-STAR+ is wrapper, not peer agent</div><div class="ci-d">Report Writer was a peer to Analyzer/Planner. DS-STAR+ wraps DS-STAR — calls it n times as inner engine.</div></div>
     <div class="ci"><div class="ci-t">❌ Sub-Q Generator missing</div><div class="ci-f">✅ Added: Core DS-STAR+ component</div><div class="ci-d">Decomposes open-ended queries into sub-questions. DS-STAR+ cannot function without it.</div></div>
     <div class="ci"><div class="ci-t">❌ Separate Evaluator agent</div><div class="ci-f">✅ Generator handles refinement (paper confirmed)</div><div class="ci-d">Paper Algorithm 2 shows no separate Evaluator. The Sub-Q Generator receives the current report R and identifies gaps itself — Generator(q, D, R) → supplementary sub-questions. Generator does double duty: initial decomposition and gap-finding for refinement. Removed Evaluator box; Generator now shown in both initial and refinement modes.</div></div>
-    <div class="ci"><div class="ci-t">❌ LLM tiering: same model size</div><div class="ci-f">✅ 11B (Flash) vs 70B (Pro)</div><div class="ci-d">Llama 3.1 70B vs 3.3 70B is the same parameter count — no real cost/quality tradeoff.</div></div>
+    <div class="ci"><div class="ci-t">❌ LLM tiering: same model quality</div><div class="ci-f">✅ Flash vs Pro tiers, clearly split</div><div class="ci-d">Using two similarly-capable models is no real cost/quality tradeoff — Flash and Pro tiers are meaningfully different.</div></div>
     <div class="ci"><div class="ci-t">❌ Executor shown twice</div><div class="ci-f">✅ Executor is orchestrator, not inside sandbox</div><div class="ci-d">Executor is the DS-STAR agent that spawns containers. It does not run inside the sandbox.</div></div>
-    <div class="ci"><div class="ci-t">❌ Temporal + Celery both listed</div><div class="ci-f">✅ Celery + Redis only</div><div class="ci-d">Competing solutions. Celery+Redis is simpler and sufficient. Temporal adds unneeded on-premise complexity.</div></div>
+    <div class="ci"><div class="ci-t">❌ Temporal + Celery both listed</div><div class="ci-f">✅ Celery + Redis only</div><div class="ci-d">Competing solutions. Celery+Redis is simpler and sufficient. Temporal adds unneeded complexity.</div></div>
     <div class="ci"><div class="ci-t">❌ Query Clarity Agent missing</div><div class="ci-f">✅ Added: Pre-Planner validation node</div><div class="ci-d">Validates answerability, maps domain terms, routes Mode A vs B.</div></div>
-    <div class="ci"><div class="ci-t">❌ Auth / RBAC absent</div><div class="ci-f">✅ Added: Security &amp; API Gateway Layer</div><div class="ci-d">Multi-dept regulator system requires SSO, dept-scoped data access, per-LFI permissions.</div></div>
+    <div class="ci"><div class="ci-t">❌ Auth / RBAC absent</div><div class="ci-f">✅ Added: Security &amp; API Gateway Layer</div><div class="ci-d">Multi-dept system requires SSO, dept-scoped data access, per-team permissions.</div></div>
     <div class="ci"><div class="ci-t">❌ Audit log in MinIO</div><div class="ci-f">✅ Append-only PostgreSQL table</div><div class="ci-d">Object storage is wrong for tamper-evident sequential audit logs.</div></div>
     <div class="ci"><div class="ci-t">❌ NL Explainer missing</div><div class="ci-f">✅ Added: Output Pipeline layer</div><div class="ci-d">Non-technical analysts need plain English, not raw DataFrames.</div></div>
-    <div class="ci"><div class="ci-t">❌ PII Masker missing</div><div class="ci-f">✅ Added &amp; placed before Explainer</div><div class="ci-d">Central bank must mask PII before delivery. Masker runs first on structured data.</div></div>
-    <div class="ci"><div class="ci-t">❌ Observability &amp; data ingestion missing</div><div class="ci-f">✅ Added: both layers</div><div class="ci-d">Production system needs monitoring + an answer for how LFI data reaches volumes.</div></div>
+    <div class="ci"><div class="ci-t">❌ PII Masker missing</div><div class="ci-f">✅ Added &amp; placed before Explainer</div><div class="ci-d">PII must be masked before delivery. Masker runs first on structured data.</div></div>
+    <div class="ci"><div class="ci-t">❌ Observability &amp; data ingestion missing</div><div class="ci-f">✅ Added: both layers</div><div class="ci-d">Production system needs monitoring + an answer for how data reaches volumes.</div></div>
   </div>
 </div>
 
@@ -966,7 +966,7 @@
   Based on DS-STAR paper: <em>"Data Science Agent for Solving Diverse Tasks across Heterogeneous Formats and Open-Ended Queries"</em>
   &nbsp;·&nbsp; arXiv:2509.21825 &nbsp;·&nbsp; Jaehyun Nam, Jinsung Yoon, Jiefeng Chen, Raj Sinha, Tomas Pfister (Google Cloud) &nbsp;·&nbsp; v4, Feb 2026
   <br><br>
-  CBUAE Financial Crime &amp; Market Conduct &nbsp;&middot;&nbsp; Architecture v3.3 — Production-Grade &nbsp;&middot;&nbsp; Paper-audited June 2026 (Coder incremental, Debugger two-step, Finalyzer runs sandbox code, Verifier Yes/No)
+  DS-STAR Analytics Platform &nbsp;&middot;&nbsp; Architecture v3.3 — Production-Grade &nbsp;&middot;&nbsp; Paper-audited June 2026 (Coder incremental, Debugger two-step, Finalyzer runs sandbox code, Verifier Yes/No)
 </div>
 
 </body>

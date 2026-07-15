@@ -1,8 +1,8 @@
 # Architecture Decisions & Q&A Log
 
 **Branch:** `docs/product-lifecycle`  
-**System:** CBUAE FIP — DS-STAR + DS-STAR+ Implementation  
-**Purpose:** A living record of architectural questions raised during design, the answers derived from the paper, and our final decisions for the CBUAE deployment.
+**System:** DS-STAR — DS-STAR + DS-STAR+ Implementation  
+**Purpose:** A living record of architectural questions raised during design, the answers derived from the paper, and our final decisions for the production deployment.
 
 Each entry follows the pattern: **Question → What the paper says → Our decision → Rationale**.
 
@@ -89,9 +89,9 @@ The paper does not prescribe parallelism vs. sequential execution of sub-questio
 | | Sequential | Parallel |
 |--|------------|----------|
 | Resource usage | Predictable — n sub-questions × 1 container at a time | Bursts to n containers simultaneously |
-| On-premise GPU pressure | Moderate — one LLM inference stream at a time | High — n concurrent inference streams compete for the same GPUs |
+| API rate-limit pressure | Moderate — one LLM inference stream at a time | High — n concurrent inference streams compete for the same rate limits |
 | Sub-question inter-dependency | Can feed result of sq₁ into context of sq₂ (future enhancement) | Runs blind — sub-questions can't reference each other's results |
-| Default for CBUAE | Correct — on-premise, shared GPU, multiple concurrent analyst users | Only appropriate when analyst needs faster turnaround and system is lightly loaded |
+| Default choice | Correct — predictable load, multiple concurrent analyst users | Only appropriate when analyst needs faster turnaround and system is lightly loaded |
 
 Sequential execution also enables a future optimization: if sq₁ reveals something unexpected about the data (e.g., a column is missing), the Sub-Question Generator can revise sq₂ before it runs.
 
@@ -114,7 +114,7 @@ The paper caps the pipeline at 20 rounds, partly as a practical limit on context
 
 1. **stdout cap at 10 KB.** `rₖ` is truncated before being passed into any LLM call. The Coder's system prompt instructs it to print summaries and `head()` — not full DataFrames.
 
-2. **Flash-tier LLM for 7 of 8 agents.** Flash models (Llama 3.2 11B in production) have larger context windows relative to their cost and latency profile. The 20-round cap fits comfortably.
+2. **Flash-tier LLM for 7 of 8 agents.** Flash models (Gemini 2.5 Flash in production) have larger context windows relative to their cost and latency profile. The 20-round cap fits comfortably.
 
 3. **Plan step compression (if needed).** If the cumulative plan `{p₀..pₖ}` grows unwieldy, earlier steps can be summarized into a "completed steps summary" before being passed to the Planner. This is a post-MVP fallback; the 20-round cap makes it unlikely to be needed in practice.
 
@@ -165,10 +165,10 @@ The paper mentions stdout is capped but does not specify an exact byte limit. Th
 **stdout capped at 10 KB.** Large outputs are handled via file output, not stdout:
 
 1. **Coder system prompt** instructs the Coder to prefer printing summaries, aggregations, and `head(20)` for large DataFrames — not full dumps.
-2. **File-output pattern:** For outputs that are inherently large (full tables, Excel files, charts), the Coder writes to a file in `/tmp` inside the container. The Executor copies the file to MinIO after execution. The Finalizer retrieves it for report generation.
-3. **DLP enforcement:** The 10 KB stdout cap also prevents intentional or accidental bulk data exfiltration via print flooding — a security control for an air-gapped regulatory environment.
+2. **File-output pattern:** For outputs that are inherently large (full tables, Excel files, charts), the Coder writes to a file in `/tmp` inside the container. The Executor copies the file to object storage after execution. The Finalizer retrieves it for report generation.
+3. **DLP enforcement:** The 10 KB stdout cap also prevents intentional or accidental bulk data exfiltration via print flooding — a general security control for the sandbox.
 
-**Example:** "Show me all fraud transactions for Bank X in 2024" → Coder produces a DataFrame and saves it to `/tmp/fraud_transactions_bankx_2024.csv`. Prints: `"Saved 48,293 rows to fraud_transactions_bankx_2024.csv. Summary: Total loss AED 12.4M, top fraud type: card_fraud (61%)."` The Verifier sees the summary and file confirmation — sufficient to answer the query. The Finalizer attaches the full file to the report.
+**Example:** "Show me all transactions for Store X in 2024" → Coder produces a DataFrame and saves it to `/tmp/transactions_storex_2024.csv`. Prints: `"Saved 48,293 rows to transactions_storex_2024.csv. Summary: Total revenue $12.4M, top category: electronics (61%)."` The Verifier sees the summary and file confirmation — sufficient to answer the query. The Finalizer attaches the full file to the report.
 
 ---
 
@@ -201,7 +201,7 @@ The DS-STAR+ pipeline runs the Analyzer once at the outer level (before sub-ques
 ### Our decision
 **`D` is computed once and shared across all sub-questions.** It is passed as immutable context to each DS-STAR inner engine instance.
 
-**Exception:** If a sub-question requires a different data source than the primary dataset (e.g., a benchmark comparison requiring a separate GCC reference file), the Analyzer re-runs only for that specific file and appends to `D`. This is handled by the Query Clarity Agent routing step.
+**Exception:** If a sub-question requires a different data source than the primary dataset (e.g., a benchmark comparison requiring a separate reference file), the Analyzer re-runs only for that specific file and appends to `D`. This is handled by the Query Clarity Agent routing step.
 
 ---
 
@@ -230,7 +230,7 @@ The paper ran K=1 refinement round in all experiments and found consistent quali
 ### Our decision
 **Remove the separate Evaluator agent from the architecture. Replace with Generator (refinement mode).**
 
-For CBUAE production: expose K (number of refinement rounds) as a configurable parameter (default K=1 following paper; admin can increase for higher-stakes reports). An optional early-stop check can be added: if the Generator produces zero supplementary sub-questions at round k, refinement terminates early (the report is already complete).
+For production: expose K (number of refinement rounds) as a configurable parameter (default K=1 following paper; admin can increase for higher-stakes reports). An optional early-stop check can be added: if the Generator produces zero supplementary sub-questions at round k, refinement terminates early (the report is already complete).
 
 ---
 
@@ -252,9 +252,9 @@ It receives the broken script, the error traceback, AND the full data descriptio
 
 ### Why this matters
 Without D, the Debugger can only fix syntactic errors. With D, it can fix semantic errors like:
-- "Column 'fraud_type' not found" → checks D, finds the actual column is 'fraud_type_code', fixes the script
+- "Column 'txn_type' not found" → checks D, finds the actual column is 'txn_type_code', fixes the script
 - "Sheet 'Data' not found" → checks D, finds the actual sheet is 'Q1_2025', fixes the script
-- "JSON key 'lfi_id' missing" → checks D, finds the nested path, fixes the access pattern
+- "JSON key 'account_id' missing" → checks D, finds the nested path, fixes the access pattern
 
 ### Our decision
 **Debugger prompt must include D alongside the traceback.** This was missing from our earlier architecture description. Update all Debugger agent implementations and prompt designs to pass `(s, traceback, D)` — not just `(s, traceback)`.
@@ -280,7 +280,7 @@ Sections emerge dynamically from the query and the collected evidence. Analysis 
 Citations are inline throughout, not in a separate annex.
 
 ### Our decision
-**The Writer agent decides sections dynamically based on query content.** CBUAE templates control branding, header/footer, classification markings, and tone — not section structure. Fixed elements across all reports:
+**The Writer agent decides sections dynamically based on query content.** Report templates control branding, header/footer, classification markings, and tone — not section structure. Fixed elements across all reports:
 - Header (title, date, analyst name, classification)
 - Executive Summary (always first)
 - Query & Scope (always second)
@@ -302,7 +302,7 @@ Citations are inline throughout, not in a separate annex.
 | Q5 | LLM context overflow across 20 rounds | 20-round cap + stdout cap | stdout capped at 10KB; Flash LLMs for 7 agents; plan compression as fallback |
 | Q6 | What happens to code when Router backtracks? | Truncate-and-regenerate (not direct edit) | Follow paper exactly; container not reset (complete-script design handles it) |
 | Q7 | Debugger: what if all 3 attempts fail? | Best-effort result passed to Verifier | Verifier → insufficient → Router likely backtracks; circuit breaker on repeat failure |
-| Q8 | What if rₖ is legitimately large? | stdout capped (limit unspecified) | 10KB cap; large outputs written to file in /tmp and copied to MinIO |
+| Q8 | What if rₖ is legitimately large? | stdout capped (limit unspecified) | 10KB cap; large outputs written to file in /tmp and copied to object storage |
 | Q9 | Does Verifier see the code or just the result? | Full 4-tuple (q, plan, sₖ, rₖ) | Follow paper exactly |
 | Q10 | Does Analyzer re-run per sub-question in DS-STAR+? | Once at outer level; D shared | D shared; re-run only for supplementary data sources |
 | Q11 | Separate Evaluator agent in DS-STAR+? | No — Generator handles refinement (Algorithm 2) | Removed Evaluator; Generator runs in refinement mode receiving current R |
@@ -321,7 +321,7 @@ Citations are inline throughout, not in a separate annex.
 The paper's Conclusion (page 13) explicitly states:
 > *"A compelling avenue for future research is to extend this framework to a human-in-the-loop setting. Investigating how to synergistically combine the automated capabilities of DS-STAR with the domain knowledge of a human expert presents a promising direction for significantly boosting performance and enhancing the system's practical utility."*
 
-Our CBUAE enhancements — mid-analysis steering, analyst pause/resume, round extension, formatting control, and conversational follow-up — are precisely this. We are building the paper's own stated future direction, not deviating from it.
+Our enhancements — mid-analysis steering, analyst pause/resume, round extension, formatting control, and conversational follow-up — are precisely this. We are building the paper's own stated future direction, not deviating from it.
 
 ---
 

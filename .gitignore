@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 .env
 
-# Data files — never commit real LFI data
+# Data files — never commit real customer data
 data/*.csv
 data/*.json
 data/*.xlsx

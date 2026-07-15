@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FIP — Completed Analysis (FIP-Insight)</title>
+<title>DS-STAR — Completed Analysis (Insight Mode)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
@@ -165,7 +165,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 .vs-med{background:rgba(217,119,6,.1);color:#d97706}
 .vs-low{background:rgba(22,163,74,.1);color:#16a34a}
 .outlier-dot{width:6px;height:6px;border-radius:50%;background:#dc2626;display:inline-block;margin-right:4px}
-.td-lfi{color:var(--text);font-weight:500;font-size:13px}
+.td-name{color:var(--text);font-weight:500;font-size:13px}
 .trend-arrow{font-size:11px;font-weight:700}
 .ta-up{color:#dc2626}
 .ta-dn{color:#16a34a}
@@ -186,16 +186,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-mark">FIP</div>
-    <div><div class="logo-text">FIP</div><div class="logo-sub">Financial Intelligence Platform</div></div>
+    <div class="logo-mark">DS</div>
+    <div><div class="logo-text">DS-STAR</div><div class="logo-sub">Data Science Agent Platform</div></div>
   </div>
   <nav class="sidebar-nav">
     <a class="nav-item" href="01-chat.html"><i data-lucide="message-square"></i> New Analysis</a>
     <a class="nav-item active" href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a>
     <div class="nav-section">Recent</div>
-    <div class="history-item current"><i data-lucide="check-circle"></i><span>Card fraud rate by LFI Q1…</span><span class="history-badge hb-blue">I</span></div>
-    <div class="history-item"><i data-lucide="clock"></i><span>APP fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
-    <div class="history-item"><i data-lucide="clock"></i><span>STR filing trends by LFI</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item current"><i data-lucide="check-circle"></i><span>Return fraud rate by Store Q1…</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>coupon fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>compliance filing trends by store</span><span class="history-badge hb-blue">I</span></div>
     <div class="history-item"><i data-lucide="clock"></i><span>Social engineering outliers</span><span class="history-badge hb-blue">I</span></div>
     <div class="history-item"><i data-lucide="clock"></i><span>H1 2024 fraud sector report</span><span class="history-badge hb-purple">R</span></div>
   </nav>
@@ -210,7 +210,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
   <header class="main-header">
     <div class="header-left">
       <div class="header-title">Analysis Result</div>
-      <span class="badge-done"><i data-lucide="check"></i> FIP-Insight · Complete</span>
+      <span class="badge-done"><i data-lucide="check"></i> Insight Mode · Complete</span>
     </div>
     <div class="header-right">
       <button class="action-btn"><i data-lucide="download"></i> Export Excel</button>
@@ -224,9 +224,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 
     <!-- Meta row -->
     <div class="meta-row">
-      <div class="meta-chip"><i data-lucide="search"></i> Card Fraud Rate — LFI Benchmarking</div>
+      <div class="meta-chip"><i data-lucide="search"></i> Return Fraud Rate — Store Benchmarking</div>
       <div class="meta-chip"><i data-lucide="calendar"></i> Q1 2025</div>
-      <div class="meta-chip"><i data-lucide="database"></i> 3 files · 47 LFIs</div>
+      <div class="meta-chip"><i data-lucide="database"></i> 3 files · 47 stores</div>
       <div class="meta-chip"><i data-lucide="refresh-cw"></i> 5 rounds</div>
       <div class="meta-chip"><i data-lucide="clock"></i> 18.3s</div>
       <div class="meta-chip"><i data-lucide="lock"></i> Snapshot: 2025-06-24T08:14Z</div>
@@ -237,19 +237,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="kpi-card">
         <div class="kpi-label">Outliers Identified</div>
         <div class="kpi-value">6</div>
-        <div class="kpi-sub">LFIs above 2× peer median</div>
+        <div class="kpi-sub">stores above 2× peer median</div>
         <span class="kpi-tag kpi-red"><i data-lucide="alert-triangle" style="width:10px;height:10px"></i> Supervisory flag</span>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Peer Median Rate</div>
         <div class="kpi-value">0.056%</div>
         <div class="kpi-sub">of total transaction volume</div>
-        <span class="kpi-tag kpi-blue">47 LFIs baseline</span>
+        <span class="kpi-tag kpi-blue">47 stores baseline</span>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Highest Rate</div>
         <div class="kpi-value">0.183%</div>
-        <div class="kpi-sub">Al Baraka Bank — 3.3× median</div>
+        <div class="kpi-sub">Riverside Retail — 3.3× median</div>
         <span class="kpi-tag kpi-red">3rd consecutive quarter outlier</span>
       </div>
       <div class="kpi-card">
@@ -264,10 +264,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <div class="card">
       <div class="card-title">Executive Summary</div>
       <div class="summary-text">
-        Across 47 UAE LFIs in Q1 2025, the peer median card fraud loss rate was <strong>0.056%</strong> of total transaction volume. <strong>Six LFIs exceeded 2× the peer median</strong>, with Al Baraka Bank (ABB) recording the highest rate at <strong>0.183%</strong> — 3.3× the median. Three of the six outliers are mid-tier retail banks with high digital-channel exposure; social engineering and card-not-present fraud account for the majority of losses in the outlier group.
+        Across 47 network stores in Q1 2025, the peer median return fraud loss rate was <strong>0.056%</strong> of total transaction volume. <strong>Six stores exceeded 2× the peer median</strong>, with Riverside Retail (RVR) recording the highest rate at <strong>0.183%</strong> — 3.3× the median. Three of the six outliers are mid-tier suburban stores with high digital-channel exposure; social engineering and online no-verification fraud account for the majority of losses in the outlier group.
       </div>
       <div class="callout">
-        <div class="callout-text"><strong>Supervisory note:</strong> ABB, EIB, and FNB have remained above 2× peer median for two consecutive quarters. These institutions may warrant a targeted fraud control assessment under the CBUAE Fraud Prevention Supervision Framework.</div>
+        <div class="callout-text"><strong>Supervisory note:</strong> ABB, EIB, and FNB have remained above 2× peer median for two consecutive quarters. These institutions may warrant a targeted fraud control assessment under the Acme Analytics Fraud &amp; Loss Prevention Framework.</div>
       </div>
     </div>
 
@@ -275,7 +275,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <div class="charts-row">
       <div class="card" style="display:flex;flex-direction:column">
         <div class="chart-header">
-          <div class="card-title" style="margin-bottom:0">Card Fraud Loss Rate by LFI — Top 12 (Q1 2025)</div>
+          <div class="card-title" style="margin-bottom:0">Return Fraud Loss Rate by Store — Top 12 (Q1 2025)</div>
           <div class="chart-legend">
             <div class="leg-item"><div class="leg-dot" style="background:#2563eb"></div> Normal</div>
             <div class="leg-item"><div class="leg-dot" style="background:#dc2626"></div> >2× median</div>
@@ -283,18 +283,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
           </div>
         </div>
         <div class="chart-area" style="margin-top:10px">
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.183%</div><div class="bar bar-outlier" style="height:100%"></div></div><div class="bar-label">ABB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.142%</div><div class="bar bar-outlier" style="height:78%"></div></div><div class="bar-label">EIB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.121%</div><div class="bar bar-outlier" style="height:66%"></div></div><div class="bar-label">FNB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.118%</div><div class="bar bar-outlier" style="height:64%"></div></div><div class="bar-label">MBZ</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.113%</div><div class="bar bar-outlier" style="height:62%"></div></div><div class="bar-label">RAK</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.112%</div><div class="bar bar-outlier" style="height:61%"></div></div><div class="bar-label">SJB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.087%</div><div class="bar bar-normal" style="height:47%"></div></div><div class="bar-label">NBD</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.074%</div><div class="bar bar-normal" style="height:40%"></div></div><div class="bar-label">ADIB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.068%</div><div class="bar bar-normal" style="height:37%"></div></div><div class="bar-label">DIB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.061%</div><div class="bar bar-normal" style="height:33%"></div></div><div class="bar-label">FAB</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.056%</div><div class="bar bar-normal" style="height:31%"></div></div><div class="bar-label">CBD</div></div>
-          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.041%</div><div class="bar bar-normal" style="height:22%"></div></div><div class="bar-label">UNB</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.183%</div><div class="bar bar-outlier" style="height:100%"></div></div><div class="bar-label">RVR</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.142%</div><div class="bar bar-outlier" style="height:78%"></div></div><div class="bar-label">NGO</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.121%</div><div class="bar bar-outlier" style="height:66%"></div></div><div class="bar-label">LKS</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.118%</div><div class="bar bar-outlier" style="height:64%"></div></div><div class="bar-label">MDT</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.113%</div><div class="bar bar-outlier" style="height:62%"></div></div><div class="bar-label">HBV</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.112%</div><div class="bar bar-outlier" style="height:61%"></div></div><div class="bar-label">SPZ</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.087%</div><div class="bar bar-normal" style="height:47%"></div></div><div class="bar-label">DTF</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.074%</div><div class="bar bar-normal" style="height:40%"></div></div><div class="bar-label">EST</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.068%</div><div class="bar bar-normal" style="height:37%"></div></div><div class="bar-label">WSF</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.061%</div><div class="bar bar-normal" style="height:33%"></div></div><div class="bar-label">PKV</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.056%</div><div class="bar bar-normal" style="height:31%"></div></div><div class="bar-label">CMS</div></div>
+          <div class="bar-group"><div class="bar-wrap"><div class="bar-val">0.041%</div><div class="bar bar-normal" style="height:22%"></div></div><div class="bar-label">UPT</div></div>
         </div>
         <div style="height:2px;background:#d97706;margin-top:2px;opacity:.5;border-radius:1px"></div>
         <div class="median-line-label">── Peer median 0.056%</div>
@@ -305,7 +305,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
         <div class="typo-list">
           <div class="typo-row">
             <div class="typo-head">
-              <span class="typo-name">Card-not-present</span>
+              <span class="typo-name">Online no-verification</span>
               <span class="typo-pct">43%</span>
             </div>
             <div class="typo-bar-bg"><div class="typo-bar-fill" style="width:43%;background:#2563eb"></div></div>
@@ -325,11 +325,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
               <span class="typo-pct">18%</span>
             </div>
             <div class="typo-bar-bg"><div class="typo-bar-fill" style="width:18%;background:#d97706"></div></div>
-            <div class="typo-sub">Mobile banking account compromise — growing YoY</div>
+            <div class="typo-sub">Mobile app account compromise — growing YoY</div>
           </div>
           <div class="typo-row">
             <div class="typo-head">
-              <span class="typo-name">ATM / POS skimming</span>
+              <span class="typo-name">POS / POS skimming</span>
               <span class="typo-pct">7%</span>
             </div>
             <div class="typo-bar-bg"><div class="typo-bar-fill" style="width:7%;background:#a1a1aa"></div></div>
@@ -360,9 +360,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <div class="trend-card">
       <div class="card-title">Quarter-on-Quarter Trend — Top 3 Outliers (Q2 2024 → Q1 2025)</div>
       <div class="trend-legend">
-        <div class="tl-item"><div class="tl-line" style="background:#dc2626"></div> Al Baraka Bank (ABB)</div>
-        <div class="tl-item"><div class="tl-line" style="background:#2563eb"></div> Emirates Islamic (EIB)</div>
-        <div class="tl-item"><div class="tl-line" style="background:#d97706"></div> First National Bank (FNB)</div>
+        <div class="tl-item"><div class="tl-line" style="background:#dc2626"></div> Riverside Retail (RVR)</div>
+        <div class="tl-item"><div class="tl-line" style="background:#2563eb"></div> Northgate Outlet (NGO)</div>
+        <div class="tl-item"><div class="tl-line" style="background:#d97706"></div> Lakeside Store (LKS)</div>
         <div class="tl-item"><div class="tl-line" style="background:#a1a1aa;border-top:2px dashed #a1a1aa;height:0"></div> Peer median (flat)</div>
       </div>
       <div class="trend-svg-wrap">
@@ -423,11 +423,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="insight-card">
         <div class="insight-icon ii-amber"><i data-lucide="smartphone" class="ic-amber"></i></div>
         <div class="insight-value">78% Mobile</div>
-        <div class="insight-label">Share of losses via mobile banking channel in the 6-LFI outlier group — vs. 52% sector average</div>
+        <div class="insight-label">Share of losses via mobile app channel in the 6-Store outlier group — vs. 52% sector average</div>
       </div>
       <div class="insight-card">
         <div class="insight-icon ii-blue"><i data-lucide="users" class="ic-blue"></i></div>
-        <div class="insight-value">3 LFIs</div>
+        <div class="insight-value">3 stores</div>
         <div class="insight-label">Above 2× peer median for two consecutive quarters — ABB, EIB, FNB — persistent supervisory concern</div>
       </div>
     </div>
@@ -435,14 +435,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     <!-- Full data table -->
     <div class="table-wrap">
       <div class="table-header-row">
-        <div class="card-title" style="margin-bottom:0">Full LFI Ranking — 47 LFIs (Top 12 Shown)</div>
+        <div class="card-title" style="margin-bottom:0">Full Store Ranking — 47 stores (Top 12 Shown)</div>
         <div style="font-size:11px;color:var(--text-subtle)">Q1 2025 · Sorted by fraud rate ↓</div>
       </div>
       <table class="tbl">
         <thead>
           <tr>
             <th>Rank</th>
-            <th>LFI</th>
+            <th>Store</th>
             <th>Fraud Rate</th>
             <th>vs. Peer Median</th>
             <th>Primary Typology</th>
@@ -452,18 +452,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="rank-badge rb-1">1</span></td><td class="td-lfi">Al Baraka Bank (ABB)</td><td>0.183%</td><td><span class="vs-badge vs-high">3.3×</span></td><td>Social engineering</td><td>Mobile 74%</td><td><span class="trend-arrow ta-up">↑ +11%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-2">2</span></td><td class="td-lfi">Emirates Islamic (EIB)</td><td>0.142%</td><td><span class="vs-badge vs-high">2.5×</span></td><td>Card-not-present</td><td>Mobile 79%</td><td><span class="trend-arrow ta-up">↑ +4%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-3">3</span></td><td class="td-lfi">First National Bank (FNB)</td><td>0.121%</td><td><span class="vs-badge vs-high">2.2×</span></td><td>Card-not-present</td><td>Online 68%</td><td><span class="trend-arrow ta-up">↑ +2%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-n">4</span></td><td class="td-lfi">MBZ Finance (MBZ)</td><td>0.118%</td><td><span class="vs-badge vs-high">2.1×</span></td><td>Card-not-present</td><td>Online 71%</td><td><span class="trend-arrow ta-up">↑ +8%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-n">5</span></td><td class="td-lfi">RAK Bank (RAK)</td><td>0.113%</td><td><span class="vs-badge vs-high">2.0×</span></td><td>Social engineering</td><td>Mobile 71%</td><td><span class="trend-arrow ta-up">↑ +6%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-n">6</span></td><td class="td-lfi">Sharjah Islamic Bank (SJB)</td><td>0.112%</td><td><span class="vs-badge vs-high">2.0×</span></td><td>Identity takeover</td><td>Mobile 62%</td><td><span class="trend-arrow ta-up">↑ +14%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
-          <tr><td><span class="rank-badge rb-n">7</span></td><td class="td-lfi">Emirates NBD (NBD)</td><td>0.087%</td><td><span class="vs-badge vs-med">1.6×</span></td><td>Identity takeover</td><td>Mobile 58%</td><td><span class="trend-arrow ta-flat">→ flat</span></td><td>—</td></tr>
-          <tr><td><span class="rank-badge rb-n">8</span></td><td class="td-lfi">ADIB (ADIB)</td><td>0.074%</td><td><span class="vs-badge vs-med">1.3×</span></td><td>Card-not-present</td><td>Online 55%</td><td><span class="trend-arrow ta-dn">↓ -3%</span></td><td>—</td></tr>
-          <tr><td><span class="rank-badge rb-n">9</span></td><td class="td-lfi">Dubai Islamic Bank (DIB)</td><td>0.068%</td><td><span class="vs-badge vs-med">1.2×</span></td><td>ATM/POS</td><td>ATM 52%</td><td><span class="trend-arrow ta-dn">↓ -8%</span></td><td>—</td></tr>
-          <tr><td><span class="rank-badge rb-n">10</span></td><td class="td-lfi">First Abu Dhabi (FAB)</td><td>0.061%</td><td><span class="vs-badge vs-med">1.1×</span></td><td>Card-not-present</td><td>Online 61%</td><td><span class="trend-arrow ta-dn">↓ -5%</span></td><td>—</td></tr>
-          <tr><td><span class="rank-badge rb-n">11</span></td><td class="td-lfi">Commercial Bank Dubai (CBD)</td><td>0.056%</td><td><span class="vs-badge vs-low">1.0×</span></td><td>Card-not-present</td><td>Online 63%</td><td><span class="trend-arrow ta-flat">→ flat</span></td><td>—</td></tr>
-          <tr><td><span class="rank-badge rb-n">12</span></td><td class="td-lfi">Union National Bank (UNB)</td><td>0.041%</td><td><span class="vs-badge vs-low">0.7×</span></td><td>ATM/POS</td><td>ATM 44%</td><td><span class="trend-arrow ta-dn">↓ -12%</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-1">1</span></td><td class="td-name">Riverside Retail (RVR)</td><td>0.183%</td><td><span class="vs-badge vs-high">3.3×</span></td><td>Social engineering</td><td>Mobile 74%</td><td><span class="trend-arrow ta-up">↑ +11%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-2">2</span></td><td class="td-name">Northgate Outlet (NGO)</td><td>0.142%</td><td><span class="vs-badge vs-high">2.5×</span></td><td>Online no-verification</td><td>Mobile 79%</td><td><span class="trend-arrow ta-up">↑ +4%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-3">3</span></td><td class="td-name">Lakeside Store (LKS)</td><td>0.121%</td><td><span class="vs-badge vs-high">2.2×</span></td><td>Online no-verification</td><td>Online 68%</td><td><span class="trend-arrow ta-up">↑ +2%</span></td><td><span class="outlier-dot"></span>Yes (3rd Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-n">4</span></td><td class="td-name">Midtown Outlet (MDT)</td><td>0.118%</td><td><span class="vs-badge vs-high">2.1×</span></td><td>Online no-verification</td><td>Online 71%</td><td><span class="trend-arrow ta-up">↑ +8%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-n">5</span></td><td class="td-name">Harborview Store (HBV)</td><td>0.113%</td><td><span class="vs-badge vs-high">2.0×</span></td><td>Social engineering</td><td>Mobile 71%</td><td><span class="trend-arrow ta-up">↑ +6%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-n">6</span></td><td class="td-name">Sunset Plaza (SPZ)</td><td>0.112%</td><td><span class="vs-badge vs-high">2.0×</span></td><td>Identity takeover</td><td>Mobile 62%</td><td><span class="trend-arrow ta-up">↑ +14%</span></td><td><span class="outlier-dot"></span>Yes (1st Qtr)</td></tr>
+          <tr><td><span class="rank-badge rb-n">7</span></td><td class="td-name">Downtown Flagship (DTF)</td><td>0.087%</td><td><span class="vs-badge vs-med">1.6×</span></td><td>Identity takeover</td><td>Mobile 58%</td><td><span class="trend-arrow ta-flat">→ flat</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-n">8</span></td><td class="td-name">Eastside Store (EST)</td><td>0.074%</td><td><span class="vs-badge vs-med">1.3×</span></td><td>Online no-verification</td><td>Online 55%</td><td><span class="trend-arrow ta-dn">↓ -3%</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-n">9</span></td><td class="td-name">Westfield Store (WSF)</td><td>0.068%</td><td><span class="vs-badge vs-med">1.2×</span></td><td>In-store POS</td><td>POS 52%</td><td><span class="trend-arrow ta-dn">↓ -8%</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-n">10</span></td><td class="td-name">Parkview Store (PKV)</td><td>0.061%</td><td><span class="vs-badge vs-med">1.1×</span></td><td>Online no-verification</td><td>Online 61%</td><td><span class="trend-arrow ta-dn">↓ -5%</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-n">11</span></td><td class="td-name">Central Mall Store (CMS)</td><td>0.056%</td><td><span class="vs-badge vs-low">1.0×</span></td><td>Online no-verification</td><td>Online 63%</td><td><span class="trend-arrow ta-flat">→ flat</span></td><td>—</td></tr>
+          <tr><td><span class="rank-badge rb-n">12</span></td><td class="td-name">Uptown Store (UPT)</td><td>0.041%</td><td><span class="vs-badge vs-low">0.7×</span></td><td>In-store POS</td><td>POS 44%</td><td><span class="trend-arrow ta-dn">↓ -12%</span></td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -478,7 +478,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       </div>
     </div>
 
-    <div class="bottom-hint">FIP · Financial Intelligence Platform · CBUAE Internal · Air-gapped</div>
+    <div class="bottom-hint">DS-STAR · Data Science Agent Platform · Acme Analytics Internal</div>
   </div>
 </main>
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FIP — Dataset Selection</title>
+<title>DS-STAR — Dataset Selection</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
@@ -122,16 +122,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-mark">FIP</div>
-    <div><div class="logo-text">FIP</div><div class="logo-sub">Financial Intelligence Platform</div></div>
+    <div class="logo-mark">DS</div>
+    <div><div class="logo-text">DS-STAR</div><div class="logo-sub">Data Science Agent Platform</div></div>
   </div>
   <nav class="sidebar-nav">
     <a class="nav-item active" href="01-chat.html"><i data-lucide="message-square"></i> New Analysis</a>
     <a class="nav-item" href="04-result-insight.html"><i data-lucide="layout-dashboard"></i> Dashboard</a>
     <div class="nav-section">Recent</div>
-    <div class="history-item"><i data-lucide="clock"></i><span>Card fraud rate by LFI Q1…</span><span class="history-badge hb-blue">I</span></div>
-    <div class="history-item"><i data-lucide="clock"></i><span>APP fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
-    <div class="history-item"><i data-lucide="clock"></i><span>STR filing trends by LFI</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>Return fraud rate by Store Q1…</span><span class="history-badge hb-blue">I</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>coupon fraud thematic report…</span><span class="history-badge hb-purple">R</span></div>
+    <div class="history-item"><i data-lucide="clock"></i><span>compliance filing trends by store</span><span class="history-badge hb-blue">I</span></div>
   </nav>
   <div class="sidebar-footer">
     <div class="avatar">AK</div>
@@ -153,7 +153,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
   <div class="content">
     <div class="query-recap">
       <div class="ql">Your Query</div>
-      <div class="qt">Which LFIs have the highest card fraud loss rate relative to transaction volume in Q1 2025?</div>
+      <div class="qt">Which stores have the highest return fraud loss rate relative to transaction volume in Q1 2025?</div>
     </div>
 
     <div>
@@ -161,44 +161,44 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
         <div class="step-circle">1</div>
         <div>
           <div class="step-title">Select data for this analysis</div>
-          <div class="step-sub">FIP suggests datasets based on your query. Add files or remove suggestions as needed.</div>
+          <div class="step-sub">DS-STAR suggests datasets based on your query. Add files or remove suggestions as needed.</div>
         </div>
       </div>
     </div>
 
     <div>
-      <div class="section-label">Suggested by FIP</div>
+      <div class="section-label">Suggested by DS-STAR</div>
       <div class="dataset-grid">
         <div class="dataset-row selected">
           <div class="ds-check"><i data-lucide="check"></i></div>
           <div class="ds-icon dsi-blue"><i data-lucide="file-spreadsheet" class="dsic-blue"></i></div>
           <div class="ds-body">
-            <div class="ds-name">LFI Fraud Loss Report — Q1 2025</div>
-            <div class="ds-meta"><span>fraud_loss_q1_2025.csv</span><span>47 LFIs · 12 cols · 1,128 rows</span><span class="ds-tag">Institutional</span><span class="ds-dept">Fraud Prevention</span></div>
+            <div class="ds-name">Store Fraud Loss Report — Q1 2025</div>
+            <div class="ds-meta"><span>fraud_loss_q1_2025.csv</span><span>47 stores · 12 cols · 1,128 rows</span><span class="ds-tag">Institutional</span><span class="ds-dept">Fraud Prevention</span></div>
           </div>
         </div>
         <div class="dataset-row selected">
           <div class="ds-check"><i data-lucide="check"></i></div>
           <div class="ds-icon dsi-blue"><i data-lucide="file-spreadsheet" class="dsic-blue"></i></div>
           <div class="ds-body">
-            <div class="ds-name">LFI Transaction Volume Report — Q1 2025</div>
-            <div class="ds-meta"><span>txn_volume_q1_2025.csv</span><span>47 LFIs · 8 cols · 564 rows</span><span class="ds-tag">Institutional</span><span class="ds-dept">Fraud Prevention</span></div>
+            <div class="ds-name">Store Transaction Volume Report — Q1 2025</div>
+            <div class="ds-meta"><span>txn_volume_q1_2025.csv</span><span>47 stores · 8 cols · 564 rows</span><span class="ds-tag">Institutional</span><span class="ds-dept">Fraud Prevention</span></div>
           </div>
         </div>
         <div class="dataset-row selected">
           <div class="ds-check"><i data-lucide="check"></i></div>
           <div class="ds-icon dsi-green"><i data-lucide="building-2" class="dsic-green"></i></div>
           <div class="ds-body">
-            <div class="ds-name">LFI Master Reference — 2025</div>
-            <div class="ds-meta"><span>lfi_master_2025.csv</span><span>54 LFIs · Names, types, categories</span><span class="ds-tag">Reference</span></div>
+            <div class="ds-name">Store Master Reference — 2025</div>
+            <div class="ds-meta"><span>store_master_2025.csv</span><span>54 stores · Names, types, categories</span><span class="ds-tag">Reference</span></div>
           </div>
         </div>
         <div class="dataset-row">
           <div class="ds-check"></div>
           <div class="ds-icon dsi-amber"><i data-lucide="file-spreadsheet" class="dsic-amber"></i></div>
           <div class="ds-body">
-            <div class="ds-name">LFI Fraud Control Assessment — 2024</div>
-            <div class="ds-meta"><span>fraud_control_assessment_2024.xlsx</span><span>47 LFIs · Qualitative scores, control maturity</span><span class="ds-tag">Institutional</span></div>
+            <div class="ds-name">Store Fraud Control Assessment — 2024</div>
+            <div class="ds-meta"><span>fraud_control_assessment_2024.xlsx</span><span>47 stores · Qualitative scores, control maturity</span><span class="ds-tag">Institutional</span></div>
           </div>
         </div>
       </div>
@@ -210,7 +210,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
         <div class="upload-icon"><i data-lucide="upload-cloud"></i></div>
         <div class="upload-title">Drop files here or <span class="upload-link">browse</span></div>
         <div class="upload-sub">CSV, Excel, JSON, PDF — up to 500 MB per file · 20 files max</div>
-        <div class="upload-sub2">Files are stored in your workspace and never leave CBUAE infrastructure</div>
+        <div class="upload-sub2">Files are stored in your workspace and never leave Acme Analytics infrastructure</div>
       </div>
     </div>
 
@@ -222,7 +222,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       </div>
     </div>
 
-    <div class="bottom-hint">FIP · Financial Intelligence Platform · CBUAE Internal · Air-gapped</div>
+    <div class="bottom-hint">DS-STAR · Data Science Agent Platform · Acme Analytics Internal</div>
   </div>
 </main>
 

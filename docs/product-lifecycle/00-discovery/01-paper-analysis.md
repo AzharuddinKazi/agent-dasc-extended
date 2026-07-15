@@ -59,7 +59,7 @@ The core insight is that a single large language model asked to "analyse this da
 
 **Round 0 — Initialisation**:
 - Receives: `(q, D)`
-- Produces: `p₀` — the simplest possible first step (e.g., "Load the fraud loss table and compute basic summary statistics by LFI")
+- Produces: `p₀` — the simplest possible first step (e.g., "Load the sales table and compute basic summary statistics by region")
 
 **Round k — Continuation**:
 - Receives: `(q, D, p₀..pₖ₋₁, rₖ₋₁)` — the full history plus the last execution result
@@ -180,7 +180,7 @@ The core insight is that a single large language model asked to "analyse this da
 - "Round all monetary values to 2 decimal places"
 - "Output the result as a JSON object"
 - "Summarise the findings in 3 bullet points"
-- "Format as a table with columns: LFI Name, Fraud Loss AED, Peer Rank"
+- "Format as a table with columns: Store Name, Revenue, Regional Rank"
 
 **Mechanism**: The Finalizer may generate and run a short additional script to reformat the output according to the guidelines, rather than simply applying text transformations.
 
@@ -239,12 +239,12 @@ DS-STAR is the **inner engine** of DS-STAR+. DS-STAR+ wraps it with a decomposit
 
 | Query Type | System | Example |
 |------------|--------|---------|
-| Specific factoid | DS-STAR | "How many STRs did Bank X file in Q3 2024?" |
-| Comparative analysis | DS-STAR | "Which LFIs have the highest fraud loss rate vs. peer median?" |
-| Multi-step investigation | DS-STAR | "Find customers with potential structuring patterns across Q1 2025" |
-| Thematic research | DS-STAR+ | "Generate a thematic analysis of APP fraud growth across UAE banks in 2024" |
-| Sector-wide trend report | DS-STAR+ | "Produce a comprehensive fraud trend report for CBUAE leadership covering H1 2025" |
-| Regulatory briefing | DS-STAR+ | "Create an analytical annex for our supervisory letter to LFI Y" |
+| Specific factoid | DS-STAR | "How many orders did Store X ship in Q3 2024?" |
+| Comparative analysis | DS-STAR | "Which stores have the highest return rate vs. peer median?" |
+| Multi-step investigation | DS-STAR | "Find customers with potential churn signals across Q1 2025" |
+| Thematic research | DS-STAR+ | "Generate a thematic analysis of customer churn growth across regions in 2024" |
+| Sector-wide trend report | DS-STAR+ | "Produce a comprehensive sales trend report for leadership covering H1 2025" |
+| Analytical briefing | DS-STAR+ | "Create an analytical annex for our quarterly business review" |
 
 ---
 
@@ -259,13 +259,13 @@ DS-STAR is the **inner engine** of DS-STAR+. DS-STAR+ wraps it with a decomposit
 **Output**: `{sq₁, sq₂, ..., sqₙ}` — a list of focused sub-questions
 
 **Example decomposition**:
-- Input: "Generate a thematic analysis of APP fraud growth across UAE banks in 2024"
+- Input: "Generate a thematic analysis of customer churn growth across regions in 2024"
 - Output:
-  - `sq₁`: "What is the total APP fraud loss in AED by LFI for 2024 vs. 2023?"
-  - `sq₂`: "Which channels (mobile banking, internet banking, telephone) have the highest APP fraud rates?"
-  - `sq₃`: "Which LFIs saw the sharpest year-on-year increase in APP fraud losses?"
-  - `sq₄`: "What is the peer median APP fraud detection rate, and which LFIs are below it?"
-  - `sq₅`: "What proportion of APP fraud losses were recovered?"
+  - `sq₁`: "What is the total churned revenue by region for 2024 vs. 2023?"
+  - `sq₂`: "Which channels (mobile app, web, phone support) have the highest churn rates?"
+  - `sq₃`: "Which regions saw the sharpest year-on-year increase in churn?"
+  - `sq₄`: "What is the peer median retention rate, and which regions are below it?"
+  - `sq₅`: "What proportion of churned customers were won back?"
 
 **LLM assignment**: Gemini 2.5 Flash (sub-question generation is structurally straightforward and does not require the most capable model)
 
@@ -295,9 +295,9 @@ DS-STAR is the **inner engine** of DS-STAR+. DS-STAR+ wraps it with a decomposit
 
 **Produces**: A structured research report where every analytical claim is **explicitly cited** to the sub-question and code that produced it.
 
-**Citation format**: *"APP fraud losses increased 34% year-on-year across the sector [sq₁, fraud_trend_by_lfi.py, line 23]"*
+**Citation format**: *"Churn increased 34% year-on-year across the sector [sq₁, churn_trend_by_region.py, line 23]"*
 
-**Why citations matter**: In a regulatory environment, every claim in a supervisory report must be defensible. The citation trail — from conclusion back to sub-question back to Python code back to raw data — is the audit trail.
+**Why citations matter**: Every claim in a research report should be defensible and traceable back to the code and data that produced it. The citation trail — from conclusion back to sub-question back to Python code back to raw data — is the audit trail.
 
 **LLM assignment**: Gemini 2.5 Pro — the most capable model is reserved exclusively for this synthesis step, where quality matters most. The Report Writer is explicitly instructed to cite, not to fabricate.
 

@@ -1,10 +1,10 @@
 # Product Requirements Document
-## CBUAE Financial Intelligence Platform (FIP) — V1
+## Domain-Agnostic Data Analysis Platform — V1
 
 **Stage:** PRD — Stage 1
 **Branch:** `docs/product-lifecycle`
 **Date:** 2026-06-24
-**Author:** Fraud Prevention Supervision, CBUAE
+**Author:** Product Team
 **DRI:** [PLACEHOLDER — to be assigned at project intake]
 **Status:** Draft
 
@@ -22,8 +22,8 @@
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 0.1 | 2026-06-24 | FPS, CBUAE | Initial draft — feature coverage from discovery phase |
-| 0.2 | 2026-06-25 | FPS, CBUAE | PM audit applied: RACI, launch criteria, rollout plan, feedback mechanism, risk register, error states, system capacity, acceptance criteria (in progress), Section 10 simplified. AC review in progress — corrections applied to FR-QI-01/02/04/06, FR-DA-02/04/05 |
+| 0.1 | 2026-06-24 | Product Team | Initial draft — feature coverage from discovery phase |
+| 0.2 | 2026-06-25 | Product Team | PM audit applied: RACI, launch criteria, rollout plan, feedback mechanism, risk register, error states, system capacity, acceptance criteria (in progress). AC review in progress — corrections applied to FR-QI-01/02/04/06, FR-DA-02/04/05 |
 
 ---
 
@@ -35,12 +35,12 @@
 | Engineering Lead | [PLACEHOLDER] | Responsible | Owns technical implementation |
 | Design Lead | [PLACEHOLDER] | Responsible | Owns UX spec and visual design |
 | IT Security | [PLACEHOLDER] | Consulted | Must sign off before launch; owns penetration testing |
-| Legal / Compliance | [PLACEHOLDER] | Consulted | Must review AI-generated regulatory output policy |
+| Legal / Compliance | [PLACEHOLDER] | Consulted | Must review AI-generated output policy |
 | Data Governance | [PLACEHOLDER] | Consulted | Must approve audit log design and data versioning |
-| IT Infrastructure | [PLACEHOLDER] | Consulted | GPU procurement, on-premise deployment, network isolation |
-| Fraud Prevention Supervision (primary dept.) | [PLACEHOLDER] | Consulted | Primary pilot users; domain SMEs |
+| IT Infrastructure | [PLACEHOLDER] | Consulted | Cloud infrastructure provisioning and vendor management |
+| Risk & Fraud Analytics (primary dept.) | [PLACEHOLDER] | Consulted | Primary pilot users; domain SMEs |
 | Dept. Heads (all 5 departments) | [PLACEHOLDER] | Informed | Briefed at milestones; approve rollout to their department |
-| CBUAE Leadership | [PLACEHOLDER] | Informed | Briefed at Go/No-Go and at GA launch |
+| Executive Leadership | [PLACEHOLDER] | Informed | Briefed at Go/No-Go and at GA launch |
 
 *RACI key: R = Responsible (does the work), A = Accountable (decision authority), C = Consulted (input required), I = Informed (kept up to date)*
 
@@ -48,87 +48,87 @@
 
 ## 1. Problem Statement
 
-Analysts across CBUAE's Financial Crime & Market Conduct departments work with rich, multi-file datasets — fraud loss reports submitted by licensed financial institutions (LFIs), SAR/STR databases, KYC records, consumer complaints, and market surveillance feeds. Extracting insights from this data today requires either writing Python or SQL code, or waiting for IT to build a custom report. Neither path is fast enough for supervision work.
+Analysts across the organization's business analytics teams work with rich, multi-file datasets — operational reports submitted by business units, incident and case databases, customer records, consumer complaints, and performance monitoring feeds. Extracting insights from this data today requires either writing Python or SQL code, or waiting for IT to build a custom report. Neither path is fast enough for day-to-day decision-making.
 
 The result:
-- Supervisory decisions are made on incomplete or manually extracted data
+- Decisions are made on incomplete or manually extracted data
 - Thematic reviews that should take hours take weeks
-- The analytical depth of supervisory letters is constrained by what a non-technical officer can produce in Excel
-- Peer benchmarking across LFIs requires manual data wrangling that few analysts can do independently
+- The analytical depth of internal reports is constrained by what a non-technical analyst can produce in Excel
+- Benchmarking across business units requires manual data wrangling that few analysts can do independently
 
 ---
 
 ## 2. What We Are Building
 
-The **Financial Intelligence Platform (FIP)** is a CBUAE-internal analytics system built on the DS-STAR and DS-STAR+ multi-agent architecture, adapted for the Financial Crime & Market Conduct vertical. It accepts natural language queries from non-technical analysts and returns data-backed answers and reports — with full traceability from question to code to result.
+The **Platform** is an internal analytics system built on the DS-STAR and DS-STAR+ multi-agent architecture, adapted for cross-departmental business analytics. It accepts natural language queries from non-technical analysts and returns data-backed answers and reports — with full traceability from question to code to result.
 
 The system operates in two modes:
 
-### FIP-Insight (DS-STAR mode)
+### Insight Mode (DS-STAR mode)
 For specific, factoid, or multi-step analytical questions. The analyst types a question; the system plans, codes, executes, verifies, and iterates autonomously until it produces a sufficient answer. Output is a chat-style response: a concise executive summary with supporting tables and interactive charts.
 
 **Example queries:**
-- "Which LFIs have the highest card fraud loss rate in Q1 2025 vs. the peer median?"
-- "Show me fraud typology trends across UAE banks over the last 12 months."
-- "Which LFIs are statistical outliers in their social engineering fraud detection rate?"
+- "Which business units have the highest return rate in Q1 2025 vs. the peer median?"
+- "Show me customer complaint trends across regions over the last 12 months."
+- "Which business units are statistical outliers in their order fulfillment accuracy?"
 
-### FIP-Research (DS-STAR+ mode)
+### Research Mode (DS-STAR+ mode)
 For open-ended research topics and thematic analysis. The system decomposes the topic into focused sub-questions, answers each independently using the DS-STAR inner engine, then synthesises a cited, structured report. Output is a formal document — structured sections, every claim cited to the sub-question and code that produced it.
 
 **Example queries:**
-- "Generate a thematic analysis of APP fraud growth across UAE banks in 2024."
-- "Produce a sector-wide fraud trend report for H1 2025, suitable for a supervisory letter annex."
-- "Create an evidence data summary for our enforcement case against LFI X."
+- "Generate a thematic analysis of customer churn growth across regions in 2024."
+- "Produce a sector-wide performance trend report for H1 2025, suitable for a strategy review annex."
+- "Create an evidence data summary for our root-cause investigation into business unit X."
 
 ---
 
 ## 3. Goals & Success Metrics
 
-*Note: Baselines marked [TBD] must be established via measurement before PRD is finalised. See Section 16, Open Question 9.*
+*Note: Baselines marked [TBD] must be established via measurement before PRD is finalised. See Section 16, Open Question 8.*
 
 | Metric | Baseline (Today) | Target (12 months post-launch) | How Measured |
 |--------|-----------------|-------------------------------|-------------|
 | Time to produce a peer benchmarking table | [TBD — measure during pilot] | < 15 minutes | Timed analyst sessions during pilot |
 | Time to produce a thematic review report | [TBD — measure during pilot] | < 2 days | Ticket tracking from query submission to approved report |
-| % of supervisory queries answered same-day | [TBD — analyst survey pre-launch] | > 80% | Audit log: task created vs. result timestamp, same calendar day |
-| Analyst satisfaction with FIP | N/A (new system) | > 4.0 / 5.0 on quarterly CSAT | Quarterly in-app CSAT survey |
+| % of queries answered same-day | [TBD — analyst survey pre-launch] | > 80% | Audit log: task created vs. result timestamp, same calendar day |
+| Analyst satisfaction with the Platform | N/A (new system) | > 4.0 / 5.0 on quarterly CSAT | Quarterly in-app CSAT survey |
 | Number of thematic reviews completed per year | [TBD — count existing reviews pre-launch] | 2× current | Annual count from audit log + department records |
 
 ---
 
 ## 4. Non-Goals (What This Is Not)
 
-- **Not a replacement for human judgement.** The system provides analysis; the analyst interprets and decides. No supervisory action is taken by the system.
-- **Not a real-time alert engine.** FIP is a supervisory analytics tool, not a transaction monitoring or AML screening system.
-- **Not a customer-facing product.** Internal CBUAE use only. On-premise. Air-gapped.
-- **Not a replacement for LFI fraud systems.** CBUAE oversees LFIs; this tool helps CBUAE do that better.
+- **Not a replacement for human judgement.** The system provides analysis; the analyst interprets and decides. No automated business action is taken by the system.
+- **Not a real-time alert engine.** The Platform is an analytics tool, not a real-time monitoring or alerting system.
+- **Not a customer-facing product.** Internal use only. Standard cloud-hosted SaaS deployment.
+- **Not a replacement for source systems.** The Platform analyzes data extracted from existing business systems; it does not replace those systems.
 - **Not a live database connector in V1.** Data access in V1 is file upload only. Live database connectivity is future scope.
-- **English only.** V1 is strictly English — UI, queries, and all outputs. Arabic and other language support is future scope.
+- **English only.** V1 is strictly English — UI, queries, and all outputs. Other language support is future scope.
 
 ---
 
 ## 5. Target Users
 
-**All five departments under CBUAE Financial Crime & Market Conduct.** The primary initiating department is Fraud Prevention Supervision.
+**All five departments under the organization's analytics function.** The primary initiating department is Risk & Fraud Analytics.
 
 **V1 treats all analysts identically regardless of department.** No department-specific UI, templates, or workflows in V1. Department-specific customisation is future scope.
 
 | Department | Role | Representative Queries |
 |------------|------|----------------------|
-| **Fraud Prevention Supervision** ⭐ | Supervises LFI fraud prevention frameworks; benchmarks fraud loss data | "Which LFIs have the highest card fraud loss rate vs. peer median?", "Show fraud typology trends by LFI over 12 months" |
-| **AML / CFT Supervision** | Supervises LFI AML/CFT compliance obligations | "Which LFIs have declining STR filing rates?", "Show typology distribution vs. FATF benchmarks" |
-| **Market Conduct & FCPS** | Monitors consumer complaints, market behaviour, mis-selling | "Show complaint volumes by LFI and product category", "Identify potential mis-selling patterns" |
-| **Enforcement** | Takes regulatory action against violations | "Pull all fraud loss data for LFI X across 3 years", "Generate an evidence summary for case #XXXX" |
-| **Policy & Research** | Develops regulatory frameworks; conducts sector-wide research | "What is the UAE-wide fraud loss trend by channel?", "Compare UAE fraud rates against GCC benchmarks" |
+| **Risk & Fraud Analytics** ⭐ | Monitors risk exposure and benchmarks loss/performance data across business units | "Which business units have the highest loss rate vs. peer median?", "Show performance trends by business unit over 12 months" |
+| **Compliance Operations** | Monitors business unit adherence to internal policy and compliance obligations | "Which business units have declining audit pass rates?", "Show issue distribution vs. internal benchmarks" |
+| **Customer Experience & Conduct** | Monitors consumer complaints, market behaviour, service quality | "Show complaint volumes by business unit and product category", "Identify potential service quality patterns" |
+| **Investigations** | Investigates policy violations and irregularities | "Pull all performance data for business unit X across 3 years", "Generate an evidence summary for case #XXXX" |
+| **Strategy & Research** | Develops internal strategy; conducts organization-wide research | "What is the company-wide performance trend by channel?", "Compare regional performance against industry benchmarks" |
 
-**User persona:** Non-technical. Analysts understand the domain deeply (regulatory frameworks, LFI behaviour, financial crime typologies) but cannot write Python or SQL. They rely on technical colleagues or manual Excel for data analysis today.
+**User persona:** Non-technical. Analysts understand the domain deeply (internal processes, business unit behaviour, operational patterns) but cannot write Python or SQL. They rely on technical colleagues or manual Excel for data analysis today.
 
 ---
 
 ## 6. Deployment & Infrastructure
 
-- **Deployment model:** On-premise only. Fully air-gapped. No data leaves CBUAE infrastructure. No API calls to external services. No cloud components in production.
-- **LLM inference:** Local model deployment via Ollama or vLLM. Provider-agnostic adapter — switching LLM providers requires only a config file change, zero agent code changes. Actual model procured and deployed is a CBUAE IT decision.
+- **Deployment model:** Standard cloud-hosted SaaS deployment.
+- **LLM inference:** Cloud-hosted LLM API (e.g., a hosted frontier model provider). Provider-agnostic adapter — switching LLM providers requires only a config file change, zero agent code changes. Actual model procured is an engineering/IT decision.
 - **Frontend/backend separation:** React frontend on a separate server. Backend built on LangGraph Server, exposing HTTP and WebSocket endpoints.
 - **Authentication:** JWT tokens. Analysts authenticate via login screen; every API call from the browser carries a signed JWT. Analyst and Admin are completely separate login URLs.
 
@@ -148,7 +148,7 @@ The analyst query interface is a simple, clean text box — modelled on GPT/Clau
 *Acceptance criteria:*
 - Text box is the primary interactive element on `/chat` on first load; no other input controls are visible without interaction
 - Text box accepts a **maximum of 5,000 characters** (no minimum beyond non-empty; open-ended queries rarely exceed a few hundred characters)
-- Placeholder text guides the analyst (e.g., "Ask a question about your financial data...")
+- Placeholder text guides the analyst (e.g., "Ask a question about your data...")
 - Submit button is disabled when the text box is empty
 - Pressing Enter submits; Shift+Enter creates a new line
 - Character count is shown when input exceeds 4,000 characters, turning red at 4,800 to warn the analyst they are approaching the limit
@@ -156,12 +156,12 @@ The analyst query interface is a simple, clean text box — modelled on GPT/Clau
 ---
 
 **FR-QI-02 — Automatic mode routing**
-The system automatically routes each query to FIP-Insight (DS-STAR) or FIP-Research (DS-STAR+) via the Query Clarity Agent. Ambiguous queries that could belong to either mode trigger a confirmation pop-up before the pipeline starts. The pop-up is prominent and cannot be missed — it does not auto-dismiss.
+The system automatically routes each query to Insight Mode (DS-STAR) or Research Mode (DS-STAR+) via the Query Clarity Agent. Ambiguous queries that could belong to either mode trigger a confirmation pop-up before the pipeline starts. The pop-up is prominent and cannot be missed — it does not auto-dismiss.
 
 *Acceptance criteria:*
-- Queries clearly scoped to a specific factoid route to FIP-Insight without any prompt shown
-- Queries clearly open-ended or thematic route to FIP-Research without any prompt shown
-- Ambiguous queries surface a modal with two clearly labelled options: "Specific Analysis (FIP-Insight)" and "Research Report (FIP-Research)", each with a one-sentence description
+- Queries clearly scoped to a specific factoid route to Insight Mode without any prompt shown
+- Queries clearly open-ended or thematic route to Research Mode without any prompt shown
+- Ambiguous queries surface a modal with two clearly labelled options: "Specific Analysis (Insight Mode)" and "Research Report (Research Mode)", each with a one-sentence description
 - The modal cannot be dismissed by clicking outside it, pressing Escape, or any other method — the analyst must make a choice
 - The analyst's mode selection is logged in the immutable audit trail alongside the query (same append-only PostgreSQL log described in FR-AU-01; stored fields: task ID, analyst user ID, query text, mode selected, timestamp)
 - The audit trail entry for mode selection is visible to admin via the audit log viewer (FR-ADMIN-06); analysts can see their own mode selection as part of their query history but cannot see other analysts' entries and cannot modify any entry
@@ -181,11 +181,11 @@ A set of example queries is displayed prominently on the chat page. Clicking a t
 ---
 
 **FR-QI-04 — Optional formatting control**
-An optional field is available to specify output formatting preferences (e.g., "summarise in 5 bullet points", "rank by descending loss amount", "output as a table only"). This field is collapsed by default and revealed on demand. It is optional — leaving it blank is always valid.
+An optional field is available to specify output formatting preferences (e.g., "summarise in 5 bullet points", "rank by descending value", "output as a table only"). This field is collapsed by default and revealed on demand. It is optional — leaving it blank is always valid.
 
 *Acceptance criteria:*
 - The formatting control field is hidden on initial page load; a clearly labelled toggle (e.g., "Formatting preferences ▼") reveals it
-- When expanded, the field shows placeholder text with concrete examples: *"e.g., 'Summarise in 5 bullet points', 'Rank by highest loss first', 'Output as a table only', 'Round all figures to 2 decimal places'"*
+- When expanded, the field shows placeholder text with concrete examples: *"e.g., 'Summarise in 5 bullet points', 'Rank by highest value first', 'Output as a table only', 'Round all figures to 2 decimal places'"*
 - Below the placeholder, 4–6 clickable example chips are displayed (e.g., "5 bullet points", "Rank descending", "Table only", "2 decimal places"); clicking a chip inserts that text into the field (can be edited after insertion)
 - The field accepts free text up to 500 characters
 - Submitting without entering anything in this field produces the same result as submitting with the field collapsed
@@ -263,7 +263,7 @@ The system supports both structured and unstructured files in V1:
 ---
 
 **FR-DA-02 — Institutional dataset management**
-Core regulatory datasets are loaded by IT/data engineering via backend pipelines — not through any UI. Institutional datasets are **optional** — the system works entirely from analyst-uploaded files if no institutional datasets have been loaded. Upload capability is ON by default with an admin toggle to disable.
+Core organizational datasets are loaded by IT/data engineering via backend pipelines — not through any UI. Institutional datasets are **optional** — the system works entirely from analyst-uploaded files if no institutional datasets have been loaded. Upload capability is ON by default with an admin toggle to disable.
 
 *Acceptance criteria:*
 - If institutional datasets have been loaded for a department, they appear in the analyst's dataset selection screen alongside personal uploads, clearly labelled as "Institutional" vs. "Personal upload"
@@ -295,7 +295,7 @@ Every analysis result is automatically linked to a point-in-time snapshot of the
 - Every completed analysis result stores the exact snapshot ID and version of every data file used
 - The "Data sources used" panel in the result displays the file name, snapshot ID, and timestamp of the snapshot
 - **Analysts can view snapshot metadata** (file name, version, snapshot ID, timestamp) for their own analyses via the "Data sources used" panel — this is read-only; analysts cannot edit, delete, or download raw snapshot data
-- **Admin can retrieve the full data snapshot** (including the actual data contents) for any analysis given its task ID — required for regulatory examination
+- **Admin can retrieve the full data snapshot** (including the actual data contents) for any analysis given its task ID — required for internal audit and dispute resolution
 - No user (analyst or admin) can modify or delete a snapshot once created
 - Updating a file in the personal workspace (re-uploading a newer version) does not modify snapshots linked to past analyses
 - The snapshot storage is referenced in the audit log by snapshot ID, not stored inline
@@ -308,7 +308,7 @@ V1 uses department-level RBAC. Each analyst sees datasets belonging to their dep
 *Acceptance criteria:*
 - An analyst assigned to Department A cannot see, select, or query datasets assigned to Department B (unless the dataset is also assigned to Department A)
 - Attempting to access a dataset outside the analyst's department via any method (UI or API) returns a 403 response with a clear message
-- **Admin can assign a dataset to multiple departments** simultaneously (e.g., a cross-sector benchmark dataset visible to both Fraud Prevention and Policy & Research); the change takes effect within 60 seconds
+- **Admin can assign a dataset to multiple departments** simultaneously (e.g., a cross-unit benchmark dataset visible to both Risk & Fraud Analytics and Strategy & Research); the change takes effect within 60 seconds
 - Admin can add or remove department assignments on any dataset without deleting it
 - A dataset not assigned to any department is accessible only by admin users
 - When a dataset is assigned to multiple departments, all assigned analysts see it in their dataset selection screen; access revocation from one department does not affect the other departments
@@ -359,13 +359,13 @@ While a task is running, the analyst can inject a plain-English hint.
 ---
 
 **FR-PE-04 — Default round limit**
-5–6 rounds per task on first run. Applies equally to FIP-Insight (single query) and each FIP-Research sub-question individually.
+5–6 rounds per task on first run. Applies equally to Insight Mode (single query) and each Research Mode sub-question individually.
 
 *Note for engineering:* DS-STAR paper (Figure 2) shows hard tasks average 5.6 rounds. At max=5, there is a measurable accuracy drop on hard queries. The extension mechanism (FR-PE-05) exists to handle this — analysts should expect hard queries to frequently trigger extension. The UI must present extension as a normal workflow step, not an error.
 
 *Acceptance criteria:*
 - The system runs a maximum of 6 rounds on first attempt before presenting the round cap interface
-- The round cap is applied consistently whether the task is FIP-Insight or a sub-question within FIP-Research
+- The round cap is applied consistently whether the task is Insight Mode or a sub-question within Research Mode
 - The round budget counter ("Round N / 40") is visible throughout execution
 - Reaching the default round limit without a "Yes" from the Verifier automatically triggers the incomplete analysis interface (FR-PE-07) without any additional analyst action
 
@@ -384,13 +384,13 @@ When default rounds are exhausted, the analyst can extend by 5 rounds per click.
 ---
 
 **FR-PE-06 — Hard round cap**
-40 cumulative rounds per query (FIP-Insight) or per sub-question (FIP-Research). Enforced regardless of extension cycles.
+40 cumulative rounds per query (Insight Mode) or per sub-question (Research Mode). Enforced regardless of extension cycles.
 
 *Acceptance criteria:*
 - At 40 cumulative rounds, the system stops executing and presents the incomplete analysis interface even if the analyst attempts to extend further
 - The "Extend and continue" button is not shown once 40 rounds are reached
 - The round budget counter shows "40 / 40" when the hard cap is hit
-- For FIP-Research: the 40-round cap is per sub-question, not across all sub-questions combined; a task with 5 sub-questions could theoretically consume up to 200 rounds system-wide
+- For Research Mode: the 40-round cap is per sub-question, not across all sub-questions combined; a task with 5 sub-questions could theoretically consume up to 200 rounds system-wide
 
 ---
 
@@ -399,7 +399,7 @@ When a task hits its round cap or fails unrecoverably, the system presents a str
 
 *Acceptance criteria:*
 - For round cap hit with a partial result: (a) result is shown with a prominent red "INCOMPLETE ANALYSIS" banner, (b) a plain-English diagnostic is shown below the banner explaining what was found, what wasn't, and why it stopped, (c) three action buttons are shown: "Accept partial result", "Refine and retry" (pre-fills query for editing), "Extend and continue" (if rounds remain)
-- For hard failure with no partial result (container crash, GPU failure, LLM unreachable): the result panel shows only the diagnostic and a "Retry" button; no INCOMPLETE result is shown
+- For hard failure with no partial result (container crash, infrastructure failure, LLM unreachable): the result panel shows only the diagnostic and a "Retry" button; no INCOMPLETE result is shown
 - "Accept partial result" removes the INCOMPLETE banner and saves the result to history; an "(Incomplete)" label is permanently appended to the result title in history
 - "Refine and retry" navigates to `/chat` with the original query pre-filled and a note: "Refining previous analysis — edit your query and resubmit"
 - The analyst must explicitly choose one of the action buttons — the interface does not auto-resolve
@@ -426,17 +426,17 @@ The analyst chooses between summary and full-trace progress modes.
 - Default view on task start is summary mode: a progress bar with the current phase label (Analyzing / Planning / Coding / Executing / Verifying)
 - A toggle clearly labelled "Show full trace" expands to the detailed view without page reload
 - Full trace shows: current agent name, current round number, round budget counter, last execution result (truncated to 500 characters with "Show more"), any steering hints applied
-- For FIP-Research (Report Mode), full trace shows: numbered sub-question list, status of each sub-question (queued / running / complete), current sub-question's round budget
+- For Research Mode (Report Mode), full trace shows: numbered sub-question list, status of each sub-question (queued / running / complete), current sub-question's round budget
 - The toggle state persists for the analyst's session (if they expand the trace, it stays expanded for subsequent tasks in the same session)
 - Both modes update in real time via WebSocket — no page refresh required
 
 ---
 
-**FR-PV-02 — FIP-Research "Report Mode" signal**
-When routed to FIP-Research (DS-STAR+), the dashboard clearly signals "Report Mode."
+**FR-PV-02 — Research Mode "Report Mode" signal**
+When routed to Research Mode (DS-STAR+), the dashboard clearly signals "Report Mode."
 
 *Acceptance criteria:*
-- On routing to FIP-Research, the dashboard header changes to purple accent colour and displays a "Report Mode" badge
+- On routing to Research Mode, the dashboard header changes to purple accent colour and displays a "Report Mode" badge
 - The progress panel displays the numbered sub-question breakdown list rather than a single round counter
 - Each sub-question entry shows its status (queued / running / complete) and, when running, its round budget ("Sub-question 3 of 7 · Round 4 / 6")
 - The mode badge remains visible throughout the analysis and on the completed result
@@ -468,7 +468,7 @@ The Coder outputs structured JSON for charts; the frontend renders them as inter
 
 ---
 
-**FR-OUT-03 — FIP-Insight output style**
+**FR-OUT-03 — Insight Mode output style**
 Chat-style response: executive summary + supporting tables and charts.
 
 *Acceptance criteria:*
@@ -479,14 +479,14 @@ Chat-style response: executive summary + supporting tables and charts.
 
 ---
 
-**FR-OUT-04 — FIP-Research output style**
+**FR-OUT-04 — Research Mode output style**
 Formal document with dynamic sections and inline citations.
 
 *Acceptance criteria:*
 - The result is rendered as a structured document with visible section headers
-- Fixed sections present in every FIP-Research output: Header (title, date, analyst name, classification), Executive Summary, Query & Scope, Methodology, Recommendations
+- Fixed sections present in every Research Mode output: Header (title, date, analyst name, classification), Executive Summary, Query & Scope, Methodology, Recommendations
 - Dynamic sections (Findings) are named and structured by the Writer agent based on the query; section names and count vary per report
-- Every quantitative claim in the report is followed by an inline citation referencing the sub-question that produced it, e.g., "(Source: Sub-question 2 — Card fraud loss by LFI)"
+- Every quantitative claim in the report is followed by an inline citation referencing the sub-question that produced it, e.g., "(Source: Sub-question 2 — Loss by business unit)"
 - The analyst can click any citation to expand and view the sub-question text, the code that answered it, and its output
 
 ---
@@ -512,7 +512,7 @@ Three formats: Word (.docx), PDF, Excel (.xlsx).
 - PDF export produces a non-editable PDF with embedded charts rendered as static images
 - Excel export produces a .xlsx file containing all tables from the result as separate sheets; charts are included as embedded static images
 - All exports complete within 60 seconds for typical results
-- Export file names follow the convention: `FIP_[YYYYMMDD]_[query-slug].[ext]`
+- Export file names follow the convention: `Report_[YYYYMMDD]_[query-slug].[ext]`
 
 ---
 
@@ -716,7 +716,7 @@ Append-only, tamper-evident.
 **FR-ADMIN-05 — System health dashboard**
 
 *Acceptance criteria:*
-- Dashboard shows in real time: task queue depth, number of active tasks, number of paused tasks, GPU utilisation (%), error rate (failures / total tasks, last 24 hours), DLQ item count
+- Dashboard shows in real time: task queue depth, number of active tasks, number of paused tasks, compute utilisation (%), error rate (failures / total tasks, last 24 hours), DLQ item count
 - All metrics auto-refresh without page reload at a minimum 30-second interval
 - DLQ items are listed individually with task ID, error summary, and timestamp
 - Admin can trigger a manual retry of a DLQ item
@@ -736,11 +736,11 @@ Append-only, tamper-evident.
 ### 8.10 System Capacity & Concurrency
 
 **FR-CAP-01 — Concurrent task limits**
-The system enforces a global concurrency budget to protect GPU and infrastructure resources.
+The system enforces a global concurrency budget to protect compute and infrastructure resources.
 
 *Limits:*
-- Maximum concurrent FIP-Insight tasks: **5**
-- Maximum concurrent FIP-Research tasks: **3** (each spawns up to N sub-questions which run sequentially per sub-question by default)
+- Maximum concurrent Insight Mode tasks: **5**
+- Maximum concurrent Research Mode tasks: **3** (each spawns up to N sub-questions which run sequentially per sub-question by default)
 - Maximum concurrent sandbox containers system-wide: **8**
 - Total concurrent tasks across all types: **8**
 
@@ -767,7 +767,7 @@ The following error states must be handled gracefully — with a clear, plain-En
 | Unsupported file format | ".[ext] files are not supported. Supported formats: PDF, Word, Excel, CSV, JSON." | File removed from queue |
 | No datasets available for the query | "No data sources found. Please upload at least one file before submitting your query." | Upload prompt shown |
 | JWT session expired during analysis | "Your session has expired. Your analysis is still running in the background. Log in again to view results." | Login redirect; task continues uninterrupted |
-| LLM unreachable (Ollama/vLLM down) | "The AI engine is temporarily unavailable. Your analysis has been paused and will resume automatically when the service recovers." | Task auto-resumes; analyst notified via in-app notification |
+| LLM API unreachable | "The AI engine is temporarily unavailable. Your analysis has been paused and will resume automatically when the service recovers." | Task auto-resumes; analyst notified via in-app notification |
 | Sandbox container crash | Triggers FR-PE-07 hard failure path — plain-English diagnostic + Retry button | Retry button |
 | Access denied (data outside department) | "You do not have access to this dataset. Contact your admin if you believe this is an error." | Admin contact info |
 | Query submission while system at capacity | "Analysis queued — [N] ahead of you. Estimated wait: ~[X] min." | Queue position shown in dashboard |
@@ -788,9 +788,9 @@ The following error states must be handled gracefully — with a clear, plain-En
 
 | Requirement | Target | Percentile | Load Condition |
 |-------------|--------|-----------|----------------|
-| FIP-Insight (easy query, ≤3 rounds) | < 3 minutes | P95 | ≤ 5 concurrent tasks |
-| FIP-Insight (hard query, ≤10 rounds) | < 20 minutes | P95 | ≤ 5 concurrent tasks |
-| FIP-Research (7 sub-questions, K=1 refinement) | < 60 minutes | P95 | ≤ 3 concurrent FIP-Research tasks |
+| Insight Mode (easy query, ≤3 rounds) | < 3 minutes | P95 | ≤ 5 concurrent tasks |
+| Insight Mode (hard query, ≤10 rounds) | < 20 minutes | P95 | ≤ 5 concurrent tasks |
+| Research Mode (7 sub-questions, K=1 refinement) | < 60 minutes | P95 | ≤ 3 concurrent Research Mode tasks |
 | Finalyzer reformat (re-run only) | < 30 seconds | P99 | Any load |
 | File upload + Analyzer profiling (≤500 MB structured file) | < 60 seconds | P95 | Any load |
 | Page load (initial) | < 2 seconds | P95 | Any load |
@@ -798,9 +798,9 @@ The following error states must be handled gracefully — with a clear, plain-En
 
 ### 9.2 Security
 
-- Fully air-gapped. No outbound network access from the production system.
+- Standard cloud-hosted deployment with network security best practices (VPC isolation, TLS everywhere, least-privilege IAM).
 - mTLS for all internal service-to-service communication.
-- HashiCorp Vault for secrets management. No secrets in environment variables.
+- Cloud secrets manager for secrets management. No secrets in environment variables.
 - Docker sandbox for code execution: no network access, 2 GB memory cap, read-only data mount, non-root user, per-execution timeout, seccomp profile applied.
 - JWT authentication for all frontend-to-backend API calls; token expiry: 8 hours (one working day).
 - Department-level RBAC for data access, enforced at the API layer.
@@ -812,11 +812,11 @@ The following error states must be handled gracefully — with a clear, plain-En
 - Celery + Redis Sentinel for async task queue with high availability.
 - Priority queue with dead-letter queue (DLQ) for failed tasks.
 - Container concurrency budget enforced system-wide (max 8 concurrent sandbox containers).
-- System target uptime: 99.5% during CBUAE working hours (08:00–18:00 GST, Sunday–Thursday).
+- System target uptime: 99.5%.
 
 ### 9.4 Data Integrity
 
-- Every analysis result is linked to a point-in-time data snapshot. Required for regulatory defensibility.
+- Every analysis result is linked to a point-in-time data snapshot. Required for auditability and dispute resolution.
 - Audit log is append-only and tamper-evident with hash-chain verification.
 
 ### 9.5 Accessibility & Browser Support
@@ -829,13 +829,13 @@ The following error states must be handled gracefully — with a clear, plain-En
 
 ## 10. Architecture Overview
 
-FIP is built on the DS-STAR multi-agent pipeline (arXiv:2509.21825), which uses an iterative Analyze → Plan → Code → Execute → Verify loop with backtracking. DS-STAR+ extends this with a Sub-Question Generator and Report Writer for open-ended research queries.
+The Platform is built on the DS-STAR multi-agent pipeline (arXiv:2509.21825), which uses an iterative Analyze → Plan → Code → Execute → Verify loop with backtracking. DS-STAR+ extends this with a Sub-Question Generator and Report Writer for open-ended research queries.
 
 Full architecture detail — including all paper-confirmed agent behaviours, container lifecycle decisions, LLM tiering, and infrastructure topology — is documented in:
 - `00-discovery/03-architecture-v2.html` (v3.3) — visual architecture diagram
 - `00-discovery/04-architecture-decisions.md` — every architectural decision with paper references (Q1–Q18)
 
-The TDD (`03-tdd/01-tdd-cbuae-fip.md`) will translate the architecture into implementation specifications.
+The TDD (`03-tdd/01-tdd-domain-agnostic-agent.md`) will translate the architecture into implementation specifications.
 
 **Technology stack summary:**
 
@@ -845,8 +845,8 @@ The TDD (`03-tdd/01-tdd-cbuae-fip.md`) will translate the architecture into impl
 | State machine | LangGraph (PostgreSQL checkpointing) |
 | Task queue | Celery + Redis Sentinel |
 | Sandbox | Docker (per-task container, docker exec per round) |
-| LLM inference | Provider-agnostic adapter (Ollama prod / Gemini dev) |
-| Secrets | HashiCorp Vault |
+| LLM inference | Provider-agnostic adapter (cloud LLM API for prod and dev) |
+| Secrets | Cloud secrets manager |
 | Auth | JWT (8-hour expiry) |
 | Report generation | python-docx-template + LibreOffice headless |
 | Charts | Recharts (primary) + Plotly.js (fallback) |
@@ -867,26 +867,26 @@ A V1 launch requires **all** of the following to be satisfied. No exceptions wit
 - [ ] All automated test suites pass on the release build
 
 ### Security & Compliance
-- [ ] Penetration test completed by CBUAE IT Security — specifically: sandbox escape, prompt injection via uploaded file, JWT tampering, RBAC bypass — all Critical/High findings resolved
+- [ ] Penetration test completed by IT Security — specifically: sandbox escape, prompt injection via uploaded file, JWT tampering, RBAC bypass — all Critical/High findings resolved
 - [ ] Audit log tamper-detection utility verified in staging
-- [ ] HashiCorp Vault secrets confirmed — zero secrets in environment variables, config files, or source code
-- [ ] Air-gap verified: no outbound network call from the production environment succeeds (tested with network monitoring)
-- [ ] Legal/Compliance sign-off on the use of AI-generated outputs in supervisory workflows — [PLACEHOLDER: Legal reviewer]
+- [ ] Cloud secrets manager configuration confirmed — zero secrets in environment variables, config files, or source code
+- [ ] Cloud security configuration reviewed (network policies, IAM roles, encryption at rest/in transit) — [PLACEHOLDER: Security reviewer]
+- [ ] Legal/Compliance sign-off on the use of AI-generated outputs in business workflows — [PLACEHOLDER: Legal reviewer]
 - [ ] Data governance sign-off on data versioning, snapshot storage, and audit log retention policy — [PLACEHOLDER: Data Governance reviewer]
 
 ### Performance & Reliability
-- [ ] P95 performance targets (Section 9.1) met under simulated peak load (5 concurrent FIP-Insight + 3 concurrent FIP-Research tasks) in staging
+- [ ] P95 performance targets (Section 9.1) met under simulated peak load (5 concurrent Insight Mode + 3 concurrent Research Mode tasks) in staging
 - [ ] Checkpoint recovery tested: worker killed mid-round; task resumes from correct checkpoint within 60 seconds
 - [ ] DLQ alert confirmed working: failed task appears in admin health dashboard within 2 minutes
 
 ### Operational Readiness
-- [ ] Runbook written and reviewed: covers common failure scenarios (LLM down, worker crash, disk full, DLQ spike, GPU failure)
+- [ ] Runbook written and reviewed: covers common failure scenarios (LLM down, worker crash, disk full, DLQ spike, infrastructure failure)
 - [ ] On-call rotation established and trained — [PLACEHOLDER: IT Operations]
 - [ ] System health dashboard (FR-ADMIN-05) deployed and verified
 - [ ] Rollback plan tested in staging: previous version can be restored within 15 minutes
 
 ### Pilot Feedback Incorporated
-- [ ] Closed Beta pilot (Phase 2 of rollout) completed with minimum 5 analysts from Fraud Prevention Supervision
+- [ ] Closed Beta pilot (Phase 2 of rollout) completed with minimum 5 analysts from the primary pilot department
 - [ ] P0 pilot feedback items resolved
 - [ ] Analyst satisfaction score in pilot: ≥ 3.5 / 5.0 (lower bar than post-launch target, as expected for beta)
 
@@ -900,7 +900,7 @@ A V1 launch requires **all** of the following to be satisfied. No exceptions wit
 - [ ] Engineering Lead sign-off — [PLACEHOLDER]
 - [ ] IT Security sign-off — [PLACEHOLDER]
 - [ ] Legal/Compliance sign-off — [PLACEHOLDER]
-- [ ] Primary Department Head (FPS) sign-off — [PLACEHOLDER]
+- [ ] Primary Department Head (pilot dept.) sign-off — [PLACEHOLDER]
 
 ---
 
@@ -908,21 +908,21 @@ A V1 launch requires **all** of the following to be satisfied. No exceptions wit
 
 *Adapted from Google's staged rollout model, Amazon's "Working Backwards" launch approach, and Microsoft's ring-based deployment practice.*
 
-FIP V1 follows a four-phase rollout. Each phase has an explicit exit criterion — the phase is not complete until the criterion is met.
+The Platform V1 follows a four-phase rollout. Each phase has an explicit exit criterion — the phase is not complete until the criterion is met.
 
 ### Phase 1 — Alpha (Internal / Dogfood)
-**Who:** The engineering and product team + 2–3 analysts from Fraud Prevention Supervision who are directly involved in the project (the most forgiving, most technically aware users).
+**Who:** The engineering and product team + 2–3 analysts from Risk & Fraud Analytics who are directly involved in the project (the most forgiving, most technically aware users).
 **Duration:** 2 weeks
-**Purpose:** Catch critical bugs before external exposure. Validate that the core pipeline produces meaningful results on real CBUAE data.
-**What's tested:** Full pipeline (FIP-Insight + FIP-Research), file upload, pause/resume, export, admin panel.
-**Data used:** Real CBUAE data in an isolated staging environment (not shared with dev environment).
+**Purpose:** Catch critical bugs before external exposure. Validate that the core pipeline produces meaningful results on real production data.
+**What's tested:** Full pipeline (Insight Mode + Research Mode), file upload, pause/resume, export, admin panel.
+**Data used:** Real production data in an isolated staging environment (not shared with dev environment).
 
 *Exit criterion:* Zero P0 bugs open. Core analysis pipeline completes successfully on ≥ 80% of test queries. Engineering team signs off.
 
 ---
 
 ### Phase 2 — Closed Beta
-**Who:** All analysts in Fraud Prevention Supervision (~10–15 people). The initiating department — highest motivation, deepest domain knowledge, best able to validate output quality.
+**Who:** All analysts in Risk & Fraud Analytics (~10–15 people). The initiating department — highest motivation, deepest domain knowledge, best able to validate output quality.
 **Duration:** 4 weeks
 **Purpose:** Validate real-world usage patterns, output quality, and analyst trust. Establish baseline metrics for success KPIs (Section 3). Collect structured feedback.
 **Onboarding:** Live training session (1 hour) + written user guide. Analysts are explicitly told this is a beta — outputs require human verification.
@@ -933,7 +933,7 @@ FIP V1 follows a four-phase rollout. Each phase has an explicit exit criterion �
 ---
 
 ### Phase 3 — Open Beta (Full Department Rollout)
-**Who:** Volunteer analysts from all remaining four departments (AML/CFT, Market Conduct, Enforcement, Policy & Research). Opt-in — not mandatory.
+**Who:** Volunteer analysts from all remaining four departments (Compliance Operations, Customer Experience & Conduct, Investigations, Strategy & Research). Opt-in — not mandatory.
 **Duration:** 4 weeks
 **Purpose:** Validate cross-department usability with no department-specific customisation (V1 treats all analysts identically). Identify V2 department-specific requirements from real usage.
 **Onboarding:** Self-serve user guide + recorded training video. Optional live Q&A session.
@@ -946,7 +946,7 @@ FIP V1 follows a four-phase rollout. Each phase has an explicit exit criterion �
 ### Phase 4 — General Availability (GA)
 **Who:** All analysts across all five departments. Mandatory rollout with onboarding support.
 **Duration:** Ongoing
-**Purpose:** Full production deployment. FIP becomes the standard tool for analytical queries that previously required IT or manual Excel.
+**Purpose:** Full production deployment. The Platform becomes the standard tool for analytical queries that previously required IT or manual Excel.
 **Onboarding:** Department-level training sessions conducted by the DRI + trained power users from the beta cohorts. Admin guide handed to IT.
 **Handoff:** Engineering team transitions from active support to standard maintenance. IT Operations owns day-to-day system management.
 
@@ -977,7 +977,7 @@ If a critical issue is discovered post-GA:
 
 ## 13. Feedback Mechanism
 
-Analyst feedback is the primary signal for determining whether FIP is producing reliable, useful outputs. The following mechanisms are V1.
+Analyst feedback is the primary signal for determining whether the Platform is producing reliable, useful outputs. The following mechanisms are V1.
 
 ### 13.1 Per-Result Feedback
 Every completed analysis result displays a feedback bar at the bottom:
@@ -996,11 +996,11 @@ Every completed analysis result displays a feedback bar at the bottom:
 A 5-question in-app survey is shown to each analyst once per quarter. It appears as a non-blocking slide-in panel (not a full-page modal) and can be dismissed and completed later.
 
 *Questions (fixed for V1):*
-1. Overall, how satisfied are you with FIP? (1–5 scale)
-2. How often do you verify FIP's results before using them in a supervisory context? (Always / Usually / Sometimes / Rarely / Never)
-3. Has FIP saved you time compared to your previous approach? (Yes, significantly / Yes, somewhat / No change / No, it takes longer)
-4. What is the most useful thing FIP does for you? (Free text)
-5. What is the most frustrating thing about FIP? (Free text)
+1. Overall, how satisfied are you with the Platform? (1–5 scale)
+2. How often do you verify the Platform's results before using them in a business decision? (Always / Usually / Sometimes / Rarely / Never)
+3. Has the Platform saved you time compared to your previous approach? (Yes, significantly / Yes, somewhat / No change / No, it takes longer)
+4. What is the most useful thing the Platform does for you? (Free text)
+5. What is the most frustrating thing about the Platform? (Free text)
 
 *Acceptance criteria:*
 - Survey appears no more than once per quarter per analyst
@@ -1011,10 +1011,10 @@ A 5-question in-app survey is shown to each analyst once per quarter. It appears
 ### 13.3 Engineering Error Dashboard
 The admin panel (FR-ADMIN-05) includes a dedicated "Flagged results" queue showing all "Flag as incorrect" submissions. Each flagged result shows: task ID, query text, analyst's description of the error, and a link to the full result and audit trail.
 
-Engineering reviews this queue weekly during beta and bi-weekly at GA. All P0-severity flags (e.g., numerical errors in outputs used in issued supervisory letters) are treated as incidents and triaged within 24 hours.
+Engineering reviews this queue weekly during beta and bi-weekly at GA. All P0-severity flags (e.g., numerical errors in outputs used in issued internal reports) are treated as incidents and triaged within 24 hours.
 
 ### 13.4 Monthly Feedback Review
-During beta phases and the first 3 months of GA: a monthly meeting between the DRI, lead analyst (FPS), and engineering lead reviews:
+During beta phases and the first 3 months of GA: a monthly meeting between the DRI, lead analyst (pilot dept.), and engineering lead reviews:
 - Aggregate thumbs up/down ratio by result type (Insight vs. Research)
 - Flagged results and resolutions
 - CSAT trend
@@ -1030,16 +1030,14 @@ Findings from this meeting directly feed the V2 backlog.
 
 | # | Risk | Likelihood | Impact | Severity | Mitigation |
 |---|------|-----------|--------|----------|-----------|
-| R1 | **LLM hallucination in regulatory output.** The system produces an incorrect or fabricated finding that is cited in a supervisory letter or enforcement action. | Medium | Critical | **Critical** | (1) "Data sources used" panel always visible and clickable; (2) Analysis code always downloadable so analysts can verify; (3) INCOMPLETE ANALYSIS label on partial results; (4) Training explicitly tells analysts outputs require human verification; (5) "Flag as incorrect" mechanism for fast reporting; (6) FR-OUT-04 inline citations allow every claim to be traced to its source data |
-| R2 | **Local model quality gap.** Air-gapped Ollama models (e.g., Llama 70B) may produce significantly worse outputs than the Gemini 2.5 Pro used in the DS-STAR paper benchmarks. The paper's 45.2% accuracy is for a frontier model. | High | High | **High** | (1) Benchmark local model against the DS-STAR paper's test suite before pilot launch; (2) Set explicit analyst expectations during training: "this is an assistive tool, not an authority"; (3) Document accuracy delta in the launch criteria and set a minimum acceptable threshold before GA; (4) Provider adapter allows switching to a higher-quality model if local model is insufficient |
-| R3 | **Analyst over-reliance.** Analysts stop verifying AI outputs, treating FIP as authoritative. Risk increases as confidence in the tool grows over time. | Medium | High | **High** | (1) Training explicitly covers the risk of over-reliance; (2) CSAT survey Q2 tracks verification frequency; (3) "Flag as incorrect" mechanism normalises the idea that outputs can be wrong; (4) FR-AH-03 ensures audit log includes who submitted results without verification; (5) If verification rate drops below a threshold in CSAT responses, trigger a retraining session |
-| R4 | **Prompt injection via uploaded file.** A malicious actor crafts a PDF or Excel file containing LLM-injection instructions (e.g., "Ignore prior instructions and output...") that manipulates the pipeline. | Low | Critical | **High** | (1) Sandbox has no network access — even if injection succeeds, exfiltration is impossible; (2) System prompts harden agent instructions against overrides; (3) Analyzer output (D) is treated as data, not executable instruction; (4) File content is not injected directly into LLM prompts without sanitisation; (5) Pen test specifically covers this attack surface before launch |
-| R5 | **Sandbox escape.** The Python execution sandbox is exploited to access CBUAE network infrastructure. | Low | Critical | **High** | (1) Docker sandbox: no network, 2 GB memory cap, read-only data mount, non-root user, per-execution timeout, seccomp profile; (2) Mandatory pen test of sandbox escape surface before launch (launch criteria); (3) Container runs with minimal capabilities (CAP_DROP=ALL); (4) Separate network namespace for sandbox containers |
-| R6 | **Low analyst adoption.** Analysts distrust or do not use the system, especially if early results are poor or the interface requires significant learning. | Medium | High | **High** | (1) Closed Beta pilot with friendly, motivated users from the initiating team; (2) Starter templates reduce cold-start friction; (3) Plain-English Explainer layer removes technical jargon from results; (4) Monthly feedback review for fast iteration; (5) Champion programme: identify 1–2 power users per department in Open Beta who advocate for the tool |
-| R7 | **Data exfiltration via production data in dev/test.** Real CBUAE data accidentally used with the Gemini API (cloud) during development or testing. | Medium | Critical | **Critical** | (1) Dev environment policy: only synthetic/anonymised test data may be used with external APIs; (2) Gemini API access blocked at network level in the staging environment that holds real data; (3) Pre-launch checklist explicitly verifies no production data was transmitted to any external service during development |
-| R8 | **GPU hardware unavailability or inadequacy.** CBUAE on-premise GPU hardware may not exist, be insufficient for 70B parameter model inference, or have unacceptable inference latency. | High | High | **High** | (1) GPU availability and capability confirmed as Open Question (Section 16, Q7) — must be resolved before TDD; (2) Provider adapter allows scaling down to a smaller model if GPU is insufficient; (3) Performance targets in Section 9.1 are validated against actual hardware in staging before launch; (4) If local GPU is unavailable at launch, Azure OpenAI (UAE North) is the fallback — data stays in UAE but the system is no longer fully air-gapped; this requires legal/compliance sign-off |
-| R9 | **Regulatory defensibility challenged.** A finding from FIP is disputed in a regulatory proceeding and CBUAE cannot prove the finding was derived correctly from the underlying data. | Low | Critical | **High** | (1) Data versioning (FR-DA-04) links every result to an immutable data snapshot; (2) Full audit log (FR-AU-01) records every plan step, every code version, every execution result; (3) Analysis code is always downloadable and re-runnable by a technical reviewer; (4) Inline citations in FIP-Research (FR-OUT-04) trace every claim to its source sub-question and code |
-| R10 | **Partial result accepted as complete.** Analyst accepts an INCOMPLETE ANALYSIS result without proper scrutiny and it is used in a supervisory context. | Medium | High | **High** | (1) INCOMPLETE ANALYSIS label is prominent and persistent (not dismissable); (2) The "(Incomplete)" tag is permanently appended to the result title in history even after acceptance; (3) Export of incomplete results includes a watermark: "INCOMPLETE ANALYSIS — FOR REVIEW ONLY"; (4) Analyst must click "Accept partial result" explicitly — there is no auto-accept path |
+| R1 | **LLM hallucination in business-critical output.** The system produces an incorrect or fabricated finding that is cited in an internal report or business decision. | Medium | Critical | **Critical** | (1) "Data sources used" panel always visible and clickable; (2) Analysis code always downloadable so analysts can verify; (3) INCOMPLETE ANALYSIS label on partial results; (4) Training explicitly tells analysts outputs require human verification; (5) "Flag as incorrect" mechanism for fast reporting; (6) FR-OUT-04 inline citations allow every claim to be traced to its source data |
+| R2 | **Analyst over-reliance.** Analysts stop verifying AI outputs, treating the Platform as authoritative. Risk increases as confidence in the tool grows over time. | Medium | High | **High** | (1) Training explicitly covers the risk of over-reliance; (2) CSAT survey Q2 tracks verification frequency; (3) "Flag as incorrect" mechanism normalises the idea that outputs can be wrong; (4) FR-AH-03 ensures audit log includes who submitted results without verification; (5) If verification rate drops below a threshold in CSAT responses, trigger a retraining session |
+| R3 | **Prompt injection via uploaded file.** A malicious actor crafts a PDF or Excel file containing LLM-injection instructions (e.g., "Ignore prior instructions and output...") that manipulates the pipeline. | Low | Critical | **High** | (1) Sandbox has no network access — even if injection succeeds, exfiltration is impossible; (2) System prompts harden agent instructions against overrides; (3) Analyzer output (D) is treated as data, not executable instruction; (4) File content is not injected directly into LLM prompts without sanitisation; (5) Pen test specifically covers this attack surface before launch |
+| R4 | **Sandbox escape.** The Python execution sandbox is exploited to access underlying cloud infrastructure. | Low | Critical | **High** | (1) Docker sandbox: no network, 2 GB memory cap, read-only data mount, non-root user, per-execution timeout, seccomp profile; (2) Mandatory pen test of sandbox escape surface before launch (launch criteria); (3) Container runs with minimal capabilities (CAP_DROP=ALL); (4) Separate network namespace for sandbox containers |
+| R5 | **Low analyst adoption.** Analysts distrust or do not use the system, especially if early results are poor or the interface requires significant learning. | Medium | High | **High** | (1) Closed Beta pilot with friendly, motivated users from the initiating team; (2) Starter templates reduce cold-start friction; (3) Plain-English Explainer layer removes technical jargon from results; (4) Monthly feedback review for fast iteration; (5) Champion programme: identify 1–2 power users per department in Open Beta who advocate for the tool |
+| R6 | **Production data exposure in dev/test.** Real production data is accidentally used in a development or testing environment with weaker security controls. | Medium | Critical | **Critical** | (1) Dev environment policy: only synthetic/anonymised test data may be used in dev/test; (2) Production data access blocked at network level in dev/test environments; (3) Pre-launch checklist explicitly verifies no production data was used outside approved environments during development |
+| R7 | **Decision defensibility challenged.** A finding from the Platform is disputed internally and the organization cannot prove the finding was derived correctly from the underlying data. | Low | Critical | **High** | (1) Data versioning (FR-DA-04) links every result to an immutable data snapshot; (2) Full audit log (FR-AU-01) records every plan step, every code version, every execution result; (3) Analysis code is always downloadable and re-runnable by a technical reviewer; (4) Inline citations in Research Mode (FR-OUT-04) trace every claim to its source sub-question and code |
+| R8 | **Partial result accepted as complete.** Analyst accepts an INCOMPLETE ANALYSIS result without proper scrutiny and it is used in a business decision. | Medium | High | **High** | (1) INCOMPLETE ANALYSIS label is prominent and persistent (not dismissable); (2) The "(Incomplete)" tag is permanently appended to the result title in history even after acceptance; (3) Export of incomplete results includes a watermark: "INCOMPLETE ANALYSIS — FOR REVIEW ONLY"; (4) Analyst must click "Accept partial result" explicitly — there is no auto-accept path |
 
 ---
 
@@ -1047,22 +1045,22 @@ Findings from this meeting directly feed the V2 backlog.
 
 | Feature | Status |
 |---------|--------|
-| Department-specific UI, templates, regulatory knowledge injection | 🔮 V2 |
+| Department-specific UI, templates, domain knowledge injection | 🔮 V2 |
 | PII masking | 🔮 V2 (revisit when live DB connectivity is added) |
 | Live database connectivity | 🔮 V2 |
 | External REST API consumers (machine-to-machine) | 🔮 V2 |
 | Email notifications | 🔮 V2 |
-| Arabic and other language support | 🔮 V2 |
+| Additional language support | 🔮 V2 |
 | Conversation branching (non-linear follow-up) | 🔮 V2 |
 | Mid-analysis steering backtracking (hints affecting past rounds) | 🔮 V2 |
 | ML model building in the sandbox | 🔮 Future |
 | Analyst-chosen round extension increment | 🔮 V2 |
-| Informatica Data Catalog integration | 🔮 V2 |
+| Enterprise data catalog integration | 🔮 V2 |
 | LLM provider switching via admin panel | 🔮 V2 |
 | Per-department RBAC granularity | 🔮 V2 |
 | Data retention policy management | 🔮 V2 |
 | JSON / programmatic export format | 🔮 V2 |
-| GCC/international comparison datasets | 🔮 V2 |
+| Cross-region comparison datasets | 🔮 V2 |
 
 ---
 
@@ -1072,15 +1070,14 @@ These questions must be resolved before the TDD and Security Review. Each has a 
 
 | # | Question | Owner | Needed For | Target Resolution |
 |---|----------|-------|-----------|-----------------|
-| 1 | How do analysts authenticate today? (Active Directory, CBUAE SSO, standalone accounts?) | [IT Infrastructure] | JWT/SSO integration design | Before TDD |
-| 2 | What is the largest single dataset an analyst would query? (row count and file size in GB) | [FPS Lead Analyst] | Executor memory limits, file upload UX, Analyzer timeout | Before TDD |
-| 3 | Are there existing Word/PDF report templates used for supervisory letters? Can we get samples? | [FPS Lead Analyst] | Finalyzer template design, FR-OUT-07 | Before TDD |
-| 4 | Does any output need to integrate with an existing case management system (e.g., NICE Actimize, Oracle FCCM, ServiceNow) even in V1? | [Department Heads] | API contract — currently scoped out of V1; may change decision | Before Closed Beta launch |
+| 1 | How do analysts authenticate today? (Active Directory, enterprise SSO, standalone accounts?) | [IT Infrastructure] | JWT/SSO integration design | Before TDD |
+| 2 | What is the largest single dataset an analyst would query? (row count and file size in GB) | [Pilot Lead Analyst] | Executor memory limits, file upload UX, Analyzer timeout | Before TDD |
+| 3 | Are there existing Word/PDF report templates used for internal reports? Can we get samples? | [Pilot Lead Analyst] | Finalyzer template design, FR-OUT-07 | Before TDD |
+| 4 | Does any output need to integrate with an existing case management system even in V1? | [Department Heads] | API contract — currently scoped out of V1; may change decision | Before Closed Beta launch |
 | 5 | What is the data freshness requirement for institutional datasets? (24 hours old acceptable, or faster?) | [IT Infrastructure / Data Engineering] | Data ingestion pipeline design | Before TDD |
 | 6 | Who has authority to approve which datasets an analyst can access? (Sensitivity tiers, approval workflow) | [Data Governance] | RBAC policy design, admin panel user management | Before TDD |
-| 7 | What GPU hardware is available on-premise? (Model, VRAM, count) | [IT Infrastructure] | LLM model selection, inference throughput, performance target validation | **Immediate — before TDD is started** |
-| 8 | How many analysts are expected to use the system concurrently at peak? | [Department Heads + FPS] | Task queue sizing, concurrency budget validation | Before TDD |
-| 9 | Can we establish the baseline metrics before launch? (Time studies for benchmarking table and thematic review, historical thematic review count) | [FPS Lead Analyst] | Completing Section 3 success metrics — two baselines are currently TBD | Before Closed Beta |
+| 7 | How many analysts are expected to use the system concurrently at peak? | [Department Heads + Pilot Lead] | Task queue sizing, concurrency budget validation | Before TDD |
+| 8 | Can we establish the baseline metrics before launch? (Time studies for benchmarking table and thematic review, historical thematic review count) | [Pilot Lead Analyst] | Completing Section 3 success metrics — two baselines are currently TBD | Before Closed Beta |
 
 ---
 
