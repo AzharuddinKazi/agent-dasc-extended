@@ -8,9 +8,9 @@ This directory tracks the full pre-code and post-code lifecycle for any new feat
 |-------|--------|----------|--------|
 | 0 | `00-discovery/` | 1-Pager / PRFAQ — Why build this? | ✅ Complete |
 | 1 | `00-discovery/` | Research Summary — What do users actually need? | ✅ Complete |
-| 2 | `01-prd/` | PRD / Functional Spec — What are we building? | 🔄 Draft v0.2 — 2 open questions pending IT input (OQ-1 auth, OQ-7 GPU specs) |
+| 2 | `01-prd/` | PRD / Functional Spec — What are we building? | 🔄 Draft v0.2 — 8 open questions (§16), 6 need answers before TDD work continues |
 | 3 | `02-ux-design/` | UX Design Spec — How does it look and feel? | ✅ Complete — 14-slide consulting-grade HTML presentation |
-| 4 | `03-tdd/` | TDD / Tech Spec — How do we build it? | 🔄 Draft v0.1 — In Review (2 pending sections: §15 auth, §18–19 deployment/perf) |
+| 4 | `03-tdd/` | TDD / Tech Spec — How do we build it? | 🔄 Draft v0.1 — In Review (7 open questions, §25; 4 block build start) |
 | 5 | `04-security-privacy/` | Security & Privacy Review — Is it safe and compliant? | 🔄 Draft v0.1 — In Review (16 open security questions; 5 block build start) |
 | 6 | `05-test-strategy/` | Test Strategy Doc — How do we know it works? | ⏳ Not started — **next step** |
 | 7 | `06-work-breakdown/` | Work Breakdown / Sprint Plan — Who does what, when? | ⏳ Not started |

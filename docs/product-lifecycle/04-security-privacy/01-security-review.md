@@ -531,7 +531,7 @@ DS-STAR is not formally required to be ISO 27001 certified. However, the followi
 
 **Blocking sign-offs required before build:** OSQ-3, OSQ-8, OSQ-9, OSQ-10, OSQ-16  
 **Blocking sign-offs required before launch:** All remaining OSQs  
-**TDD open questions still pending:** OQ-1 (auth), OQ-7 (GPU)
+**TDD open questions still pending:** See TDD §25 Open Questions Tracker (OQ-1, OQ-4, OQ-5, OQ-6 block build start)
 
 ---
 
